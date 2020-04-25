@@ -1,6 +1,6 @@
 import Head from 'next/head'
-import Layout from '../components/common/layout'
-import HomeView from '../components/views/home'
+import Layout from '../components/layout'
+import HomeView from '../components/home'
 function Home(props) {
   console.log(props)
 

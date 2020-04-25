@@ -1,0 +1,416 @@
+.entry-title, .posted-on{
+   a{
+      color: #222222;
+   }
+}
+.widget-title{
+   font-weight: 600;
+   letter-spacing: 0.1em;
+   font-size: 0.875em;
+   color: #222222;
+   border-color: #222222;
+   text-transform: uppercase;
+   text-align: center;
+   font: normal "Jost", Montserrat, Arial;
+}
+.site-branding {
+   margin: 1.5em auto 3em;
+   padding: 0 2em;
+   text-align: center;
+   img {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+   }
+}
+.site-content {
+   padding: 20px;
+   .site-main {
+      margin-bottom: 3.5em;
+      .entry-thumbnail {
+         text-align: center;
+         img {
+            height: auto;
+            max-width: 100%;
+         }
+      }
+
+      .entry-header {
+         margin-top: 2em;
+         text-align: center;
+         .entry-meta {
+            font: normal 400 1em "Quattrocento Sans", Montserrat, Arial;
+            padding: 0.65em 1em;
+            width: auto;
+            display: inline-block;
+            text-transform: uppercase;
+            font-weight: 700;
+            font-size: 0.85em;
+            color: #222222;
+            margin-bottom: 0.5em;
+            letter-spacing: 0.05em;
+            text-align: center;
+            a {
+               color: #222222;
+               text-decoration: none;
+            }
+            .cat-links {
+               text-align: center;
+               margin-right: 0.5em;
+               font-weight: 600;
+            }
+            .posted-on {
+               margin-left: 0.5em;
+            }
+         }
+         .entry-title {
+            padding: 0.1em 0;
+            font-size: 2em;
+         }
+      }
+      .entry-content {
+         line-height: 1.6em;
+         color: #222222;
+         font: normal 400 1.15em "Quattrocento Sans", Georgia, Times New Roman;
+
+         p {
+            font-size: 0.975em;
+            line-height: 1.6em;
+            margin: 2em auto;
+         }
+         .shop-the-post-widget {
+            border-color: #ffe1de;
+            h3 {
+               text-align: center;
+               font-weight: 500;
+               font-size: 0.875em;
+               letter-spacing: 0.04em;
+               margin: 2em auto 1em auto;
+               text-transform: uppercase;
+            }
+         }
+         h2 {
+            font-size: 1.45em;
+            margin: 2em auto 1em auto;
+            text-transform: uppercase;
+         }
+      }
+      .entry-footer {
+         margin-bottom: 2em;
+         .share {
+            width: 100%;
+            text-align: center;
+            font-size: 1.25em;
+            font: normal 300 0.65em "Quattrocento Sans", Montserrat, Arial;
+            h4 {
+               display: block;
+               font-family: "White Angelica";
+               font-size: 1.1em;
+               margin-bottom: 0.75em;
+               margin-top: 0.5em;
+            }
+            a {
+               margin: 0 0.5em;
+               color: #222222;
+               text-decoration: none;
+               i {
+                  font-size: 1.25em;
+               }
+            }
+         }
+      }
+      .posts-navigation {
+         padding: 20px 0;
+         margin: 0 auto 4em;
+         p {
+            margin-bottom: 0.5em;
+            font: normal 300 0.65em "Quattrocento Sans", Montserrat, Arial;
+         }
+         .nav-previous,
+         .nav-next {
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            margin-bottom: 2em;
+            text-align: center;
+            a {
+               color: #222222;
+               padding: 0.35em;
+               text-decoration: none;
+            }
+         }
+         .nav-next {
+            text-align: right;
+         }
+      }
+      .related-posts {
+         .related-title {
+            border-color: #222222;
+            text-align: center;
+            text-transform: none;
+            font-size: 1.35em;
+            margin-bottom: 1.5em;
+         }
+         .featured {
+            .post {
+               .entry-thumbnail {
+                  margin-bottom: 0.5em;
+               }
+               .entry-header {
+                  margin-top: 1em;
+
+                  .entry-title {
+                     line-height: 1.5em;
+                     letter-spacing: 0.04em;
+                     margin-bottom: 0.35em;
+                     font-size: 1em;
+                     text-transform: uppercase;
+                     a {
+                        color: #222222;
+                     }
+                  }
+                  .posted-on {
+                     padding: 0.65em 1em;
+                     width: auto;
+                     display: inline-block;
+                     text-transform: uppercase;
+                     font-weight: 700;
+                     font-size: 0.85em;
+
+                     margin-left: 0.5em;
+                     a {
+                        color: #222222;
+                     }
+                  }
+               }
+            }
+         }
+      }
+      .comments {
+         margin: 4em auto 0;
+         width: 100%;
+         background-color: #f8f8f8;
+         padding: 30px;
+         .comment-reply-title {
+            font-size: 1.2em;
+            margin: 15px 0;
+         }
+         .comment-form {
+            p,
+            .comment-form-comment,
+            .comment-form-author {
+               margin: 0.45em 0;
+            }
+            textarea,
+            input[type="text"] {
+               border: none;
+               font-size: 0.85em;
+               width: 100%;
+               padding: 7px;
+               color: #666666;
+            }
+            label {
+               font-size: 0.765em;
+            }
+            .comment-notes {
+               font-size: 0.75em;
+            }
+            .comment-form-comment {
+            }
+            .comment-form-author {
+            }
+            .comment-form-cookies {
+               display: flex;
+               flex-wrap: wrap;
+               justify-content: space-between;
+            }
+            .comment-form-cookies-consent {
+               display: flex;
+               align-items: center;
+               input[type="checkbox"] {
+                  margin-right: 0.5em;
+               }
+               label {
+                  margin: 0;
+               }
+            }
+            .form-submit {
+               margin-top: 0.75em;
+
+               input {
+                  background-color: #222222;
+                  color: #ffffff;
+                  line-height: 1;
+                  padding: 0.75em 1.25em;
+                  margin: 0.7em 0;
+                  text-transform: uppercase;
+                  letter-spacing: 0.02em;
+                  border: none;
+                  font-size: 0.85em;
+               }
+            }
+         }
+      }
+   }
+}
+.widget-area {
+   padding: 0 15px 0 30px;
+   .about-widget,
+   .social-media-widget,
+   .widget_text,
+   .featured-post-widget,
+   .nav-menu {
+      margin: 2em auto 4em;
+   }
+   .about-widget {
+      .about-image {
+         display: block;
+         text-align: center;
+         position: relative;
+         width: 100%;
+         padding-bottom: 100%;
+         height: 0;
+         background-position: center center;
+         background-size: cover;
+         border-radius: 50%;
+      }
+      .about-content {
+         padding: 0.5em;
+         text-align: center;
+         .widget-title {
+            position: relative;
+            font-size: 3em;
+            margin-top: -0.75em;
+            text-transform: none;
+            font-family: "White Angelica";
+            font-weight: 400;
+            text-align: center;
+         }
+         .about-text {
+            font: normal 400 1em "Quattrocento Sans", Montserrat, Arial;
+            font-size: 0.875em;
+            line-height: 1.55em;
+            margin: 0.5em auto 1em;
+            padding: 0em;
+            background-color: transparent;
+            color: #222222;
+            text-align: center;
+         }
+         .btn-more {
+            color: #222222;
+            font-weight: 400;
+
+            font: normal 400 1em "Quattrocento Sans", Montserrat, Arial;
+            font-size: 0.85em;
+            letter-spacing: 0.02em;
+            border: 1px solid #222222;
+            text-transform: uppercase;
+            padding: 0.75em 1.25em;
+
+            text-align: center;
+            margin: 1.5em auto;
+         }
+      }
+   }
+   .social-media-widget {
+      .widget-title {
+        
+      }
+      .social-media-icons {
+         margin: 2em auto;
+         text-align: center;
+         a {
+            display: inline-block;
+            margin: 0 0.5em;
+            font-size: 1em;
+            color: #222222;
+         }
+      }
+   }
+   .widget_text {
+      .widget-title {
+      }
+   }
+   .category {
+      padding: 30px;
+      margin: 2em auto;
+      background-color: #ffe1de;
+      color: #222222;
+      .widget-title {
+         margin: 1em 0;
+      }
+      ul {
+         list-style: none;
+         padding-left: 0;
+         margin: 0;
+         li {
+            text-align: center;
+            padding: 0.75em 1.5em;
+            border: 1px solid #222222;
+            margin: 1em auto;
+            border-color: #222222;
+            a {
+               color: #222222;
+            }
+            &:hover {
+               background: #222222;
+               a {
+                  color: #ffffff;
+               }
+            }
+         }
+      }
+   }
+   .featured-post-widget {
+      .widget-title {
+      
+      }
+      .featured-post {
+         .entry-thumbnail {
+         }
+         .entry-header {
+            margin-top: 1em;
+            text-align: center;
+
+            .entry-title {
+               margin: 0.55em 0;
+               font-size: 1.2em;
+               line-height: 1.5em;
+               text-transform: uppercase;
+               letter-spacing: 0.04em;
+            }
+            .posted-on {
+               font: normal 400 1em "Quattrocento Sans", Montserrat, Arial;
+               margin-bottom: 0.5em;
+               color: #222222;
+               text-transform: uppercase;
+               letter-spacing: 0.05em;
+               font-size: 0.875em;
+            }
+           
+         }
+      }
+   }
+   .nav-menu{
+      ul {
+         list-style: none;
+         padding-left: 0;
+         margin: 0;
+         li {
+            text-align: center;
+            padding: 0.75em 1.5em;
+            border: 1px solid #222222;
+            margin: 1em auto;
+            border-color: #222222;
+            a {
+               color: #222222;
+            }
+            &:hover {
+               background: #222222;
+               a {
+                  color: #ffffff;
+               }
+            }
+         }
+      }
+   }
+}

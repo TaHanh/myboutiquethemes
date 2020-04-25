@@ -1,7 +1,9 @@
 // next.config.js 
 // const withCSS = require('@zeit/next-css');
-const withPlugins = require('next-compose-plugins');
+const withPlugins = require('next-compose-plugins')
 const withSass = require('@zeit/next-sass')
+const withImages = require('next-images')
+
 // module.exports = withCSS({
 //   cssLoaderOptions: {
 //     url: false
@@ -10,25 +12,26 @@ const withSass = require('@zeit/next-sass')
 
 
 const nextConfig = {
-   distDir: './src/next',
-   useFileSystemPublicRoutes: false,
-   webpack: (config, options) => {
+   // // distDir: "../.next",
+   // distDir: './src/next',
+   // useFileSystemPublicRoutes: false,
+   // webpack: (config, options) => {
    
-     return config;
-   },
+   //   return config;
+   // },
+   devIndicators: {
+      autoPrerender: false,
+    },
  };
 
 module.exports = withPlugins(
    [
       [
-         withSass, // if you have other options go this way
-         {
-           cssModules: true,
-           cssLoaderOptions: {
-             localIdentName: '[path]___[local]___[hash:base64:5]',
-           },
-         },
+         withSass({
+            // cssModules: true,
+         }),
        ],
+      withImages
    ],
    nextConfig
 )
@@ -38,10 +41,5 @@ module.exports = withPlugins(
 //    publicRuntimeConfig: {
 //    },
 //    pagesDir: './src/pages',
-//    withSass: withSass({
-//       // cssModules: true
-//    })
 //  }
-// module.exports = withSass({
-//    // cssModules: true
-// })
+
