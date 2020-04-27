@@ -1,5 +1,45 @@
 import { useRouter } from 'next/router'
+import Swiper from './swiper'
 export default function Aside(props) {
+  const params = {
+    slidesPerView: 'auto',
+    //  spaceBetween: 30,
+    slidesPerView: 1,
+    breakpoints: {
+       1024: {
+          slidesPerView: 2,
+          slidesPerGroup: 1,
+        },
+        992: {
+          slidesPerView: 1,
+          slidesPerGroup: 1,
+        },
+        768: {
+          slidesPerView: 4,
+          slidesPerGroup: 3,
+        },
+        650: {
+          slidesPerView: 3,
+          slidesPerGroup: 3,
+        },
+        500: {
+          slidesPerView: 2,
+          slidesPerGroup: 2,
+        },
+        350: {
+          slidesPerView: 2,
+          slidesPerGroup: 1,
+        }
+    },
+    navigation: {
+       nextEl: '.swiper-button-next',
+       prevEl: '.swiper-button-prev',
+    },
+    scrollbar: {
+       el: '.swiper-scrollbar',
+       hide: false
+    },
+ }
    return (
       <div className="widget-area">
       <div className="about-widget">
@@ -7,7 +47,8 @@ export default function Aside(props) {
           {/* <img src={require("../static/images/kipa_chan.jpg")} /> */}
         </div>
         <div className="about-content">
-          <h2 className="widget-title">Welcome</h2>
+          <img className="widget-title" src={require('../static/images/welcome.png')} />
+          {/* <h2>Welcome</h2> */}
           <p className="about-text">I'm Vivian, the blogger on The Blush Co. I write about interior design, my obsession with the latest beauty products and my love for fashion and style. Follow my journey!</p>
           <a href="#" className="btn-more">
             More about me
@@ -27,6 +68,10 @@ export default function Aside(props) {
       <div className="widget_text">
         <div className="widget-title">
           Currently Craving
+          <div className="shop-the-post-container">
+                      <p></p>
+                      <Swiper params={params} />
+                    </div>
       </div>
       </div>
       <div className="category">

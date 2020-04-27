@@ -5,26 +5,30 @@ import '../static/styles/style.scss'
 import Footer from './footer'
 import Header from './header'
 import Aside from './aside'
-export default ({ children, title = 'title' }) => {
+import Search from './search'
+export default ({ children, title = 'title', callBack, isSearch }) => {
+
   return (
     <div className="container-layout">
       <Head>
         <title>{title}</title>
       </Head>
-      <Header/>
-      <div style={{height: '50px'}}></div>
+      <Header callBack={callBack}/>
+      <div style={{ height: '50px' }}></div>
       <main>
-      <div className="content-area">
-        <div className="site-branding">
-          <a>
-            <img src={require('../static/images/blush_title.png')} />
-          </a>
+        <div className="content-area">
+          <div className="site-branding">
+            <a>
+              <img src={require('../static/images/blush_title.png')} />
+            </a>
+          </div>
+          {children}
+
         </div>
-        {children}
-        
-      </div>
       </main>
-     <Footer />
+      <Footer />
+
+      {isSearch ? <Search callBack={callBack} /> : null}
     </div>
 
   );

@@ -3,14 +3,24 @@ import { useRouter } from 'next/router'
 import '../../static/styles/blush-classic.scss'
 import Layout from '../../components/layout'
 import Aside from '../../components/aside'
+import { useState } from 'react'
 export default function BlushClassic(props) {
-  console.log(Router.router)
-
-  const router = useRouter()
-
-  console.log(router)
+  const [isSearch, changeSearch] = useState(false);
+  const callBack = (key, value) => {
+    console.log(key, value)
+    switch (key) {
+      case 'CHECK_SEARCH':
+        changeSearch(!isSearch);
+        break;
+      case 'SEARCH':
+        changeSearch(false);
+        alert(value)
+      default:
+        break;
+    }
+  }
   return (
-    <Layout title={"Beauty Favorites for Summer – Blush "}>
+    <Layout title={"Beauty Favorites for Summer – Blush "} callBack={callBack} isSearch={isSearch}>
       <div className="site-content">
           <div className="row">
           <div className="col-lg-8">
@@ -45,7 +55,8 @@ export default function BlushClassic(props) {
         </div>
         <div className="entry-footer">
           <div className="share">
-            <h4>Share this Post</h4>
+            <img src={require('../../static/images/share_post.png')} />
+            {/* <h4>Share this Post</h4> */}
             <a href="mailto:?subject=Beauty Favorites for Summer&body=https://demo.myboutiquethemes.com/blush-classic/2019/04/29/6-business-outfits-you-already-have-in-your-wardrobe/" target="_blank">
               <i class="far fa-envelope"></i>
             </a>

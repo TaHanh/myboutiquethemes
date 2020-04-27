@@ -3,9 +3,6 @@
 //       color: #222222;
 //    }
 // }
-
-.site-content {
-   padding: 20px;
    .site-main {
       margin-bottom: 3.5em;
       .entry-thumbnail {
@@ -20,7 +17,7 @@
          margin-top: 2em;
          text-align: center;
          .entry-meta {
-            font: normal 400 1em "Quattrocento Sans", Montserrat, Arial;
+            font-family: "Quattrocento Sans", Montserrat, Arial;
             padding: 0.65em 1em;
             width: auto;
             display: inline-block;
@@ -53,7 +50,7 @@
       .entry-content {
          line-height: 1.6em;
          color: #222222;
-         font: normal 400 1.15em "Quattrocento Sans", Georgia, Times New Roman;
+         font-family: "Quattrocento Sans", Georgia, Times New Roman;
 
          p {
             font-size: 0.975em;
@@ -64,11 +61,12 @@
             border-color: #ffe1de;
             h3 {
                text-align: center;
-               font-weight: 500;
+               font-weight: 700;
                font-size: 0.875em;
                letter-spacing: 0.04em;
                margin: 2em auto 1em auto;
                text-transform: uppercase;
+               font-family:  "Jost", Montserrat, Arial;
             }
          }
          h2 {
@@ -83,20 +81,26 @@
             width: 100%;
             text-align: center;
             font-size: 1.25em;
-            font: normal 300 0.65em "Quattrocento Sans", Montserrat, Arial;
-            h4 {
+            font-family:  "Quattrocento Sans", Montserrat, Arial;
+            img{
+               width: 100%;
                display: block;
-               font-family: "White Angelica";
-               font-size: 1.1em;
+               max-width: 200px;
+               margin: auto;
                margin-bottom: 0.75em;
                margin-top: 0.5em;
             }
+            // h4 {
+            //    display: block;
+            //    font-family: "White Angelica";
+            //    font-size: 1.1em;
+            // }
             a {
                margin: 0 0.5em;
                color: #222222;
                text-decoration: none;
                i {
-                  font-size: 1.25em;
+                  font-size: 1em;
                }
             }
          }
@@ -106,7 +110,8 @@
          margin: 0 auto 4em;
          p {
             margin-bottom: 0.5em;
-            font: normal 300 0.65em "Quattrocento Sans", Montserrat, Arial;
+            font-size: 0.65em;
+            font-family:  "Quattrocento Sans", Montserrat, Arial;
          }
          .nav-previous,
          .nav-next {
@@ -233,5 +238,4 @@
          }
       }
    }
-}
 

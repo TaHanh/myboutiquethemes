@@ -27,7 +27,7 @@
    margin: 2em auto 3.5em;
    .entry-header {
       .entry-meta {
-         font: normal "Quattrocento Sans", Montserrat, Arial;
+         font-family: "Quattrocento Sans", Montserrat, Arial;
          margin-bottom: 1.5em;
          padding: 0.65em 1em;
          width: auto;
@@ -63,6 +63,7 @@
             border-color: #222222;
             font-weight: bold;
             font-size: 1.2em;
+            font-family: "Jost", Montserrat, Arial;
          }
          .shop-the-post-container {
             margin: 8px;
@@ -91,6 +92,7 @@
 }
 .small {
    margin-bottom: 3.5em;
+   
    .entry-thumbnail {
    }
    .entry-body {
@@ -99,6 +101,7 @@
       margin: 1em auto 2em;
       text-align: center;
       display: inline-block;
+      width: 100%;
       .entry-header {
          .entry-meta {
             margin-bottom: 1.5em;
@@ -127,6 +130,7 @@
 }
 .after-content-home {
    margin: 3.5em auto;
+
    .widgettitle {
       margin: 0 0 18px;
       text-align: center;
@@ -137,7 +141,7 @@
    }
    .youtube-gallery {
       margin: 2em auto;
-
+      padding: 0 20px;
       @media (min-width: 768px) {
          padding: 20px;
       }
