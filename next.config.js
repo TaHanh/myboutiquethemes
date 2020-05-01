@@ -49,6 +49,7 @@ module.exports = withPlugins(
       ],
       withImages,
       withFonts,
+      withCSS
    ],
    nextConfig
 )

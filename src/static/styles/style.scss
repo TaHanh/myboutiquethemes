@@ -28,6 +28,17 @@ body {
   font-family: 'White Angelica';
 src: url("https://demo.myboutiquethemes.com/blush-classic/wp-content/themes/blush-co/assets/fonts/WhiteAngelicaRegular.woff");
 }
+#nprogress{
+  .bar {
+    background: blue !important;
+  }
+  .spinner-icon {
+    border-top-color: red;
+    border-left-color: red;
+  }
+}
+
+
 .container-layout {
   font-family: "Jost", Montserrat, Arial;
   a {
@@ -41,6 +52,7 @@ src: url("https://demo.myboutiquethemes.com/blush-classic/wp-content/themes/blus
     max-width: 100%;
   }
 
+  
   h1,
   h2,
   h3,

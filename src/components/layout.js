@@ -6,8 +6,14 @@ import Footer from './footer'
 import Header from './header'
 import Aside from './aside'
 import Search from './search'
+import { useEffect } from 'react'
+import Router  from 'next/router'
+import loadingProgress from '../utils/loading-progress'
+ loadingProgress();
 export default ({ children, title = 'title', callBack, isSearch }) => {
-
+    useEffect(()=>{
+     
+    }, [])
   return (
     <div className="container-layout">
       <Head>
@@ -18,9 +24,9 @@ export default ({ children, title = 'title', callBack, isSearch }) => {
       <main>
         <div className="content-area">
           <div className="site-branding">
-            <a>
+          <Link href="/blush-classic">
               <img src={require('../static/images/blush_title.png')} />
-            </a>
+          </Link>
           </div>
           {children}
 

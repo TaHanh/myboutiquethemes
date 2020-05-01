@@ -19,6 +19,7 @@ export default class MyDocument extends Document {
           <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
           <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
           <link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.min.css"></link>
+
           <script src="https://unpkg.com/react-id-swiper@3.0.0/lib/react-id-swiper.min.js"></script>
 
           <script src="https://kit.fontawesome.com/4541485b54.js" crossorigin="anonymous"></script>
