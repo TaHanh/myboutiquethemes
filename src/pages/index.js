@@ -6,6 +6,8 @@ import Aside from '../components/aside'
 import SwiperComponent from '../components/swiper'
 import Swiper from 'react-id-swiper';
 import { useState } from 'react'
+import fetch from 'isomorphic-unfetch'
+import handler from '../api/user'
 
 function Home(props) {
   const [swiper1, updateSwiper1] = useState(null);
@@ -532,5 +534,14 @@ function Home(props) {
   )
 }
 
+Home.getInitialProps = async function() {
+  const res = await fetch('https://api.tvmaze.com/search/shows?q=batman')
+  const data = await res.json()
 
+  console.log(`Show data fetched. Count: ${data.length} ${handler}`)
+
+  return {
+    shows: data
+  }
+}
 export default Home
