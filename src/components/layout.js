@@ -1,4 +1,3 @@
-
 import Link from 'next/link'
 import Head from 'next/head'
 import '../static/styles/style.scss'
@@ -6,30 +5,32 @@ import Footer from './footer'
 import Header from './header'
 import Aside from './aside'
 import Search from './search'
-export default ({ children, title = 'title', callBack, isSearch }) => {
+import loadingProgress from '../utils/loading-progress'
+import { useEffect } from 'react'
 
+loadingProgress()
+export default ({ children, title = 'title', callBack, isSearch }) => {
+  useEffect(() => {}, [])
   return (
-    <div className="container-layout">
+    <div className='container-layout'>
       <Head>
         <title>{title}</title>
       </Head>
-      <Header callBack={callBack}/>
+      <Header callBack={callBack} />
       <div style={{ height: '50px' }}></div>
       <main>
-        <div className="content-area">
-          <div className="site-branding">
-            <a>
+        <div className='content-area'>
+          <div className='site-branding'>
+            <Link href='/blush-classic'>
               <img src={require('../static/images/blush_title.png')} />
-            </a>
+            </Link>
           </div>
           {children}
-
         </div>
       </main>
       <Footer />
 
       {isSearch ? <Search callBack={callBack} /> : null}
     </div>
-
-  );
+  )
 }

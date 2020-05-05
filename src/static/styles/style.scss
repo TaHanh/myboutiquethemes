@@ -17,7 +17,6 @@ body {
   font-family: 'Jost';
   src: url('../font/jost-400-book-webfont.woff');
   // src: url('../font/jost-600-semi-webfont.woff');
-
 }
 @font-face {
   font-family: 'Quattrocento Sans';
@@ -26,10 +25,21 @@ body {
 }
 @font-face {
   font-family: 'White Angelica';
-src: url("https://demo.myboutiquethemes.com/blush-classic/wp-content/themes/blush-co/assets/fonts/WhiteAngelicaRegular.woff");
+  src: url('https://demo.myboutiquethemes.com/blush-classic/wp-content/themes/blush-co/assets/fonts/WhiteAngelicaRegular.woff');
 }
+
+#nprogress {
+  .bar {
+    background: red !important;
+  }
+  .spinner-icon {
+    // border-top-color: red;
+    // border-left-color: red;
+  }
+}
+
 .container-layout {
-  font-family: "Jost", Montserrat, Arial;
+  font-family: 'Jost', Montserrat, Arial;
   a {
     text-decoration: none;
     color: #222222;
@@ -49,10 +59,10 @@ src: url("https://demo.myboutiquethemes.com/blush-classic/wp-content/themes/blus
   h6 {
     clear: both;
     color: #222222;
-    font-family:  "Jost", Montserrat, Arial;
+    font-family: 'Jost', Montserrat, Arial;
   }
-  p{
-    font-family:  "Jost", Montserrat, Arial;
+  p {
+    font-family: 'Jost', Montserrat, Arial;
   }
   .content-area {
     max-width: 1280px;
@@ -66,7 +76,7 @@ src: url("https://demo.myboutiquethemes.com/blush-classic/wp-content/themes/blus
       max-width: calc(100% / 8);
     }
   }
-  .cursor-pointer{
+  .cursor-pointer {
     cursor: pointer;
   }
 }
@@ -82,7 +92,7 @@ header {
     }
     @media (min-width: 768px) {
       padding: 1em !important;
-      }
+    }
     .navbar-toggler {
       border: none !important;
       padding: 0 !important;
@@ -284,7 +294,7 @@ footer {
       h2 {
         text-align: center;
         margin-bottom: 2em;
-        font-family:  "Jost", Montserrat, Arial;
+        font-family: 'Jost', Montserrat, Arial;
       }
       form {
         width: 100%;
@@ -314,9 +324,9 @@ footer {
     max-width: 100%;
   }
 }
-.site-content{
+.site-content {
   // @media (min-width: 768px) {
-    padding: 20px;
+  padding: 20px;
   // }
 }
 .widget-area {
@@ -361,12 +371,12 @@ footer {
         font-size: 3em;
         margin-top: -0.75em;
         text-transform: none;
-        font-family: "White Angelica";
+        font-family: 'White Angelica';
         font-weight: 400;
         text-align: center;
       }
       .about-text {
-        font-family:  "Quattrocento Sans", Montserrat, Arial;
+        font-family: 'Quattrocento Sans', Montserrat, Arial;
         font-size: 0.875em;
         line-height: 1.55em;
         margin: 1.5em auto 2.5em;
@@ -379,7 +389,7 @@ footer {
         color: #222222;
         font-weight: 400;
 
-        font-family:  "Quattrocento Sans", Montserrat, Arial;
+        font-family: 'Quattrocento Sans', Montserrat, Arial;
         font-size: 0.85em;
         letter-spacing: 0.02em;
         border: 1px solid #222222;
@@ -461,7 +471,7 @@ footer {
           letter-spacing: 0.04em;
         }
         .posted-on {
-          font-family: "Quattrocento Sans", Montserrat, Arial;
+          font-family: 'Quattrocento Sans', Montserrat, Arial;
           margin-bottom: 0.5em;
           color: #222222;
           text-transform: uppercase;
