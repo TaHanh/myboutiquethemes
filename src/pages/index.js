@@ -7,13 +7,14 @@ import SwiperComponent from '../components/swiper'
 import Swiper from 'react-id-swiper'
 import { useState } from 'react'
 import fetch from 'isomorphic-unfetch'
+import EditorTxt from '../components/editor'
 
 function Home(props) {
   const [swiper1, updateSwiper1] = useState(null)
   const [swiper2, updateSwiper2] = useState(null)
   const [swiper3, updateSwiper3] = useState(null)
   const [isSearch, changeSearch] = useState(false)
-
+  console.log(props)
   const paramB = {
     slidesPerView: 1,
     loop: true,
@@ -233,6 +234,7 @@ function Home(props) {
   }
   return (
     <Layout title={'Blush'} callBack={callBack} isSearch={isSearch}>
+      <EditorTxt />
       <div className='site-content'>
         <div className='row'>
           <div className='col-lg-8'>
@@ -253,21 +255,21 @@ function Home(props) {
                     Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
                     labore et dolore magna aliquyam …
                   </p>
-                  <div className='shop-the-post'>
+                  {/* <div className='shop-the-post'>
                     <h3>Shop this Post</h3>
                     <div className='shop-the-post-container'>
                       <p></p>
                       <SwiperComponent params={params} />
                     </div>
-                  </div>
-                  <a
+                  </div> */}
+                  {/* <a
                     className='readmore'
                     href='https://demo.myboutiquethemes.com/blush-classic/2019/05/04/how-to-setup-a-bullet-journal/'
                   >
                     <button className='btn read-more'>Read more</button>
-                  </a>
+                  </a> */}
                 </div>
-                <div className='entry-footer'>
+                {/* <div className='entry-footer'>
                   <a
                     className='comments-link'
                     href='https://demo.myboutiquethemes.com/blush-classic/2019/05/04/how-to-setup-a-bullet-journal/#respond'
@@ -297,43 +299,50 @@ function Home(props) {
                       <i class='fab fa-twitter'></i>
                     </a>
                   </div>
-                </div>
+                </div> */}
               </div>
               <div className='row'>
-                <div className='col-md-6 col-12'>
-                  <div className='small'>
-                    <div className='entry-thumbnail'>
-                      <a href='https://demo.myboutiquethemes.com/blush-classic/2019/04/29/6-business-outfits-you-already-have-in-your-wardrobe/'>
-                        <img className='w-100' src={require('../static/images/blush_flowers_b.jpg')} />
-                      </a>
-                    </div>
-                    <div className='entry-body'>
-                      <div className='entry-header'>
-                        <div className='entry-meta'>
-                          <a href='https://demo.myboutiquethemes.com/blush-classic/category/lifestyle/'>LIFESTYLE</a>,
-                          <a href='https://demo.myboutiquethemes.com/blush-classic/category/travel/'> TRAVEL</a>
+                {props.data &&
+                  props.data.map((item, index) => {
+                    return (
+                      <div className='col-md-6 col-12'>
+                        <div className='small'>
+                          <div className='entry-thumbnail'>
+                            <a href='https://demo.myboutiquethemes.com/blush-classic/2019/04/29/6-business-outfits-you-already-have-in-your-wardrobe/'>
+                              <img className='w-100' src={require('../static/images/blush_flowers_b.jpg')} />
+                            </a>
+                          </div>
+                          <div className='entry-body'>
+                            <div className='entry-header'>
+                              <div className='entry-meta'>
+                                <a href='https://demo.myboutiquethemes.com/blush-classic/category/lifestyle/'>
+                                  LIFESTYLE
+                                </a>
+                                ,<a href='https://demo.myboutiquethemes.com/blush-classic/category/travel/'> TRAVEL</a>
+                              </div>
+                              <h2 className='entry-title'>
+                                <a href='https://demo.myboutiquethemes.com/blush-classic/2019/04/29/6-business-outfits-you-already-have-in-your-wardrobe/'>
+                                  Beauty Favorites for Summer
+                                </a>
+                              </h2>
+                            </div>
+                            <div className='entry-content'>
+                              <p>
+                                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+                                invidunt ut labore et dolore magna aliquyam …
+                              </p>
+                              <a
+                                className='readmore'
+                                href='https://demo.myboutiquethemes.com/blush-classic/2019/05/04/how-to-setup-a-bullet-journal/'
+                              >
+                                <button className='btn read-more'>Read more</button>
+                              </a>
+                            </div>
+                          </div>
                         </div>
-                        <h2 className='entry-title'>
-                          <a href='https://demo.myboutiquethemes.com/blush-classic/2019/04/29/6-business-outfits-you-already-have-in-your-wardrobe/'>
-                            Beauty Favorites for Summer
-                          </a>
-                        </h2>
                       </div>
-                      <div className='entry-content'>
-                        <p>
-                          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-                          invidunt ut labore et dolore magna aliquyam …
-                        </p>
-                        <a
-                          className='readmore'
-                          href='https://demo.myboutiquethemes.com/blush-classic/2019/05/04/how-to-setup-a-bullet-journal/'
-                        >
-                          <button className='btn read-more'>Read more</button>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                    )
+                  })}
                 <div className='col-md-6 col-12'>
                   <div className='small'>
                     <div className='entry-thumbnail'>
@@ -589,12 +598,20 @@ function Home(props) {
 Home.getInitialProps = async function () {
   // const res = await fetch('https://api.tvmaze.com/search/shows?q=batman')
   const res = await fetch('http://localhost:3000/api/user')
-  const data = await res.json()
-
-  console.log(`Show data fetched. Count: ${data}`)
-
-  return {
-    shows: data,
-  }
+  const data1 = await res.json()
+  console.log(`Show data fetched. Count: ${data1}`)
+  const data = [
+    {
+      name: '',
+      image: '',
+      description: '',
+    },
+    {
+      name: '',
+      image: '',
+      description: '',
+    },
+  ]
+  return { data: data }
 }
 export default Home

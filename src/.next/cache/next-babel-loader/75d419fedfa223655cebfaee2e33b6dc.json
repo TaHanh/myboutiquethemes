@@ -1,0 +1,1 @@
+{"ast":null,"code":"const routes = require('next-routes');\n\nmodule.exports = routes().add('/', 'index').add('/blog', 'index').add('/blog/:id', 'about').add('/blog/*', 'about');","map":null,"metadata":{},"sourceType":"script"}
