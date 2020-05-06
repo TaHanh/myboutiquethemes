@@ -598,9 +598,20 @@ function Home(props) {
 
 Home.getInitialProps = async function () {
   // const res = await fetch('https://api.tvmaze.com/search/shows?q=batman')
-  // const res = await fetch('http://localhost:3000/api/user')
+  fetch('http://localhost:3000/api/search', {
+    method: 'post',
+    body: {
+      name: 'this.refs.first_name.value',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(`Show data fetched. Count: ${data.length}`)
+    })
+    .catch((err) => {})
+  // const res = await fetch('http://localhost:3000/api/search')
   // const data1 = await res.json()
-  // console.log(`Show data fetched. Count: ${data1}`)
+  // console.log(`Show data fetched. Count: ${data1.length}`)
   const data = [
     {
       name: '',
