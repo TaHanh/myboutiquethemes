@@ -6,13 +6,15 @@ import Aside from '../components/aside'
 import SwiperComponent from '../components/swiper'
 import Swiper from 'react-id-swiper'
 import { useState } from 'react'
+import fetch from 'isomorphic-unfetch'
+import QuillEditor from '../components/quill-editor'
+import WysiwygEditor from '../components/wysiwyg-editor'
 
 function Home(props) {
   const [swiper1, updateSwiper1] = useState(null)
   const [swiper2, updateSwiper2] = useState(null)
   const [swiper3, updateSwiper3] = useState(null)
   const [isSearch, changeSearch] = useState(false)
-  console.log(props)
   const paramB = {
     slidesPerView: 1,
     loop: true,
@@ -232,7 +234,8 @@ function Home(props) {
   }
   return (
     <Layout title={'Blush'} callBack={callBack} isSearch={isSearch}>
-      <EditorTxt />
+      {/* <QuillEditor /> */}
+      <WysiwygEditor />
       <div className='site-content'>
         <div className='row'>
           <div className='col-lg-8'>
@@ -595,9 +598,9 @@ function Home(props) {
 
 Home.getInitialProps = async function () {
   // const res = await fetch('https://api.tvmaze.com/search/shows?q=batman')
-  const res = await fetch('http://localhost:3000/api/user')
-  const data1 = await res.json()
-  console.log(`Show data fetched. Count: ${data1}`)
+  // const res = await fetch('http://localhost:3000/api/user')
+  // const data1 = await res.json()
+  // console.log(`Show data fetched. Count: ${data1}`)
   const data = [
     {
       name: '',
