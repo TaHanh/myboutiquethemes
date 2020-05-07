@@ -79,6 +79,12 @@ body {
   .cursor-pointer {
     cursor: pointer;
   }
+  button {
+    outline: none;
+    &:focus {
+      outline: none;
+    }
+  }
 }
 
 header {

@@ -1,20 +1,21 @@
-import Head from 'next/head'
 import Layout from '../components/layout'
-import HomeView from '../components/home'
 import '../static/styles/home.scss'
 import Aside from '../components/aside'
-import SwiperComponent from '../components/swiper'
 import Swiper from 'react-id-swiper'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import fetch from 'isomorphic-unfetch'
-import QuillEditor from '../components/quill-editor'
-import WysiwygEditor from '../components/wysiwyg-editor'
+const axios = require('axios')
 
 function Home(props) {
   const [swiper1, updateSwiper1] = useState(null)
   const [swiper2, updateSwiper2] = useState(null)
   const [swiper3, updateSwiper3] = useState(null)
-  const [isSearch, changeSearch] = useState(false)
+  const [data, setData] = useState([])
+  const [isLoad, setLoad] = useState(false)
+
+  useEffect(() => {
+    setData(props.data)
+  }, [])
   const paramB = {
     slidesPerView: 1,
     loop: true,
@@ -219,28 +220,83 @@ function Home(props) {
         break
     }
   }
-  const callBack = (key, value) => {
-    console.log(key, value)
-    switch (key) {
-      case 'CHECK_SEARCH':
-        changeSearch(!isSearch)
-        break
-      case 'SEARCH':
-        changeSearch(false)
-        alert(value)
-      default:
-        break
-    }
+  const callBack = (key, value) => {}
+  const loadMore = () => {
+    setLoad(true)
+    setTimeout(function () {
+      console.log('data')
+      const arr = [
+        {
+          name: '',
+          image: '',
+          description: '',
+        },
+        {
+          name: '',
+          image: '',
+          description: '',
+        },
+        {
+          name: '',
+          image: '',
+          description: '',
+        },
+        {
+          name: '',
+          image: '',
+          description: '',
+        },
+        {
+          name: '',
+          image: '',
+          description: '',
+        },
+      ]
+      const newData = data.concat(arr)
+      setData(newData)
+      setLoad(false)
+    }, 5000)
+  }
+  const postUser = () => {
+    axios
+      .post('http://localhost:3000/api/user', {
+        role: 'user',
+        name: 'Nguyễn Văn Hạnh',
+        email: 'hanh@mail.com',
+        password: 'hanh123',
+        username: 'hanh123',
+      })
+      .then(function (response) {
+        console.log(response)
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+    // fetch('http://localhost:3000/api/user', {
+    //   method: 'post',
+    //   body: {
+    //     role: 'user',
+    //     name: 'Nguyễn Văn Hạnh',
+    //     email: 'hanh@mail.com',
+    //     password: 'hanh123',
+    //     username: 'hanh123',
+    //   },
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log(`Show data fetched. Count: ${data}`)
+    //   })
+    //   .catch((err) => {
+    //     console.log(err)
+    //   })
   }
   return (
-    <Layout title={'Blush'} callBack={callBack} isSearch={isSearch}>
-      {/* <QuillEditor /> */}
-      <WysiwygEditor />
+    <Layout title={'Blush'}>
       <div className='site-content'>
         <div className='row'>
           <div className='col-lg-8'>
             <div className='site-main'>
-              <div className='entry-thumbnail'>
+              <div className='entry-thumbnail' onClick={() => postUser()}>
                 <img src={require('../static/images/the_tonik_b.jpg')} />
               </div>
               <div className='entry-body'>
@@ -303,8 +359,8 @@ function Home(props) {
                 </div> */}
               </div>
               <div className='row'>
-                {props.data &&
-                  props.data.map((item, index) => {
+                {data &&
+                  data.map((item, index) => {
                     return (
                       <div className='col-md-6 col-12'>
                         <div className='small'>
@@ -344,7 +400,7 @@ function Home(props) {
                       </div>
                     )
                   })}
-                <div className='col-md-6 col-12'>
+                {/* <div className='col-md-6 col-12'>
                   <div className='small'>
                     <div className='entry-thumbnail'>
                       <a href='https://demo.myboutiquethemes.com/blush-classic/2019/04/29/6-business-outfits-you-already-have-in-your-wardrobe/'>
@@ -517,6 +573,20 @@ function Home(props) {
                     </div>
                   </div>
                 </div>
+               */}
+              </div>
+              <div className='row justify-content-center'>
+                {isLoad ? (
+                  <div class='spinner-border text-primary' role='status'>
+                    <span class='sr-only'>Loading...</span>
+                  </div>
+                ) : (
+                  <div className='readmore'>
+                    <button className='btn read-more' onClick={() => loadMore()}>
+                      read more
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -598,21 +668,26 @@ function Home(props) {
 
 Home.getInitialProps = async function () {
   // const res = await fetch('https://api.tvmaze.com/search/shows?q=batman')
-  fetch('http://localhost:3000/api/search', {
-    method: 'post',
-    body: {
-      name: 'this.refs.first_name.value',
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(`Show data fetched. Count: ${data.length}`)
-    })
-    .catch((err) => {})
-  // const res = await fetch('http://localhost:3000/api/search')
-  // const data1 = await res.json()
-  // console.log(`Show data fetched. Count: ${data1.length}`)
+
+  const res = await fetch('http://localhost:3000/api/user')
+  const data1 = await res.json()
+  console.log(data1)
   const data = [
+    {
+      name: '',
+      image: '',
+      description: '',
+    },
+    {
+      name: '',
+      image: '',
+      description: '',
+    },
+    {
+      name: '',
+      image: '',
+      description: '',
+    },
     {
       name: '',
       image: '',

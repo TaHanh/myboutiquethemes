@@ -6,11 +6,26 @@ import Header from './header'
 import Aside from './aside'
 import Search from './search'
 import loadingProgress from '../utils/loading-progress'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 loadingProgress()
-export default ({ children, title = 'title', callBack, isSearch }) => {
+export default ({ children, title = 'title' }) => {
+  const [isSearch, changeSearch] = useState(false)
   useEffect(() => {}, [])
+
+  const callBack = (key, value) => {
+    console.log(key, value)
+    switch (key) {
+      case 'CHECK_SEARCH':
+        changeSearch(!isSearch)
+        break
+      case 'SEARCH':
+        changeSearch(false)
+        alert(value)
+      default:
+        break
+    }
+  }
   return (
     <div className='container-layout'>
       <Head>

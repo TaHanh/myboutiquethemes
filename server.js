@@ -2,6 +2,7 @@ const next = require('next')
 const routes = require('./src/routes')
 const app = next({ dev: process.env.NODE_ENV !== 'production' })
 const apiRoutes = require('./src/routes/api-routes')
+const userRoutes = require('./src/api/user')
 const handler = routes.getRequestHandler(app)
 const handle = app.getRequestHandler()
 
@@ -24,7 +25,9 @@ app.prepare().then(() => {
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
     next()
   })
+
   server.use('/api', apiRoutes)
+  server.use('/api/user', userRoutes)
   server.use(handler)
 
   // Server-side

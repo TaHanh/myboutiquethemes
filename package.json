@@ -9,10 +9,13 @@
   },
   "dependencies": {
     "@zeit/next-sass": "^1.0.1",
+    "axios": "^0.19.2",
     "body-parser": "^1.19.0",
     "draft-js": "^0.11.5",
+    "draftjs-to-html": "^0.9.1",
     "express": "^4.17.1",
     "file-loader": "^6.0.0",
+    "html-to-draftjs": "^1.5.0",
     "isomorphic-unfetch": "^3.0.0",
     "mongoose": "^5.9.12",
     "next": "9.3.5",

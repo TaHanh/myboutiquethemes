@@ -15,6 +15,15 @@ const User = new mongoo.Schema(
     email: {
       type: String,
     },
+    role: {
+      type: String,
+    },
+    password: {
+      type: String,
+    },
+    username: {
+      type: String,
+    },
   },
   {
     collection: 'users',
