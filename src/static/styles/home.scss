@@ -157,6 +157,13 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            filter: grayscale(100%);
+            max-width: 50px;
+          }
+          &:hover {
+            img {
+              filter: none;
+            }
           }
         }
         .video-title {

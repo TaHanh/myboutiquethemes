@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef, Component } from 'react'
 // import { Editor } from 'react-draft-wysiwyg'
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+import '../static/styles/react-draft-wysiwyg.css'
 import dynamic from 'next/dynamic'
 import { EditorState, convertToRaw, ContentState } from 'draft-js'
 import draftToHtml from 'draftjs-to-html'
+import Axios from 'axios'
+import config from '../config'
 // import htmlToDraft from 'html-to-draftjs'
 
 const WysiwygNoSSRWrapper = dynamic(() => import('react-draft-wysiwyg').then((mod) => mod.Editor), {
@@ -19,19 +21,7 @@ const htmlToDraft = dynamic(import('html-to-draftjs'), {
 
 class WysiwygEditor extends Component {
   toolbar = {
-    options: [
-      'inline',
-      'blockType',
-      'fontSize',
-      'list',
-      'textAlign',
-      'link',
-      'embedded',
-      'emoji',
-      'image',
-      'remove',
-      'history',
-    ],
+    options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'link', 'emoji', 'image', 'remove', 'history'],
     inline: {
       inDropdown: false,
       className: undefined,
@@ -265,6 +255,7 @@ class WysiwygEditor extends Component {
     this.state = { editorState: EditorState.createEmpty() }
     // }
   }
+
   setEditor = (editor) => {
     this.editor = editor
   }
@@ -275,16 +266,25 @@ class WysiwygEditor extends Component {
     })
   }
   uploadCallback(file) {
-    console.log(file)
     return new Promise((resolve, reject) => {
-      resolve({ data: { link: 'http://dummy_image_src.com' } })
+      let formData = new FormData()
+      formData.append('image', file)
+      Axios.post(config.host.upload + config.path.upload.upFile, formData, {
+        'Content-Type': 'multipart/form-data',
+      })
+        .then((res) => {
+          resolve({ data: { link: config.host.upload + res.data } })
+        })
+        .catch((err) => {
+          console.log('error upload ', err)
+        })
     })
   }
+
   render() {
     const { editorState } = this.state
     return (
       <div>
-        {' '}
         <WysiwygNoSSRWrapper
           ref={this.setEditor}
           editorState={editorState}
@@ -292,14 +292,6 @@ class WysiwygEditor extends Component {
           editorClassName='wysiwyg-editor'
           onEditorStateChange={this.onEditorStateChange}
           toolbar={this.toolbar}
-          // toolbar={{
-          //   image: {
-          //     uploadCallback: this.uploadCallback,
-          //     // previewImage: true,
-          //     // alt: { present: true, mandatory: false },
-          //     inputAccept: 'image/gif,image/jpeg,image/jpg,image/png,image/svg',
-          //   },
-          // }}
         />
         {/* <textarea disabled value={draftToHtml(convertToRaw(editorState.getCurrentContent()))} /> */}
       </div>
@@ -307,52 +299,3 @@ class WysiwygEditor extends Component {
   }
 }
 export default WysiwygEditor
-
-// function EditorTxt(props) {
-//   const [editorState, setEditorState] = useState('')
-//   const [check, setCheck] = useState(false)
-//   const editorRef = useRef()
-//   const [editorLoaded, setEditorLoaded] = useState(false)
-//   const [value, setValue] = useState('')
-//   const onChange = (editorState) => {
-//     setEditorState(editorState)
-//   }
-//   const { Editor } = editorRef.current || {}
-//   const [Editor1, setEditor1] = useState('')
-//   useEffect(() => {
-//     if (typeof window !== 'undefined') {
-//       this.ReactQuill = require('react-quill')
-//     }
-//     if (document) {
-//       setEditor1(require('react-draft-wysiwyg'))
-//       if (process.browser) {
-//         setEditorLoaded(true)
-//       }
-//     }
-//     editorRef.current = {
-//       Editor: require('react-draft-wysiwyg'),
-//     }
-//   }, [])
-//   const ReactQuill = this.ReactQuill
-//   if (typeof window !== 'undefined' && ReactQuill) {
-//     return <ReactQuill onChange={setValue} theme='bubble' value={value} />
-//   } else {
-//     return <textarea />
-//   }
-//   return (
-//     <div>
-//       {editorLoaded ? (
-//         <Editor1
-//           editorState={editorState}
-//           toolbarClassName='toolbarClassName'
-//           wrapperClassName='wrapperClassName'
-//           editorClassName='editorClassName'
-//           onEditorStateChange={onChange}
-//         />
-//       ) : null}
-//       {/* <ReactQuill theme='snow' value={value} onChange={setValue} /> */}
-//     </div>
-//   )
-// }
-
-// export default EditorTxt

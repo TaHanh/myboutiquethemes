@@ -28,7 +28,7 @@ export default function Header(props) {
               </Link>
             </li>
             <li class='nav-item'>
-              <Link href='/create'>
+              <Link href='/post'>
                 <a class='nav-link'>Lifestyle</a>
               </Link>
             </li>

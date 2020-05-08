@@ -259,35 +259,48 @@ function Home(props) {
   }
   const postUser = () => {
     axios
-      .post('http://localhost:3000/api/user', {
-        role: 'user',
-        name: 'Nguyễn Văn Hạnh',
-        email: 'hanh@mail.com',
-        password: 'hanh123',
-        username: 'hanh123',
-      })
+      .get('http://localhost:3000/api/user/5eb3e4674c407c266cad309c')
       .then(function (response) {
         console.log(response)
       })
       .catch(function (error) {
         console.log(error)
       })
-    // fetch('http://localhost:3000/api/user', {
-    //   method: 'post',
-    //   body: {
+    // axios
+    //   .post('http://localhost:3000/api/user', {
     //     role: 'user',
     //     name: 'Nguyễn Văn Hạnh',
     //     email: 'hanh@mail.com',
     //     password: 'hanh123',
     //     username: 'hanh123',
-    //   },
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log(`Show data fetched. Count: ${data}`)
     //   })
-    //   .catch((err) => {
-    //     console.log(err)
+    //   .then(function (response) {
+    //     console.log(response)
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error)
+    //   })
+    // axios
+    //   .put('http://localhost:3000/api/user/5eb26679a735a65714fab608', {
+    //     role: 'user',
+    //     name: 'Nguyễn Văn',
+    //     email: 'hanh@mail.com',
+    //     password: 'hanh123',
+    //     username: 'hanh123',
+    //   })
+    //   .then(function (response) {
+    //     console.log(response)
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error)
+    //   })
+    // axios
+    //   .delete('http://localhost:3000/api/user/5eb26679a735a65714fab608')
+    //   .then(function (response) {
+    //     console.log(response)
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error)
     //   })
   }
   return (
@@ -613,7 +626,7 @@ function Home(props) {
                       src={require('../static/images/yt1.jpg')}
                       alt='CHANGE YOUR APPEARANCE with LOA &amp; Self-Love'
                     />
-                    <img className='icon' src={require('../static/images/ic_play.png')} />
+                    <img className='icon' src={require('../static/images/ic_play_red.png')} />
                   </div>
                   <h3 class='video-title'>CHANGE YOUR APPEARANCE with LOA &amp; Self-Love</h3>
                 </a>
@@ -633,7 +646,7 @@ function Home(props) {
                       src={require('../static/images/yt2.jpg')}
                       alt='CHANGE YOUR APPEARANCE with LOA &amp; Self-Love'
                     />
-                    <img className='icon' src={require('../static/images/ic_play.png')} />
+                    <img className='icon' src={require('../static/images/ic_play_red.png')} />
                   </div>
                   <h3 class='video-title'>I May Never Get Married... | EGO vs SOUL Journey</h3>
                 </a>
@@ -653,7 +666,7 @@ function Home(props) {
                       src={require('../static/images/yt3.jpg')}
                       alt='CHANGE YOUR APPEARANCE with LOA &amp; Self-Love'
                     />
-                    <img className='icon' src={require('../static/images/ic_play.png')} />
+                    <img className='icon' src={require('../static/images/ic_play_red.png')} />
                   </div>
                   <h3 class='video-title'>VIPASSANA: One Year Later...</h3>
                 </a>
@@ -671,6 +684,7 @@ Home.getInitialProps = async function () {
 
   const res = await fetch('http://localhost:3000/api/user')
   const data1 = await res.json()
+  console.log('data1')
   console.log(data1)
   const data = [
     {
