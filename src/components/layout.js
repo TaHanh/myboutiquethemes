@@ -1,4 +1,3 @@
-
 import Link from 'next/link'
 import Head from 'next/head'
 import '../static/styles/style.scss'
@@ -6,36 +5,47 @@ import Footer from './footer'
 import Header from './header'
 import Aside from './aside'
 import Search from './search'
-import { useEffect } from 'react'
-import Router  from 'next/router'
 import loadingProgress from '../utils/loading-progress'
- loadingProgress();
-export default ({ children, title = 'title', callBack, isSearch }) => {
-    useEffect(()=>{
-     
-    }, [])
+import { useEffect, useState } from 'react'
+
+loadingProgress()
+export default ({ children, title = 'title' }) => {
+  const [isSearch, changeSearch] = useState(false)
+  useEffect(() => {}, [])
+
+  const callBack = (key, value) => {
+    console.log(key, value)
+    switch (key) {
+      case 'CHECK_SEARCH':
+        changeSearch(!isSearch)
+        break
+      case 'SEARCH':
+        changeSearch(false)
+        alert(value)
+      default:
+        break
+    }
+  }
   return (
-    <div className="container-layout">
+    <div className='container-layout'>
       <Head>
         <title>{title}</title>
       </Head>
-      <Header callBack={callBack}/>
+      <Header callBack={callBack} />
       <div style={{ height: '50px' }}></div>
       <main>
-        <div className="content-area">
-          <div className="site-branding">
-          <Link href="/blush-classic">
+        <div className='content-area'>
+          <div className='site-branding'>
+            <Link href='/blush-classic'>
               <img src={require('../static/images/blush_title.png')} />
-          </Link>
+            </Link>
           </div>
           {children}
-
         </div>
       </main>
       <Footer />
 
       {isSearch ? <Search callBack={callBack} /> : null}
     </div>
-
-  );
+  )
 }

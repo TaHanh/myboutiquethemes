@@ -52,3 +52,10 @@ module.exports = withPlugins(
   ],
   nextConfig
 )
+// module.exports = {
+//    distDir: '../dist',
+//    assetPrefix: process.env.ASSET_PREFIX || '/',
+//    publicRuntimeConfig: {
+//    },
+//    pagesDir: './src/pages',
+//  }

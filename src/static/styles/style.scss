@@ -27,16 +27,43 @@ body {
   font-family: 'White Angelica';
   src: url('https://demo.myboutiquethemes.com/blush-classic/wp-content/themes/blush-co/assets/fonts/WhiteAngelicaRegular.woff');
 }
+
 #nprogress {
   .bar {
-    background: blue !important;
+    background: red !important;
   }
   .spinner-icon {
-    border-top-color: red;
-    border-left-color: red;
+    // border-top-color: red;
+    // border-left-color: red;
   }
 }
-
+.saturate {
+  filter: saturate(3);
+}
+.grayscale {
+  filter: grayscale(100%);
+}
+.contrast {
+  filter: contrast(160%);
+}
+.brightness {
+  filter: brightness(0.25);
+}
+.blur {
+  filter: blur(3px);
+}
+.invert {
+  filter: invert(100%);
+}
+.sepia {
+  filter: sepia(100%);
+}
+.huerotate {
+  filter: hue-rotate(180deg);
+}
+.rss.opacity {
+  filter: opacity(50%);
+}
 .container-layout {
   font-family: 'Jost', Montserrat, Arial;
   a {
@@ -77,6 +104,12 @@ body {
   }
   .cursor-pointer {
     cursor: pointer;
+  }
+  button {
+    outline: none;
+    &:focus {
+      outline: none;
+    }
   }
 }
 
