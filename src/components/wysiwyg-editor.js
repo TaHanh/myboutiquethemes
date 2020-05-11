@@ -1,21 +1,13 @@
 import { useState, useEffect, useRef, Component } from 'react'
-// import { Editor } from 'react-draft-wysiwyg'
 import '../static/styles/react-draft-wysiwyg.css'
 import dynamic from 'next/dynamic'
-import { EditorState, convertToRaw, ContentState } from 'draft-js'
+import { EditorState, convertToRaw, ContentState, convertFromHTML } from 'draft-js'
 import draftToHtml from 'draftjs-to-html'
 import Axios from 'axios'
 import config from '../config'
-// import htmlToDraft from 'html-to-draftjs'
 
 const WysiwygNoSSRWrapper = dynamic(() => import('react-draft-wysiwyg').then((mod) => mod.Editor), {
   loading: () => null,
-  ssr: false,
-})
-// const htmlToDraft = dynamic(() => import('html-to-draftjs'), {
-//   ssr: false,
-// })
-const htmlToDraft = dynamic(import('html-to-draftjs'), {
   ssr: false,
 })
 
@@ -241,29 +233,32 @@ class WysiwygEditor extends Component {
       options: ['undo', 'redo'],
     },
   }
+
   constructor(props) {
     super(props)
-    const html = ''
-    // const contentBlock = htmlToDraft(html)
-    // if (contentBlock) {
-    // const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks)
-    // const editorState = EditorState.createWithContent(contentState)
-    // this.state = {
-    //   editorState,
-    // }
-    // } else {
     this.state = { editorState: EditorState.createEmpty() }
-    // }
   }
-
+  componentDidMount() {
+    let value = this.props.valueTxt
+    if (value && value != '') {
+      const contentState = ContentState.createFromBlockArray(convertFromHTML(value))
+      const editorState = EditorState.createWithContent(contentState)
+      this.setState({
+        editorState: editorState,
+      })
+      console.log(this.state.editorState)
+    }
+  }
   setEditor = (editor) => {
     this.editor = editor
+    console.log(editor)
   }
 
   onEditorStateChange = (editorState) => {
     this.setState({
       editorState,
     })
+    this.props.callBack('EDITOR', draftToHtml(convertToRaw(editorState.getCurrentContent())))
   }
   uploadCallback(file) {
     return new Promise((resolve, reject) => {
@@ -280,43 +275,6 @@ class WysiwygEditor extends Component {
         })
     })
   }
-  uploadAction() {
-    var data = new FormData()
-    var imagedata = document.querySelector('input[type="file"]').files[0]
-    data.append('data', imagedata)
-    console.log(imagedata)
-    Axios.post('http://1.2.3.127:3000/api/post/create', data, {
-      'Content-Type': 'multipart/form-data',
-      Accept: 'application/json',
-      type: 'formData',
-    })
-      .then((res) => {
-        console.log('res')
-        console.log(res)
-      })
-      .catch((err) => {
-        console.log('err')
-        console.log(err)
-      })
-    // fetch("http://localhost:8910/taskCreationController/createStoryTask", {
-    //   mode: 'no-cors',
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "multipart/form-data"
-    //     "Accept": "application/json",
-    //     "type": "formData"
-    //   },
-    //   body: data
-    // }).then(function (res) {
-    //   if (res.ok) {
-    //     alert("Perfect! ");
-    //   } else if (res.status == 401) {
-    //     alert("Oops! ");
-    //   }
-    // }, function (e) {
-    //   alert("Error submitting form!");
-    // });
-  }
 
   render() {
     const { editorState } = this.state
@@ -330,17 +288,6 @@ class WysiwygEditor extends Component {
           onEditorStateChange={this.onEditorStateChange}
           toolbar={this.toolbar}
         />
-        {/* <textarea disabled value={draftToHtml(convertToRaw(editorState.getCurrentContent()))} /> */}
-        <form encType='multipart/form-data' action=''>
-          <input
-            type='file'
-            name='image'
-            onChange={(e) => {
-              console.log(e.target.files[0])
-            }}
-          ></input>
-          <input type='button' value='upload' onClick={this.uploadAction.bind(this)}></input>
-        </form>
       </div>
     )
   }

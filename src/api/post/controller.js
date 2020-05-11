@@ -9,9 +9,6 @@ function getUser(req, res) {
       console.log('err', err)
       res.status(400).send('error api', err)
     })
-  // User.find({}, (err, photos) => {
-  //   res.json(photos)
-  // })
 }
 function getId(req, res) {
   console.log('getId', req.params.id)

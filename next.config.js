@@ -13,7 +13,7 @@ const withFonts = require('nextjs-fonts')
 const nextConfig = {
   // // distDir: "../.next",
   // distDir: './src/next',
-  // useFileSystemPublicRoutes: false,
+  useFileSystemPublicRoutes: false,
   webpack: function (config) {
     config.module.rules.push({
       test: /\.(eot|woff|woff2|ttf|svg|png|jpg|gif)$/,
@@ -21,6 +21,14 @@ const nextConfig = {
     })
     return config
   },
+  // plugins: [
+  //   new webpack.ProvidePlugin({
+  //     $: 'jquery',
+  //     jquery: 'jquery',
+  //     'window.jQuery': 'jquery',
+  //     jQuery: 'jquery'
+  //   })
+  // ],
   devIndicators: {
     autoPrerender: false,
   },

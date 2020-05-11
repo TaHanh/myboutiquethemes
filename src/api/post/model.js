@@ -9,20 +9,32 @@ const mongoo = require('mongoose')
 
 const Post = new mongoo.Schema(
   {
-    name: {
+    idPost: {
       type: String,
     },
-    email: {
+    title: {
       type: String,
     },
-    role: {
+    summary: {
       type: String,
     },
-    password: {
+    image: {
       type: String,
     },
-    username: {
+    idCreator: {
       type: String,
+    },
+    idCategory: {
+      type: String,
+    },
+    viewCount: {
+      type: Number,
+    },
+    tags: {
+      type: [],
+    },
+    compositions: {
+      type: [],
     },
   },
   {
