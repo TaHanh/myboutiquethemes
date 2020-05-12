@@ -34,14 +34,7 @@ export default ({ children, title = 'title' }) => {
       <Header callBack={callBack} />
       <div style={{ height: '50px' }}></div>
       <main>
-        <div className='content-area'>
-          <div className='site-branding'>
-            <Link href='/blush-classic'>
-              <img src={require('../static/images/blush_title.png')} />
-            </Link>
-          </div>
-          {children}
-        </div>
+        <div className='content-area'>{children}</div>
       </main>
       <Footer />
 

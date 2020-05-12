@@ -1,6 +1,6 @@
 const next = require('next')
-const routes = require('./src/routes')
 const app = next({ dev: process.env.NODE_ENV !== 'production' })
+const routes = require('./src/routes')
 const apiRoutes = require('./src/routes/api-routes')
 const userRoutes = require('./src/api/user')
 const handler = routes.getRequestHandler(app)

@@ -13,3 +13,20 @@ export const upload = (file) => {
     })
     .then((res) => res.data)
 }
+export const uploadCallback = (file) => {
+  return new Promise((resolve, reject) => {
+    let formData = new FormData()
+    formData.append('image', file)
+    axios
+      .post('http://1.2.3.127:9000/multers', formData, {
+        'Content-Type': 'multipart/form-data',
+      })
+      .then((res) => {
+        resolve(res.data)
+      })
+      .catch((err) => {
+        reject(err)
+        // console.log('error upload ', err)
+      })
+  })
+}

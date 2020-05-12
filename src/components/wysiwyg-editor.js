@@ -5,6 +5,7 @@ import { EditorState, convertToRaw, ContentState, convertFromHTML } from 'draft-
 import draftToHtml from 'draftjs-to-html'
 import Axios from 'axios'
 import config from '../config'
+import { uploadCallback } from '../utils/upload'
 
 const WysiwygNoSSRWrapper = dynamic(() => import('react-draft-wysiwyg').then((mod) => mod.Editor), {
   loading: () => null,
@@ -217,7 +218,7 @@ class WysiwygEditor extends Component {
       alignmentEnabled: true,
       previewImage: false,
       inputAccept: 'image/gif,image/jpeg,image/jpg,image/png,image/svg',
-      uploadCallback: this.uploadCallback,
+      uploadCallback: this.upload,
       alt: { present: false, mandatory: false },
       defaultSize: {
         height: 'auto',
@@ -246,12 +247,10 @@ class WysiwygEditor extends Component {
       this.setState({
         editorState: editorState,
       })
-      console.log(this.state.editorState)
     }
   }
   setEditor = (editor) => {
     this.editor = editor
-    console.log(editor)
   }
 
   onEditorStateChange = (editorState) => {
@@ -260,7 +259,7 @@ class WysiwygEditor extends Component {
     })
     this.props.callBack('EDITOR', draftToHtml(convertToRaw(editorState.getCurrentContent())))
   }
-  uploadCallback(file) {
+  upload(file) {
     return new Promise((resolve, reject) => {
       let formData = new FormData()
       formData.append('image', file)
@@ -268,7 +267,8 @@ class WysiwygEditor extends Component {
         'Content-Type': 'multipart/form-data',
       })
         .then((res) => {
-          resolve({ data: { link: config.host.upload + res.data } })
+          console.log(res.data)
+          resolve({ data: { link: config.host.upload + res.data.imageLink } })
         })
         .catch((err) => {
           console.log('error upload ', err)

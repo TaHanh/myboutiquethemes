@@ -4,6 +4,7 @@ import Aside from '../components/aside'
 import Swiper from 'react-id-swiper'
 import { useState, useEffect } from 'react'
 import fetch from 'isomorphic-unfetch'
+import Link from 'next/link'
 const axios = require('axios')
 
 function Home(props) {
@@ -305,6 +306,11 @@ function Home(props) {
   }
   return (
     <Layout title={'Blush'}>
+      <div className='site-branding'>
+        <Link href='/blush-classic'>
+          <img src={require('../static/images/blush_title.png')} />
+        </Link>
+      </div>
       <div className='site-content'>
         <div className='row'>
           <div className='col-lg-8'>
