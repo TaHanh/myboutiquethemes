@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import Head from 'next/head'
 import '../static/styles/style.scss'
+import '../static/styles/post.scss'
+import '../static/styles/react-draft-wysiwyg.scss'
 import Footer from './footer'
 import Header from './header'
 import Aside from './aside'

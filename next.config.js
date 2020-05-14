@@ -21,6 +21,30 @@ const nextConfig = {
     })
     return config
   },
+  module: {
+    rules: [
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          // Creates `style` nodes from JS strings
+          'style-loader',
+          // Translates CSS into CommonJS
+          'css-loader',
+          // Compiles Sass to CSS
+          // 'sass-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true,
+              sassOptions: {
+                outputStyle: 'compressed',
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
   devIndicators: {
     autoPrerender: false,
   },
@@ -30,20 +54,12 @@ module.exports = withPlugins(
   [
     [
       withSass({
-        //    webpack (config, options) {
-        //       config.module.rules.push({
-        //           test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
-        // //use: ["file-loader"]
-        //           use: {
-        //               loader: 'file-loader',
-        //               options: {
-        //                   limit: 100000,
-        //                   name: '[name].[ext]',
-        //               }
-        //           }
-        //       })
-        //       return config
-        //   }
+        webpack(config, options) {
+          config.module.rules.push({
+            test: /\.s?css$/,
+          })
+          return config
+        },
       }),
     ],
     withImages,
@@ -52,10 +68,3 @@ module.exports = withPlugins(
   ],
   nextConfig
 )
-// module.exports = {
-//    distDir: '../dist',
-//    assetPrefix: process.env.ASSET_PREFIX || '/',
-//    publicRuntimeConfig: {
-//    },
-//    pagesDir: './src/pages',
-//  }

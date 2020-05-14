@@ -1,0 +1,1 @@
+{"ast":null,"code":"module.exports = {\n  host: {\n    base: '',\n    upload: 'http://1.2.3.127:9000',\n    DB: 'mongodb://yp9tdlorbv:yp9tdlorbv@176.9.57.130:27017/yp9tdlorbv'\n  },\n  path: {\n    upload: {\n      upFile: '/multers'\n    },\n    base: {}\n  }\n};","map":null,"metadata":{},"sourceType":"script"}

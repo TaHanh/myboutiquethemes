@@ -1,6 +1,5 @@
 import WysiwygEditor from '../components/wysiwyg-editor'
 import Layout from '../components/layout'
-import '../static/styles/post.scss'
 import { useState } from 'react'
 import Axios from 'axios'
 import { uploadCallback } from '../utils/upload'
@@ -73,7 +72,7 @@ function Post(props) {
                     <p>Ảnh bài viết</p>
                   )}
                   <button
-                    className='btn btn-outline-danger mr-5 post-image-btn'
+                    className='btn btn-outline-danger post-image-btn'
                     onClick={() => {
                       refFile.current.click()
                     }}

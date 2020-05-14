@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef, Component } from 'react'
-import '../static/styles/react-draft-wysiwyg.css'
 import dynamic from 'next/dynamic'
 import { EditorState, convertToRaw, ContentState, convertFromHTML } from 'draft-js'
 import draftToHtml from 'draftjs-to-html'
