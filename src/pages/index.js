@@ -7,11 +7,9 @@ import fetch from 'isomorphic-unfetch'
 import Link from 'next/link'
 import config from '../config'
 import Axios from 'axios'
+import { connect } from 'react-redux'
 const limit = 2
 function Home(props) {
-  const [swiper1, updateSwiper1] = useState(null)
-  const [swiper2, updateSwiper2] = useState(null)
-  const [swiper3, updateSwiper3] = useState(null)
   const [data, setData] = useState([])
   const [isLoad, setLoad] = useState(false)
   const [page, setPage] = useState(1)
@@ -19,212 +17,11 @@ function Home(props) {
   useEffect(() => {
     setData(props.posts)
     console.log('props', props.categories.length, props.posts.length)
+    // store.dispatch({ type: 'FOO', payload: 'foo' })
   }, [])
-  const paramB = {
-    slidesPerView: 1,
-    loop: true,
-  }
-  const paramA = {
-    slidesPerView: 'auto',
-    loop: true,
-    breakpoints: {
-      1024: {
-        slidesPerView: 3,
-        slidesPerGroup: 2,
-      },
-      992: {
-        slidesPerView: 2,
-        slidesPerGroup: 2,
-      },
-      768: {
-        slidesPerView: 3,
-        slidesPerGroup: 2,
-      },
-      600: {
-        slidesPerView: 4,
-        slidesPerGroup: 2,
-      },
-      425: {
-        slidesPerView: 3,
-        slidesPerGroup: 2,
-      },
-      350: {
-        slidesPerView: 2,
-        slidesPerGroup: 1,
-      },
-    },
-  }
-  const params = {
-    slidesPerView: 'auto',
-    //  spaceBetween: 30,
-    slidesPerView: 1,
-    breakpoints: {
-      1024: {
-        slidesPerView: 4,
-        slidesPerGroup: 3,
-      },
-      992: {
-        slidesPerView: 3,
-        slidesPerGroup: 2,
-      },
 
-      700: {
-        slidesPerView: 4,
-        slidesPerGroup: 3,
-      },
-      550: {
-        slidesPerView: 3,
-        slidesPerGroup: 2,
-      },
-      500: {
-        slidesPerView: 2,
-        slidesPerGroup: 1,
-      },
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
-    scrollbar: {
-      el: '.swiper-scrollbar',
-      hide: false,
-    },
-  }
-  const imagesGhe = [
-    {
-      img: require('../static/images/ghe1.jpg'),
-    },
-    {
-      img: require('../static/images/ghe2.jpg'),
-    },
-    {
-      img: require('../static/images/ghe3.jpg'),
-    },
-    {
-      img: require('../static/images/ghe4.jpg'),
-    },
-    {
-      img: require('../static/images/ghe5.jpg'),
-    },
-    {
-      img: require('../static/images/ghe6.jpg'),
-    },
-    {
-      img: require('../static/images/ghe7.jpg'),
-    },
-  ]
-  const imagesUser = [
-    {
-      img: require('../static/images/u1.jpg'),
-      title: 'Yoins',
-    },
-    {
-      img: require('../static/images/u2.jpg'),
-      title: '',
-      name: '$16.00',
-    },
-    {
-      img: require('../static/images/u3.jpg'),
-      title: 'FOREVER21',
-      name: '$22.90',
-    },
-    {
-      img: require('../static/images/u4.jpg'),
-      title: 'FOREVER21',
-      name: '$37.90',
-    },
-  ]
-  const images = [
-    {
-      img: require('../static/images/u1.jpg'),
-    },
-    {
-      img: require('../static/images/u2.jpg'),
-    },
-    {
-      img: require('../static/images/u3.jpg'),
-    },
-    {
-      img: require('../static/images/u4.jpg'),
-    },
-  ]
-  const stpSlide = (arr, params, updateSwiper, key) => {
-    return (
-      <div className='shop-container-swiper'>
-        <Swiper {...params} getSwiper={updateSwiper}>
-          {arr.map((item, index) => {
-            return (
-              <div className='item-swiper'>
-                <a href='#'>
-                  <div
-                    className='item-swiper-img'
-                    style={{
-                      backgroundImage: 'url(' + `${item.img}` + ')',
-                    }}
-                  >
-                    <img style={{}} src={arr[1].img} />
-                  </div>
-                  <div className='item-swiper-title'>
-                    {item.title ? <span className='font-weight-bold pt-2'>{item.title}</span> : null}
-                    {item.name ? <span className='pt-1'>{item.name}</span> : null}
-                  </div>
-                </a>
-              </div>
-            )
-          })}
-        </Swiper>
-        <button className='btn-prev' onClick={() => goPrev(key)}>
-          <i class='fas fa-chevron-left'></i>
-        </button>
-        <button className='btn-next' onClick={() => goNext(key)}>
-          <i class='fas fa-chevron-right'></i>
-        </button>
-      </div>
-    )
-  }
-  const goNext = (key) => {
-    switch (key) {
-      case 1:
-        if (swiper1 !== null) {
-          swiper1.slideNext()
-        }
-        break
-      case 2:
-        if (swiper2 !== null) {
-          swiper2.slideNext()
-        }
-        break
-      case 3:
-        if (swiper3 !== null) {
-          swiper3.slideNext()
-        }
-        break
-      default:
-        break
-    }
-  }
-  const goPrev = (key) => {
-    switch (key) {
-      case 1:
-        if (swiper1 !== null) {
-          swiper1.slidePrev()
-        }
-        break
-      case 2:
-        if (swiper2 !== null) {
-          swiper2.slidePrev()
-        }
-        break
-      case 3:
-        if (swiper3 !== null) {
-          swiper3.slidePrev()
-        }
-        break
-      default:
-        break
-    }
-  }
   const callBack = (key, value) => {}
+
   const loadMore = () => {
     setLoad(true)
     let pageNew = page + 1
@@ -527,3 +324,4 @@ Home.getInitialProps = async function () {
   return { posts: posts, categories: categories, compositions: compositions }
 }
 export default Home
+// export default connect()(Home)
