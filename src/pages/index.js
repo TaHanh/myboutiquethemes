@@ -5,17 +5,20 @@ import Swiper from 'react-id-swiper'
 import { useState, useEffect } from 'react'
 import fetch from 'isomorphic-unfetch'
 import Link from 'next/link'
-const axios = require('axios')
-
+import config from '../config'
+import Axios from 'axios'
+const limit = 2
 function Home(props) {
   const [swiper1, updateSwiper1] = useState(null)
   const [swiper2, updateSwiper2] = useState(null)
   const [swiper3, updateSwiper3] = useState(null)
   const [data, setData] = useState([])
   const [isLoad, setLoad] = useState(false)
+  const [page, setPage] = useState(1)
 
   useEffect(() => {
-    setData(props.data)
+    setData(props.posts)
+    console.log('props', props.categories.length, props.posts.length)
   }, [])
   const paramB = {
     slidesPerView: 1,
@@ -224,39 +227,19 @@ function Home(props) {
   const callBack = (key, value) => {}
   const loadMore = () => {
     setLoad(true)
-    setTimeout(function () {
-      console.log('data')
-      const arr = [
-        {
-          name: '',
-          image: '',
-          description: '',
-        },
-        {
-          name: '',
-          image: '',
-          description: '',
-        },
-        {
-          name: '',
-          image: '',
-          description: '',
-        },
-        {
-          name: '',
-          image: '',
-          description: '',
-        },
-        {
-          name: '',
-          image: '',
-          description: '',
-        },
-      ]
-      const newData = data.concat(arr)
-      setData(newData)
-      setLoad(false)
-    }, 5000)
+    let pageNew = page + 1
+    setPage(pageNew)
+    Axios.get(config.host.base + config.path.base.posts + '?page=' + page + '&&limit=' + limit)
+      .then((res) => {
+        const newData = data.concat(res.data)
+        setData(newData)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+      .finally((fil) => {
+        setLoad(false)
+      })
   }
   const postUser = () => {
     axios
@@ -398,15 +381,12 @@ function Home(props) {
                               </div>
                               <h2 className='entry-title'>
                                 <a href='https://demo.myboutiquethemes.com/blush-classic/2019/04/29/6-business-outfits-you-already-have-in-your-wardrobe/'>
-                                  Beauty Favorites for Summer
+                                  {item.title}
                                 </a>
                               </h2>
                             </div>
                             <div className='entry-content'>
-                              <p>
-                                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-                                invidunt ut labore et dolore magna aliquyam …
-                              </p>
+                              <p>{item.description}</p>
                               <a
                                 className='readmore'
                                 href='https://demo.myboutiquethemes.com/blush-classic/2019/05/04/how-to-setup-a-bullet-journal/'
@@ -419,180 +399,6 @@ function Home(props) {
                       </div>
                     )
                   })}
-                {/* <div className='col-md-6 col-12'>
-                  <div className='small'>
-                    <div className='entry-thumbnail'>
-                      <a href='https://demo.myboutiquethemes.com/blush-classic/2019/04/29/6-business-outfits-you-already-have-in-your-wardrobe/'>
-                        <img className='w-100' src={require('../static/images/the_tonik_women.jpg')} />
-                      </a>
-                    </div>
-                    <div className='entry-body'>
-                      <div className='entry-header'>
-                        <div className='entry-meta'>
-                          <a href='https://demo.myboutiquethemes.com/blush-classic/category/lifestyle/'>LIFESTYLE</a>,
-                          <a href='https://demo.myboutiquethemes.com/blush-classic/category/personal/'> PERSONAL</a>
-                        </div>
-                        <h2 className='entry-title'>
-                          <a href='https://demo.myboutiquethemes.com/blush-classic/2019/04/29/6-business-outfits-you-already-have-in-your-wardrobe/'>
-                            HOW TO MOVE TO ANOTHER CITY AND FIND NEW FRIENDS
-                          </a>
-                        </h2>
-                      </div>
-                      <div className='entry-content'>
-                        <a
-                          className='readmore'
-                          href='https://demo.myboutiquethemes.com/blush-classic/2019/05/04/how-to-setup-a-bullet-journal/'
-                        >
-                          <button className='btn read-more'>Read more</button>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className='col-md-6 col-12'>
-                  <div className='small'>
-                    <div className='entry-thumbnail'>
-                      <a href='https://demo.myboutiquethemes.com/blush-classic/2019/04/29/6-business-outfits-you-already-have-in-your-wardrobe/'>
-                        <img className='w-100' src={require('../static/images/kipa_chan_b.jpg')} />
-                      </a>
-                    </div>
-                    <div className='entry-body'>
-                      <div className='entry-header'>
-                        <div className='entry-meta'>
-                          <a href='https://demo.myboutiquethemes.com/blush-classic/category/fashion/'>FASHION</a>,
-                          <a href='https://demo.myboutiquethemes.com/blush-classic/category/outfits/'> OUTFITS</a>
-                        </div>
-                        <h2 className='entry-title'>
-                          <a href='https://demo.myboutiquethemes.com/blush-classic/2019/04/29/6-business-outfits-you-already-have-in-your-wardrobe/'>
-                            FASHION PIECES FOR THE NEW SEASON
-                          </a>
-                        </h2>
-                      </div>
-                      <div className='entry-content'>
-                        <p>
-                          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-                          invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
-                        </p>
-                        <a
-                          className='readmore'
-                          href='https://demo.myboutiquethemes.com/blush-classic/2019/05/04/how-to-setup-a-bullet-journal/'
-                        >
-                          <button className='btn read-more'>Read more</button>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className='col-md-6 col-12'>
-                  <div className='small'>
-                    <div className='entry-thumbnail'>
-                      <a href='https://demo.myboutiquethemes.com/blush-classic/2019/04/29/6-business-outfits-you-already-have-in-your-wardrobe/'>
-                        <img className='w-100' src={require('../static/images/alyssa_strohmann.jpg')} />
-                      </a>
-                    </div>
-                    <div className='entry-body'>
-                      <div className='entry-header'>
-                        <div className='entry-meta'>
-                          <a href='https://demo.myboutiquethemes.com/blush-classic/category/lifestyle/'>LIFESTYLE</a>
-                        </div>
-                        <h2 className='entry-title'>
-                          <a href='https://demo.myboutiquethemes.com/blush-classic/2019/04/29/6-business-outfits-you-already-have-in-your-wardrobe/'>
-                            MY FAVORITE BOOKS, WEBSITES AND PODCASTS FOR PERSONAL DEVELOPMENT
-                          </a>
-                        </h2>
-                      </div>
-                      <div className='entry-content'>
-                        <div className='shop-the-post'>
-                          <p></p>
-                          <h3>Shop this Post</h3>
-                          <div className='shop-container'>{stpSlide(imagesGhe, paramA, updateSwiper1, 1)}</div>
-                        </div>
-                        <a
-                          className='readmore'
-                          href='https://demo.myboutiquethemes.com/blush-classic/2019/05/04/how-to-setup-a-bullet-journal/'
-                        >
-                          <button className='btn read-more'>Read more</button>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className='col-md-6 col-12'>
-                  <div className='small'>
-                    <div className='entry-thumbnail'>
-                      <a href='https://demo.myboutiquethemes.com/blush-classic/2019/04/29/6-business-outfits-you-already-have-in-your-wardrobe/'>
-                        <img className='w-100' src={require('../static/images/dex_ezekiel.jpg')} />
-                      </a>
-                    </div>
-                    <div className='entry-body'>
-                      <div className='entry-header'>
-                        <div className='entry-meta'>
-                          <a href='https://demo.myboutiquethemes.com/blush-classic/category/lifestyle/'>LIFESTYLE</a>
-                        </div>
-                        <h2 className='entry-title'>
-                          <a href='https://demo.myboutiquethemes.com/blush-classic/2019/04/29/6-business-outfits-you-already-have-in-your-wardrobe/'>
-                            HOW TO STYLE YOUR APARTMENT WITH FLOWERS
-                          </a>
-                        </h2>
-                      </div>
-                      <div className='entry-content'>
-                        <div className='shop-the-post'>
-                          <p></p>
-                          <h3>Shop this Post</h3>
-                          <div className='shop-container'>{stpSlide(imagesUser, paramA, updateSwiper2, 2)}</div>
-                        </div>
-                        <a
-                          className='readmore'
-                          href='https://demo.myboutiquethemes.com/blush-classic/2019/05/04/how-to-setup-a-bullet-journal/'
-                        >
-                          <button className='btn read-more'>Read more</button>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className='col-md-6 col-12'>
-                  <div className='small'>
-                    <div className='entry-thumbnail'>
-                      <a href='https://demo.myboutiquethemes.com/blush-classic/2019/04/29/6-business-outfits-you-already-have-in-your-wardrobe/'>
-                        <img className='w-100' src={require('../static/images/the_tonik_nik.jpg')} />
-                      </a>
-                    </div>
-                    <div className='entry-body'>
-                      <div className='entry-header'>
-                        <div className='entry-meta'>
-                          <a href='https://demo.myboutiquethemes.com/blush-classic/category/lifestyle/'>BEAUTY</a>,
-                          <a href='https://demo.myboutiquethemes.com/blush-classic/category/travel/'> LIFESTYLE</a>
-                        </div>
-                        <h2 className='entry-title'>
-                          <a href='https://demo.myboutiquethemes.com/blush-classic/2019/04/29/6-business-outfits-you-already-have-in-your-wardrobe/'>
-                            THE NEW GUCCI BEAUTY COLLECTION
-                          </a>
-                        </h2>
-                      </div>
-                      <div className='entry-content'>
-                        <p>
-                          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-                          invidunt ut labore et dolore magna aliquyam …
-                        </p>
-                        <div className='shop-the-post'>
-                          <p></p>
-                          <h3>Shop this Post</h3>
-                          <div className='shop-container' style={{ maxWidth: '200px' }}>
-                            {stpSlide(images, paramB, updateSwiper3, 3)}
-                          </div>
-                        </div>
-                        <a
-                          className='readmore'
-                          href='https://demo.myboutiquethemes.com/blush-classic/2019/05/04/how-to-setup-a-bullet-journal/'
-                        >
-                          <button className='btn read-more'>Read more</button>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-               */}
               </div>
               <div className='row justify-content-center'>
                 {isLoad ? (
@@ -610,7 +416,7 @@ function Home(props) {
             </div>
           </div>
           <div className='col-lg-4'>
-            <Aside />
+            <Aside categories={props.categories} compositions={props.compositions} />
           </div>
         </div>
       </div>
@@ -686,39 +492,38 @@ function Home(props) {
 }
 
 Home.getInitialProps = async function () {
-  // const res = await fetch('https://api.tvmaze.com/search/shows?q=batman')
+  let posts = []
+  let categories = []
+  let compositions = []
+  // Axios.get(config.host.base + config.path.base.categories).then((res) => {
+  //   categories = res.data
+  // })
+  // Axios.get(config.host.base + config.path.base.compositions).then((res) => {
+  //   compositions = res.data
+  // })
+  // Axios.get(config.host.base + config.path.base.posts + '?page=1&&limit=' + limit)
+  //   .then((res) => {
+  //     posts = res.data
+  //   })
+  //   .catch((err) => {
+  //     console.log(err)
+  //   })
 
-  const res = await fetch('http://localhost:3000/api/user')
-  const data1 = await res.json()
-  console.log('data1')
-  console.log(data1)
-  const data = [
-    {
-      name: '',
-      image: '',
-      description: '',
-    },
-    {
-      name: '',
-      image: '',
-      description: '',
-    },
-    {
-      name: '',
-      image: '',
-      description: '',
-    },
-    {
-      name: '',
-      image: '',
-      description: '',
-    },
-    {
-      name: '',
-      image: '',
-      description: '',
-    },
-  ]
-  return { data: data }
+  let resPost = await Axios.get(config.host.base + config.path.base.posts + '?page=1&&limit=' + limit).catch((e) => {
+    console.log('Error: ', e.code)
+  })
+
+  let resCate = await Axios.get(config.host.base + config.path.base.categories).catch((e) => {
+    console.log('Error: ', e.code)
+  })
+  let resCompos = await Axios.get(config.host.base + config.path.base.compositions).catch((e) =>
+    console.log('Error: ', e.code)
+  )
+
+  posts = resPost && resPost.data != undefined ? resPost.data : []
+  categories = resCate && resCate.data != undefined ? resCate.data : []
+  compositions = (resCompos && resCompos.data) || []
+
+  return { posts: posts, categories: categories, compositions: compositions }
 }
 export default Home

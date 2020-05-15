@@ -1,45 +1,8 @@
 import { useRouter } from 'next/router'
 import Swiper from './swiper'
-export default function Aside(props) {
-  const params = {
-    slidesPerView: 'auto',
-    //  spaceBetween: 30,
-    slidesPerView: 1,
-    breakpoints: {
-      1024: {
-        slidesPerView: 2,
-        slidesPerGroup: 1,
-      },
-      992: {
-        slidesPerView: 1,
-        slidesPerGroup: 1,
-      },
-      768: {
-        slidesPerView: 4,
-        slidesPerGroup: 3,
-      },
-      650: {
-        slidesPerView: 3,
-        slidesPerGroup: 3,
-      },
-      500: {
-        slidesPerView: 2,
-        slidesPerGroup: 2,
-      },
-      350: {
-        slidesPerView: 2,
-        slidesPerGroup: 1,
-      },
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
-    scrollbar: {
-      el: '.swiper-scrollbar',
-      hide: false,
-    },
-  }
+import config from '../config'
+import Axios from 'axios'
+function Aside(props) {
   return (
     <div className='widget-area'>
       <div className='about-widget'>
@@ -79,38 +42,21 @@ export default function Aside(props) {
           </a> */}
         </div>
       </div>
-      {/* <div className="widget_text">
-        <div className="widget-title">
-          Currently Craving
-          <div className="shop-the-post-container">
-                      <p></p>
-                      <Swiper params={params} />
-                    </div>
-      </div>
-      </div> */}
-      <div className='category'>
-        <h2 className='widget-title'>What you can find here</h2>
-        <ul>
-          <li className='cat-item'>
-            <a href='https://demo.myboutiquethemes.com/blush-classic/category/beauty/'>Beauty</a>
-          </li>
-          <li className='cat-item'>
-            <a href='https://demo.myboutiquethemes.com/blush-classic/category/beauty/'>Fashion</a>
-          </li>
-          <li className='cat-item'>
-            <a href='https://demo.myboutiquethemes.com/blush-classic/category/beauty/'>Lifestyle</a>
-          </li>
-          <li className='cat-item'>
-            <a href='https://demo.myboutiquethemes.com/blush-classic/category/beauty/'>Outfits</a>
-          </li>
-          <li className='cat-item'>
-            <a href='https://demo.myboutiquethemes.com/blush-classic/category/beauty/'>Personal</a>
-          </li>
-          <li className='cat-item'>
-            <a href='https://demo.myboutiquethemes.com/blush-classic/category/beauty/'>Travel</a>
-          </li>
-        </ul>
-      </div>
+      {props.compositions && props.compositions.length > 0 ? (
+        <div className='category'>
+          <h2 className='widget-title'>What you can find here</h2>
+          <ul>
+            {props.compositions &&
+              props.compositions.map((item, index) => {
+                return (
+                  <li className='cat-item'>
+                    <a href=''>{item.name}</a>
+                  </li>
+                )
+              })}
+          </ul>
+        </div>
+      ) : null}
       <div className='featured-post-widget'>
         <h2 className='widget-title'>Favorite Article</h2>
         <div className='featured-post'>
@@ -133,23 +79,37 @@ export default function Aside(props) {
           </div>
         </div>
       </div>
-      <div className='nav-menu'>
-        <h2 className='widget-title'>Favorite Shops</h2>
-        <ul>
-          <li className='cat-item'>
-            <a href='https://demo.myboutiquethemes.com/blush-classic/category/beauty/'>Asos</a>
-          </li>
-          <li className='cat-item'>
-            <a href='https://demo.myboutiquethemes.com/blush-classic/category/beauty/'>H&M</a>
-          </li>
-          <li className='cat-item'>
-            <a href='https://demo.myboutiquethemes.com/blush-classic/category/beauty/'>& Other Stories</a>
-          </li>
-          <li className='cat-item'>
-            <a href='https://demo.myboutiquethemes.com/blush-classic/category/beauty/'>Zara</a>
-          </li>
-        </ul>
-      </div>
+      {props.categories && props.categories.length > 0 ? (
+        <div className='nav-menu'>
+          <h2 className='widget-title'>Favorite Shops</h2>
+          <ul>
+            {props.categories &&
+              props.categories.map((item, index) => {
+                return (
+                  <li className='cat-item'>
+                    <a href='#'>{item.name}</a>
+                  </li>
+                )
+              })}
+          </ul>
+        </div>
+      ) : null}
     </div>
   )
 }
+Aside.getInitialProps = async function () {
+  let categories = []
+  // console.log('res.data')
+  // Axios.get('http://1.2.3.127:9000/categories')
+  //   .then((res) => {
+  //     console.log(res.data)
+  //     categories = res.data
+  //   })
+  //   .catch((err) => {
+  //     console.log(err)
+  //   })
+
+  return { categories: categories }
+}
+
+export default Aside
