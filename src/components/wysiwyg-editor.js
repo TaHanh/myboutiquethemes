@@ -266,8 +266,8 @@ class WysiwygEditor extends Component {
         'Content-Type': 'multipart/form-data',
       })
         .then((res) => {
-          console.log(res.data)
-          resolve({ data: { link: config.host.upload + res.data.imageLink } })
+          console.log(res)
+          resolve({ data: { link: config.host.upload + '/' + res.data.imageLink } })
         })
         .catch((err) => {
           console.log('error upload ', err)

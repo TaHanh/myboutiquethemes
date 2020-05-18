@@ -67,6 +67,7 @@ body {
   .content-area {
     max-width: 1280px;
     margin: auto;
+    min-height: calc(100vh - 500px);
   }
   .col-md-12-8 {
     max-width: calc(100% / 6);
@@ -641,6 +642,18 @@ footer {
           display: inline-block;
         }
       }
+    }
+  }
+}
+
+.multi-select {
+  .dropdown-content {
+    z-index: 100 !important;
+    label {
+      margin-bottom: 0;
+    }
+    input[type='checkbox'] {
+      cursor: pointer;
     }
   }
 }

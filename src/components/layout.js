@@ -9,6 +9,7 @@ import Aside from './aside'
 import Search from './search'
 import loadingProgress from '../utils/loading-progress'
 import { useEffect, useState } from 'react'
+import { ToastContainer } from 'react-toastify'
 
 loadingProgress()
 export default ({ children, title = 'title' }) => {
@@ -39,7 +40,7 @@ export default ({ children, title = 'title' }) => {
         <div className='content-area'>{children}</div>
       </main>
       <Footer />
-
+      <ToastContainer />
       {isSearch ? <Search callBack={callBack} /> : null}
     </div>
   )

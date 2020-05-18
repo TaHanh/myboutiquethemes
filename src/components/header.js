@@ -24,12 +24,12 @@ export default function Header(props) {
           <ul class='navbar-nav mr-auto mt-2 mt-lg-0'>
             <li class='nav-item'>
               <Link href='/'>
-                <a class='nav-link'>About Me</a>
+                <a class='nav-link'>Trang chủ</a>
               </Link>
             </li>
             <li class='nav-item'>
               <Link href='/post'>
-                <a class='nav-link'>Lifestyle</a>
+                <a class='nav-link'>Bài viết</a>
               </Link>
             </li>
             <li class='nav-item'>
@@ -46,9 +46,9 @@ export default function Header(props) {
               </ul>
             </li>
             <li class='nav-item'>
-              <a class='nav-link' href='#'>
-                Beauty
-              </a>
+              <Link href='/composition'>
+                <a class='nav-link'>Thành phần</a>
+              </Link>
             </li>
             <li class='nav-item'>
               <a class='nav-link' href='#'>

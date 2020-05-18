@@ -12,12 +12,12 @@ const limit = 2
 function Home(props) {
   const [data, setData] = useState([])
   const [isLoad, setLoad] = useState(false)
+  const [isLoadBtn, setLoadBtn] = useState(true)
   const [page, setPage] = useState(1)
 
   useEffect(() => {
     setData(props.posts)
-    console.log('props', props.categories.length, props.posts.length)
-    // store.dispatch({ type: 'FOO', payload: 'foo' })
+    // console.log('props', props.categories.length, props.posts.length)
   }, [])
 
   const callBack = (key, value) => {}
@@ -28,8 +28,12 @@ function Home(props) {
     setPage(pageNew)
     Axios.get(config.host.base + config.path.base.posts + '?page=' + page + '&&limit=' + limit)
       .then((res) => {
-        const newData = data.concat(res.data)
-        setData(newData)
+        if (res.data.length > 0) {
+          const newData = data.concat(res.data)
+          setData(newData)
+        } else {
+          setLoadBtn(false)
+        }
       })
       .catch((err) => {
         console.log(err)
@@ -164,17 +168,21 @@ function Home(props) {
                       <div className='col-md-6 col-12'>
                         <div className='small'>
                           <div className='entry-thumbnail'>
-                            <a href='https://demo.myboutiquethemes.com/blush-classic/2019/04/29/6-business-outfits-you-already-have-in-your-wardrobe/'>
+                            <a href={'/blush-classic/' + item.title}>
                               <img className='w-100' src={require('../static/images/blush_flowers_b.jpg')} />
                             </a>
                           </div>
                           <div className='entry-body'>
                             <div className='entry-header'>
                               <div className='entry-meta'>
-                                <a href='https://demo.myboutiquethemes.com/blush-classic/category/lifestyle/'>
-                                  LIFESTYLE
-                                </a>
-                                ,<a href='https://demo.myboutiquethemes.com/blush-classic/category/travel/'> TRAVEL</a>
+                                {item.tags &&
+                                  item.tags.map((e, i) => {
+                                    return (
+                                      <a href={'/' + e}>
+                                        {e} {i != item.tags.length - 1 ? ', ' : null}
+                                      </a>
+                                    )
+                                  })}
                               </div>
                               <h2 className='entry-title'>
                                 <a href='https://demo.myboutiquethemes.com/blush-classic/2019/04/29/6-business-outfits-you-already-have-in-your-wardrobe/'>
@@ -198,17 +206,19 @@ function Home(props) {
                   })}
               </div>
               <div className='row justify-content-center'>
-                {isLoad ? (
-                  <div class='spinner-border text-primary' role='status'>
-                    <span class='sr-only'>Loading...</span>
-                  </div>
-                ) : (
-                  <div className='readmore'>
-                    <button className='btn read-more' onClick={() => loadMore()}>
-                      read more
-                    </button>
-                  </div>
-                )}
+                {isLoadBtn ? (
+                  isLoad ? (
+                    <div class='spinner-border text-primary' role='status'>
+                      <span class='sr-only'>Loading...</span>
+                    </div>
+                  ) : (
+                    <div className='readmore'>
+                      <button className='btn read-more' onClick={() => loadMore()}>
+                        read more
+                      </button>
+                    </div>
+                  )
+                ) : null}
               </div>
             </div>
           </div>

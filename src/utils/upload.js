@@ -18,9 +18,13 @@ export const uploadCallback = (file) => {
     let formData = new FormData()
     formData.append('image', file)
     axios
-      .post('http://1.2.3.127:9000/multers', formData, {
-        'Content-Type': 'multipart/form-data',
-      })
+      .post(
+        'http://1.2.3.127:9000/multers?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYjkyMmMzZWViYjNlM2Y4MGUxYTY1NCIsImlhdCI6MTU4OTgwMTQ3NH0.E6KhxBFFZZ7mqBuMcg_1_vuyycEF6APiHLTfhkXFiO8',
+        formData,
+        {
+          'Content-Type': 'multipart/form-data',
+        }
+      )
       .then((res) => {
         resolve(res.data)
       })

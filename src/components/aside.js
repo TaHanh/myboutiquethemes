@@ -87,7 +87,7 @@ function Aside(props) {
               props.categories.map((item, index) => {
                 return (
                   <li className='cat-item'>
-                    <a href='#'>{item.name}</a>
+                    <a href='/'>{item.name}</a>
                   </li>
                 )
               })}

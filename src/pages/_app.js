@@ -4,7 +4,7 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import withRedux from 'next-redux-wrapper'
 import makeStore from '../store/redux'
-
+const store = createStore(makeStore)
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
     // ctx.store.dispatch({ type: 'FOO', payload: 'foo' })
@@ -16,7 +16,7 @@ class MyApp extends App {
   }
 
   render() {
-    const { Component, pageProps, store } = this.props
+    const { Component, pageProps } = this.props
 
     return (
       // <Provider store={store}>
@@ -27,4 +27,6 @@ class MyApp extends App {
     )
   }
 }
-export default withRedux(makeStore)(MyApp)
+
+// export default withRedux(makeStore)(MyApp)
+export default MyApp
