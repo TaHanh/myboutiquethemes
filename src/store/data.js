@@ -1,6 +1,6 @@
 import Axios from 'axios'
 import config from '../config'
-const limit = 2
+const limit = 6
 export default async function getInitialData() {
   let posts = []
   let categories = []

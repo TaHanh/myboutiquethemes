@@ -1,17 +1,16 @@
 import App from 'next/app'
 import React from 'react'
 import { createStore } from 'redux'
-import { Provider } from 'react-redux'
+import { Provider, connect } from 'react-redux'
 import withRedux from 'next-redux-wrapper'
-import makeStore from '../store/redux'
-const store = createStore(makeStore)
+import reducer from '../store/redux'
+import storeInstance from '../store/store'
+let store = createStore(reducer)
+
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
-    // ctx.store.dispatch({ type: 'FOO', payload: 'foo' })
-
     const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {}
-
-    //Anything returned here can be accessed by the client
+    storeInstance.initApp()
     return { pageProps: pageProps }
   }
 
@@ -19,14 +18,11 @@ class MyApp extends App {
     const { Component, pageProps } = this.props
 
     return (
-      // <Provider store={store}>
-      <div>
+      <Provider store={store}>
         <Component {...pageProps} />
-      </div>
-      // </Provider>
+      </Provider>
     )
   }
 }
 
-// export default withRedux(makeStore)(MyApp)
 export default MyApp

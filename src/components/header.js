@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import Router from 'next/router'
 import Link from 'next/link'
+import config from '../config'
 export default function Header(props) {
   return (
     <header className='fixed-top'>
@@ -28,7 +29,7 @@ export default function Header(props) {
               </Link>
             </li>
             <li class='nav-item'>
-              <Link href='/post'>
+              <Link href={config.client.adminPost}>
                 <a class='nav-link'>Bài viết</a>
               </Link>
             </li>
@@ -46,15 +47,11 @@ export default function Header(props) {
               </ul>
             </li>
             <li class='nav-item'>
-              <Link href='/composition'>
+              <Link href={config.client.adminComposition}>
                 <a class='nav-link'>Thành phần</a>
               </Link>
             </li>
-            <li class='nav-item'>
-              <a class='nav-link' href='#'>
-                Travel
-              </a>
-            </li>
+
             <li class='nav-item'>
               <a class='nav-link d-lg-block d-none'>
                 Page Templates <i class='fas fa-angle-down'></i>

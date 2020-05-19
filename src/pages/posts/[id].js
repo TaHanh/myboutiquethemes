@@ -1,12 +1,24 @@
-import { Router } from '../../routes'
+import Router from 'next/router'
 import { useRouter } from 'next/router'
 import '../../static/styles/blush-classic.scss'
 import Layout from '../../components/layout'
 import Aside from '../../components/aside'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-export default function BlushClassic(props) {
+import config from '../../config'
+import getInitialData from '../../store/data'
+import Axios from 'axios'
+import moment from 'moment'
+import { state } from '../../store/redux'
+import { connect } from 'react-redux'
+
+function PostDetail(props) {
   const [isSearch, changeSearch] = useState(false)
+  let routes = useRouter()
+  useEffect(() => {
+    console.log(props.data)
+  }, [])
+
   const callBack = (key, value) => {
     console.log(key, value)
     switch (key) {
@@ -32,33 +44,34 @@ export default function BlushClassic(props) {
           <div className='col-lg-8'>
             <div className='site-main'>
               <div className='entry-thumbnail'>
-                <img src={require('../../static/images/blush_flowers.jpg')} />
+                {/* <img src={require('../../static/images/blush_flowers.jpg')} /> */}
+                <img src={config.host.upload + props.data.image} />
               </div>
               <div className='entry-header'>
                 <div className='entry-meta'>
                   <span className='cat-links'>
-                    <a href='https://demo.myboutiquethemes.com/blush-classic/category/beauty/'>Beauty</a>,
-                    <a href='https://demo.myboutiquethemes.com/blush-classic/category/lifestyle/'>Lifestyle</a>
+                    {props.data.tags &&
+                      props.data.tags.map((item, index) => {
+                        return (
+                          <a href={item}>
+                            {item}
+                            {index != props.data.tags.length - 1 ? ', ' : null}
+                          </a>
+                        )
+                      })}
                   </span>
                   |
                   <span className='posted-on'>
-                    <a href='https://demo.myboutiquethemes.com/blush-classic/2019/04/29/6-business-outfits-you-already-have-in-your-wardrobe/'>
-                      <time>29. April 2019</time>
-                    </a>
+                    {/* <a href='https://demo.myboutiquethemes.com/blush-classic/2019/04/29/6-business-outfits-you-already-have-in-your-wardrobe/'> */}
+                    <time>{moment(props.data.updatedAt || props.data.createdAt).format('DD. MMM YYYY')}</time>
+                    {/* </a> */}
                   </span>
                 </div>
-                <h1 className='entry-title'>Beauty Favorites for Summer</h1>
+                <h1 className='entry-title'>{props.data.title}</h1>
               </div>
               <div className='entry-content'>
-                <p>
-                  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-                  labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-                  et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem
-                  ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-                  dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-                  rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-                </p>
-                <div className='shop-the-post-widget'>
+                <p dangerouslySetInnerHTML={{ __html: props.data.content }}></p>
+                {/* <div className='shop-the-post-widget'>
                   <h3>Shop this Post</h3>
                   <span>There are no widgets defined for this post.</span>
                 </div>
@@ -70,7 +83,7 @@ export default function BlushClassic(props) {
                   ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
                   dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
                   rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-                </p>
+                </p> */}
               </div>
               <div className='entry-footer'>
                 <div className='share'>
@@ -245,3 +258,17 @@ export default function BlushClassic(props) {
     </Layout>
   )
 }
+PostDetail.getInitialProps = async function (ctx) {
+  const { req, res, query } = ctx
+  let data = {}
+  let resPost = await Axios.get(config.host.base + config.path.base.posts + '/' + query.id).catch((e) => {
+    console.log('Error: ', e.code)
+    res.redirect('/')
+  })
+
+  data = resPost && resPost.data != undefined ? resPost.data : []
+
+  const dataa = getInitialData()
+  return { ...dataa, data: data }
+}
+export default connect()(PostDetail)

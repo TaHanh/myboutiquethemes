@@ -8,8 +8,13 @@ import Link from 'next/link'
 import config from '../config'
 import Axios from 'axios'
 import { connect } from 'react-redux'
-const limit = 2
-function Home(props) {
+import getInitialData from '../store/data'
+import { observer, inject } from 'mobx-react'
+import storeInstance from '../store/store'
+
+// @inject("store");
+
+const Home = observer((props) => {
   const [data, setData] = useState([])
   const [isLoad, setLoad] = useState(false)
   const [isLoadBtn, setLoadBtn] = useState(true)
@@ -17,7 +22,8 @@ function Home(props) {
 
   useEffect(() => {
     setData(props.posts)
-    // console.log('props', props.categories.length, props.posts.length)
+    storeInstance.likesCount = 15
+    console.log(storeInstance.likesCount)
   }, [])
 
   const callBack = (key, value) => {}
@@ -168,9 +174,11 @@ function Home(props) {
                       <div className='col-md-6 col-12'>
                         <div className='small'>
                           <div className='entry-thumbnail'>
-                            <a href={'/blush-classic/' + item.title}>
-                              <img className='w-100' src={require('../static/images/blush_flowers_b.jpg')} />
-                            </a>
+                            <Link href={config.client.posts + '/' + item.idPost}>
+                              <a>
+                                <img className='w-100' src={require('../static/images/blush_flowers_b.jpg')} />
+                              </a>
+                            </Link>
                           </div>
                           <div className='entry-body'>
                             <div className='entry-header'>
@@ -185,19 +193,18 @@ function Home(props) {
                                   })}
                               </div>
                               <h2 className='entry-title'>
-                                <a href='https://demo.myboutiquethemes.com/blush-classic/2019/04/29/6-business-outfits-you-already-have-in-your-wardrobe/'>
-                                  {item.title}
-                                </a>
+                                <Link href={config.client.posts + '/' + item.idPost}>
+                                  <a>{item.title}</a>
+                                </Link>
                               </h2>
                             </div>
                             <div className='entry-content'>
                               <p>{item.description}</p>
-                              <a
-                                className='readmore'
-                                href='https://demo.myboutiquethemes.com/blush-classic/2019/05/04/how-to-setup-a-bullet-journal/'
-                              >
-                                <button className='btn read-more'>Read more</button>
-                              </a>
+                              <Link href={config.client.posts + '/' + item.idPost}>
+                                <a className='readmore'>
+                                  <button className='btn read-more'>Read more</button>
+                                </a>
+                              </Link>
                             </div>
                           </div>
                         </div>
@@ -296,42 +303,11 @@ function Home(props) {
       </div>
     </Layout>
   )
-}
+})
 
 Home.getInitialProps = async function () {
-  let posts = []
-  let categories = []
-  let compositions = []
-  // Axios.get(config.host.base + config.path.base.categories).then((res) => {
-  //   categories = res.data
-  // })
-  // Axios.get(config.host.base + config.path.base.compositions).then((res) => {
-  //   compositions = res.data
-  // })
-  // Axios.get(config.host.base + config.path.base.posts + '?page=1&&limit=' + limit)
-  //   .then((res) => {
-  //     posts = res.data
-  //   })
-  //   .catch((err) => {
-  //     console.log(err)
-  //   })
+  const data = getInitialData()
 
-  let resPost = await Axios.get(config.host.base + config.path.base.posts + '?page=1&&limit=' + limit).catch((e) => {
-    console.log('Error: ', e.code)
-  })
-
-  let resCate = await Axios.get(config.host.base + config.path.base.categories).catch((e) => {
-    console.log('Error: ', e.code)
-  })
-  let resCompos = await Axios.get(config.host.base + config.path.base.compositions).catch((e) =>
-    console.log('Error: ', e.code)
-  )
-
-  posts = resPost && resPost.data != undefined ? resPost.data : []
-  categories = resCate && resCate.data != undefined ? resCate.data : []
-  compositions = (resCompos && resCompos.data) || []
-
-  return { posts: posts, categories: categories, compositions: compositions }
+  return data
 }
 export default Home
-// export default connect()(Home)

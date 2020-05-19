@@ -3,30 +3,20 @@ import { createStore } from 'redux'
 import { createWrapper } from 'next-redux-wrapper'
 
 const INITIAL_STATE = {
-  foo: '',
+  foo: 1,
 }
 
-// export function reducer(state = INITIAL_STATE, action) {
-//   switch (action.type) {
-//     case 'getData':
-//       return { ...state, oke: 'oke' }
-//     default:
-//       return state
-//   }
-// }
-
-// create a simple reducer
-const reducer = (state = INITIAL_STATE, action) => {
+export default function reducer(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case 'FOO':
-      return { ...state, foo: action.payload }
+    case 'getData':
+      return { ...state, oke: 'oke' }
     default:
       return state
   }
 }
-// create a store creator
-const makeStore = (initialState) => {
-  return createStore(reducer, initialState)
-}
-export default makeStore
-// export default wrapper = createWrapper(makeStore)
+
+// const store = (initialState) => {
+//   return createStore(reducer, initialState)
+// }
+
+export var state = INITIAL_STATE

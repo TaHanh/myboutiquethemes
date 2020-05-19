@@ -48,6 +48,14 @@ const nextConfig = {
   devIndicators: {
     autoPrerender: false,
   },
+  plugins: [
+    [
+      '@babel/plugin-proposal-decorators',
+      {
+        legacy: true,
+      },
+    ],
+  ],
 }
 
 module.exports = withPlugins(

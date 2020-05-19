@@ -1,10 +1,11 @@
-import Layout from '../components/layout'
+import Layout from '../../components/layout'
 import { useState, useEffect, useRef } from 'react'
 import Axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import config from '../config'
-import '../static/styles/composition.scss'
+import config from '../../config'
+import '../../static/styles/composition.scss'
+
 function Composition(props) {
   const [data, setData] = useState([])
   const [value, setValue] = useState('')
@@ -18,7 +19,7 @@ function Composition(props) {
       case 'POST_COMPOSITON':
         if (value != '') {
           setLoad(true)
-          Axios.post('http://1.2.3.127:9000/compositions', {
+          Axios.post(config.host.base + config.path.base.compositions, {
             name: value,
           })
             .then((res) => {
@@ -41,7 +42,7 @@ function Composition(props) {
         break
       case 'DELETE':
         setLoad(true)
-        Axios.delete('http://1.2.3.127:9000/compositions/' + value.item.id)
+        Axios.delete(config.host.base + config.path.base.compositions + value.item.id)
           .then((res) => {
             data.splice(value.index, 1)
             setData(data)
