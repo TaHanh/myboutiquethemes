@@ -1,17 +1,17 @@
-import React, { Component } from 'react'
-import { createStore } from 'redux'
-import { createWrapper } from 'next-redux-wrapper'
+import React, { Component } from "react";
+import { createStore } from "redux";
+import { createWrapper } from "next-redux-wrapper";
 
 const INITIAL_STATE = {
   foo: 1,
-}
+};
 
 export default function reducer(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case 'getData':
-      return { ...state, oke: 'oke' }
+    case "getData":
+      return { ...state, oke: "oke" };
     default:
-      return state
+      return state;
   }
 }
 
@@ -19,4 +19,4 @@ export default function reducer(state = INITIAL_STATE, action) {
 //   return createStore(reducer, initialState)
 // }
 
-export var state = INITIAL_STATE
+export var state = INITIAL_STATE;

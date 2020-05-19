@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 import getInitialData from "../store/data";
 import { observer, inject } from "mobx-react";
 import storeInstance from "../store/store";
+import { state } from "../store/redux";
 let limit = 2;
 // @inject("store");
 
@@ -20,11 +21,11 @@ const Home = observer((props) => {
   const [isLoadBtn, setLoadBtn] = useState(true);
   const [page, setPage] = useState(1);
 
-  // useEffect(() => {
-  //   setData(props.posts)
-  //   storeInstance.likesCount = 15
-  //   console.log(storeInstance.likesCount)
-  // }, [])
+  useEffect(() => {
+    // setData(props.posts)
+    // storeInstance.likesCount = 15
+    console.log(state.foo);
+  }, []);
 
   const callBack = (key, value) => {};
 
@@ -397,4 +398,15 @@ Home.getInitialProps = async function () {
 
   return data;
 };
-export default Home;
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getData: () => dispatch({ type: "getData" }),
+  };
+};
+const mapStateToProps = (state, ownProps) => {
+  return {
+    foo: state.foo,
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
