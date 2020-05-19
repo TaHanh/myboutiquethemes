@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import Swiper from "./swiper";
 import config from "../config";
 import Axios from "axios";
+import { connect } from "react-redux";
 function Aside(props) {
   return (
     <div className="widget-area">
@@ -118,5 +119,14 @@ Aside.getInitialProps = async function () {
 
   return { categories: categories };
 };
-
-export default Aside;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getData: () => dispatch({ type: "getData" }),
+  };
+};
+const mapStateToProps = (state, ownProps) => {
+  return {
+    name: state.foo,
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Aside);

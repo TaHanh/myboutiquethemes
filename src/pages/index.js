@@ -219,17 +219,34 @@ const Home = observer((props) => {
                                 item.idPost
                               }
                             >
-                              <a>
+                              <a href="#">
+                                <div
+                                  style={{
+                                    backgroundImage:
+                                      "url(" +
+                                      `${config.host.upload + item.image}` +
+                                      ")",
+                                    backgroundPosition: "center center",
+                                    backgroundSize: "cover",
+                                  }}
+                                >
+                                  <img
+                                    style={{ visibility: "hidden" }}
+                                    src={require("../static/images/f1.jpg")}
+                                  />
+                                </div>
+                              </a>
+                              {/* <a>
                                 <img
                                   className="w-100"
                                   src={require("../static/images/blush_flowers_b.jpg")}
                                 />
-                              </a>
+                              </a> */}
                             </Link>
                           </div>
                           <div className="entry-body">
                             <div className="entry-header">
-                              <h2 className="entry-title">
+                              <h2 className="entry-title max-line">
                                 <Link
                                   href={
                                     config.client.posts +
@@ -244,7 +261,7 @@ const Home = observer((props) => {
                               </h2>
                             </div>
                             <div className="entry-content">
-                              <p>{item.description}</p>
+                              <p class="max-line">{item.description}</p>
 
                               <div className="entry-meta">
                                 {item.tags &&
@@ -399,14 +416,14 @@ Home.getInitialProps = async function () {
   return data;
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getData: () => dispatch({ type: "getData" }),
-  };
-};
-const mapStateToProps = (state, ownProps) => {
-  return {
-    foo: state.foo,
-  };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     getData: () => dispatch({ type: "getData" }),
+//   };
+// };
+// const mapStateToProps = (state, ownProps) => {
+//   return {
+//     foo: state.foo,
+//   };
+// };
+export default Home;
