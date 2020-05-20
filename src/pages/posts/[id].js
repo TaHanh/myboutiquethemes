@@ -13,6 +13,7 @@ import moment from "moment";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 import reducer from "../../store/redux";
+import { getInitialDataAside } from "../../components/aside";
 function PostDetail(props) {
   const [isSearch, changeSearch] = useState(false);
   let routes = useRouter();
@@ -278,8 +279,8 @@ PostDetail.getInitialProps = async function (ctx) {
   });
 
   data = resPost && resPost.data != undefined ? resPost.data : [];
-
-  const dataa = getInitialData();
-  return { ...dataa, data: data };
+  var d = await getInitialDataAside();
+  // const dataa = getInitialData();
+  return { ...d, data: data };
 };
 export default PostDetail;

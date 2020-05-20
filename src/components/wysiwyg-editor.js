@@ -5,12 +5,14 @@ import {
   convertToRaw,
   ContentState,
   convertFromHTML,
+  CompositeDecorator,
+  Entity,
 } from "draft-js";
 import draftToHtml from "draftjs-to-html";
+import htmlToDraft from "html-to-draftjs";
 import Axios from "axios";
 import config from "../config";
 import { uploadCallback } from "../utils/upload";
-
 const WysiwygNoSSRWrapper = dynamic(
   () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
   {
@@ -18,7 +20,6 @@ const WysiwygNoSSRWrapper = dynamic(
     ssr: false,
   }
 );
-
 class WysiwygEditor extends Component {
   toolbar = {
     options: [
@@ -247,7 +248,8 @@ class WysiwygEditor extends Component {
       previewImage: false,
       inputAccept: "image/gif,image/jpeg,image/jpg,image/png,image/svg",
       uploadCallback: this.upload,
-      alt: { present: false, mandatory: true },
+      alt: { present: false, mandatory: false },
+
       defaultSize: {
         height: "auto",
         width: "auto",
@@ -269,17 +271,21 @@ class WysiwygEditor extends Component {
     this.state = { editorState: EditorState.createEmpty() };
     // console.log(this.props.content)
   }
+
   componentDidMount() {
     let value = this.props.content;
     // console.log("value", this.props.content);
     if (value && value != "") {
-      const contentState = ContentState.createFromBlockArray(
-        convertFromHTML(value)
-      );
-      const editorState = EditorState.createWithContent(contentState);
-      this.setState({
-        editorState: editorState,
-      });
+      var blockHTML = htmlToDraft(value);
+      if (blockHTML) {
+        const contentState = ContentState.createFromBlockArray(
+          blockHTML.contentBlocks
+        );
+        const editorState = EditorState.createWithContent(contentState);
+        this.setState({
+          editorState: editorState,
+        });
+      }
     }
   }
   setEditor = (editor) => {
@@ -290,10 +296,10 @@ class WysiwygEditor extends Component {
     this.setState({
       editorState,
     });
-    this.props.callBack(
-      "EDITOR",
-      draftToHtml(convertToRaw(editorState.getCurrentContent()))
-    );
+    // this.props.callBack(
+    //   "EDITOR",
+    //   draftToHtml(convertToRaw(editorState.getCurrentContent()))
+    // );
   };
   upload(file) {
     return new Promise((resolve, reject) => {
@@ -323,6 +329,8 @@ class WysiwygEditor extends Component {
 
   render() {
     const { editorState } = this.state;
+    // console.log("editorState", editorState);
+
     return (
       <div>
         <WysiwygNoSSRWrapper
@@ -332,6 +340,7 @@ class WysiwygEditor extends Component {
           editorClassName="wysiwyg-editor"
           onEditorStateChange={this.onEditorStateChange}
           toolbar={this.toolbar}
+          blockRenderMap={this.blockRenderMap}
         />
       </div>
     );

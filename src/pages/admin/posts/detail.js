@@ -64,13 +64,30 @@ function AdPostDetail(props) {
   const callBack = (key, value) => {
     switch (key) {
       case "EDITOR":
-        setData({ ...data, content: value });
+        // let newData = { ...data };
+        // let newTags = [];
+        // tags
+        //   .split(",")
+        //   .filter((item, index) => {
+        //     return item != "";
+        //   })
+        //   .forEach((item) => {
+        //     if (!newTags.includes(item)) newTags.push(item);
+        //   });
+
+        // setData({ ...data, content: value, tags: newTags });
         break;
       case "POST":
         let newData = { ...data };
-        let newTags = tags.split(",").filter((item, index) => {
-          return item != "";
-        });
+        let newTags = [];
+        tags
+          .split(",")
+          .filter((item, index) => {
+            return item != "";
+          })
+          .forEach((item) => {
+            if (!newTags.includes(item)) newTags.push(item);
+          });
 
         newData = { ...data, tags: newTags };
         setData(newData);

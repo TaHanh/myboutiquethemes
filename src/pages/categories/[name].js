@@ -156,51 +156,7 @@ const Category = (props) => {
                     diam nonumy eirmod tempor invidunt ut labore et dolore magna
                     aliquyam …
                   </p>
-                  {/* <div className='shop-the-post'>
-                    <h3>Shop this Post</h3>
-                    <div className='shop-the-post-container'>
-                      <p></p>
-                      <SwiperComponent params={params} />
-                    </div>
-                  </div> */}
-                  {/* <a
-                    className='readmore'
-                    href='https://demo.myboutiquethemes.com/blush-classic/2019/05/04/how-to-setup-a-bullet-journal/'
-                  >
-                    <button className='btn read-more'>Read more</button>
-                  </a> */}
                 </div>
-                {/* <div className='entry-footer'>
-                  <a
-                    className='comments-link'
-                    href='https://demo.myboutiquethemes.com/blush-classic/2019/05/04/how-to-setup-a-bullet-journal/#respond'
-                  >
-                    Leave a Comment
-                  </a>
-                  <div className='share'>
-                    <a
-                      href='mailto:?subject=Beauty Favorites for Summer&body=https://demo.myboutiquethemes.com/blush-classic/2019/04/29/6-business-outfits-you-already-have-in-your-wardrobe/'
-                      target='_blank'
-                    >
-                      <i class='far fa-envelope'></i>
-                    </a>
-                    <a
-                      href='http://www.facebook.com/sharer.php?u=https://demo.myboutiquethemes.com/blush-classic/2019/04/29/6-business-outfits-you-already-have-in-your-wardrobe/&t=Beauty Favorites for Summer'
-                      target='_blank'
-                    >
-                      <i class='fab fa-facebook-f'></i>
-                    </a>
-                    <a
-                      href='https://demo.myboutiquethemes.com/blush-classic/wp-content/uploads/sites/14/2019/04/blush-flowers.jpg'
-                      target='_blank'
-                    >
-                      <i class='fab fa-pinterest'></i>
-                    </a>
-                    <a href='https://twitter.com/share?text=Beauty Favorites for Summer&url=https://demo.myboutiquethemes.com/blush-classic/2019/04/29/6-business-outfits-you-already-have-in-your-wardrobe/'>
-                      <i class='fab fa-twitter'></i>
-                    </a>
-                  </div>
-                </div> */}
               </div>
               <div className="row">
                 {data &&
