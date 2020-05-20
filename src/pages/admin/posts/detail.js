@@ -1,18 +1,20 @@
-import WysiwygEditor from "../../components/wysiwyg-editor";
-import Layout from "../../components/layout";
+import WysiwygEditor from "../../../components/wysiwyg-editor";
+import Layout from "../../../components/layout";
 import { useState, useEffect } from "react";
 import Axios from "axios";
-import { uploadCallback } from "../../utils/upload";
-import config from "../../config";
-import getInitialData from "../../store/data";
+import { uploadCallback } from "../../../utils/upload";
+import config from "../../../config";
+import getInitialData from "../../../store/data";
 import MultiSelect from "@khanacademy/react-multi-select";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { state } from "../../store/redux";
-import storeInstance from "../../store/store";
-function Post(props) {
+import { state } from "../../../store/redux";
+import storeInstance from "../../../store/store";
+function AdPostDetail(props) {
   const [imgSrc, setImg] = useState("");
+  const [isLoad, setLoad] = useState(false);
   const [file, setFile] = useState("");
+  const [tags, setTag] = useState("");
   const refFile = React.createRef();
   const [data, setData] = useState({
     title: "",
@@ -27,16 +29,22 @@ function Post(props) {
   });
   const [optionComposition, setoptionComposition] = useState([]);
   const [selectedCompos, setSelectedCompos] = useState([]);
+  // console.log(props.data);
 
   useEffect(() => {
-    console.log(storeInstance.likesCount);
+    // console.log(props.data);
+
     if (props.isData) {
       const compos = props.compositions.map((item) => {
         return { ...item, label: item.name, value: item.id };
       });
       setoptionComposition(compos);
 
-      if (data.idCategory == "" && props.categories.length > 0) {
+      if (props.data.id) {
+        setData(props.data);
+        setTag(props.data.tags.join(","));
+        setImg(config.host.base + props.data.image);
+      } else if (data.idCategory == "" && props.categories.length > 0) {
         data.idCategory = props.categories[0].id;
         setData(data);
       }
@@ -59,9 +67,8 @@ function Post(props) {
         setData({ ...data, content: value });
         break;
       case "POST":
-        console.log(key, value);
         let newData = { ...data };
-        let newTags = data.tags.filter((item, index) => {
+        let newTags = tags.split(",").filter((item, index) => {
           return item != "";
         });
 
@@ -80,6 +87,7 @@ function Post(props) {
           console.log("key");
           toast.error("Bạn phải nhập đầy đủ thông tin !", { autoClose: 3000 });
         } else {
+          console.log(newData);
           post(newData);
         }
 
@@ -91,6 +99,7 @@ function Post(props) {
   const post = (value) => {
     console.log(file);
     let image = "";
+    setLoad(true);
     uploadCallback(file)
       .then((res) => {
         console.log(res);
@@ -103,9 +112,7 @@ function Post(props) {
         Axios.post(config.host.base + config.path.base.posts, dataa, {
           headers: {
             "Content-Type": "application/json",
-            Authorization:
-              "Bearer " +
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYjkyMmMzZWViYjNlM2Y4MGUxYTY1NCIsImlhdCI6MTU4OTg1NTMxNn0.uilfD8znjUSYSlBkv1vRr3vJ4LyEr6Fp4Ri8HcEg-AM",
+            Authorization: "Bearer " + config.host.token,
           },
         })
           .then((res2) => {
@@ -115,6 +122,9 @@ function Post(props) {
           .catch((e) => {
             toast.error("Đăng bài không thành công !", { autoClose: 3000 });
             console.log("Error: ", e);
+          })
+          .finally((fil) => {
+            setLoad(false);
           });
       })
       .catch((err) => {
@@ -137,6 +147,7 @@ function Post(props) {
                     type="text"
                     className="form-control"
                     multiple
+                    value={data.title}
                     onChange={(e) => {
                       setData({ ...data, title: e.target.value });
                     }}
@@ -148,6 +159,7 @@ function Post(props) {
                     type="text"
                     className="form-control"
                     multiple
+                    value={data.description}
                     onChange={(e) => {
                       setData({ ...data, description: e.target.value });
                     }}
@@ -163,10 +175,7 @@ function Post(props) {
                     className="d-none"
                   />
 
-                  <div
-                    className="border border-secondary post-image-container"
-                    title="Ảnh bài viết"
-                  >
+                  <div className="border border-secondary post-image-container">
                     {imgSrc ? (
                       <img
                         src={imgSrc}
@@ -225,9 +234,7 @@ function Post(props) {
                   options={optionComposition}
                   selected={data.compositions}
                   onSelectedChanged={(selected) => {
-                    console.log(selected);
                     setData({ ...data, compositions: selected });
-                    // setSelectedCompos(selected)
                   }}
                   overrideStrings={{
                     selectSomeItems: "Chọn ít nhất một thành phần...",
@@ -246,17 +253,42 @@ function Post(props) {
             </div>
           </div>
           <div className="row">
-            <div className="col-md-8">
+            <div className="col-12">
               <div className="mb-3">
                 <h5>Tags</h5>
+                <div className="tags row mx-0 mb-3">
+                  <span>Có thể chọn thẻ tags có sẵn: </span>
+
+                  {props.tags &&
+                    props.tags.map((t, i) => {
+                      return (
+                        <button
+                          type="button"
+                          class="badge  btn-outline-primary ml-3"
+                          onClick={() => {
+                            let newTags = "";
+                            if (tags != "") {
+                              newTags = tags + "," + t;
+                            } else {
+                              newTags = t + ",";
+                            }
+
+                            setTag(newTags);
+                          }}
+                        >
+                          {t}
+                        </button>
+                      );
+                    })}
+                </div>
                 <input
                   type="text"
                   className="form-control"
                   multiple
                   placeholder="Ví dụ nhập tags: Mụn,Dầu,Da Khô"
-                  value={data.tags.join(",")}
+                  value={tags}
                   onChange={(e) => {
-                    setData({ ...data, tags: e.target.value.split(",") });
+                    setTag(e.target.value);
                   }}
                 />
               </div>
@@ -264,16 +296,31 @@ function Post(props) {
           </div>
           <div>
             <h5 className="mb-3">Nội dung bài viết</h5>
-            <WysiwygEditor callBack={callBack} valueTxt={data.description} />
+            {data.content}
+            <WysiwygEditor callBack={callBack} content={data.content} />
           </div>
           <div className="row justify-content-center pt-5 mx-0">
-            <button
-              type="button"
-              class="btn btn-danger text-uppercase font-weight-bold"
-              onClick={() => callBack("POST", data)}
-            >
-              Đăng bài
-            </button>
+            {isLoad ? (
+              <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            ) : data.id ? (
+              <button
+                type="button"
+                class="btn btn-danger text-uppercase font-weight-bold"
+                onClick={() => callBack("POST", data)}
+              >
+                Cập nhật bài viết
+              </button>
+            ) : (
+              <button
+                type="button"
+                class="btn btn-danger text-uppercase font-weight-bold"
+                onClick={() => callBack("POST", data)}
+              >
+                Đăng bài
+              </button>
+            )}
           </div>
         </div>
       ) : (
@@ -285,12 +332,23 @@ function Post(props) {
   );
 }
 
-Post.getInitialProps = async function () {
-  const data = await getInitialData();
-  if (data.categories.length == 0 && data.compositions.length == 0) {
+AdPostDetail.getInitialProps = async function (ctx) {
+  const { req, res, query } = ctx;
+  let dataPost = {};
+
+  if (query.id) {
+    let resPost = await Axios.get(
+      config.host.base + config.path.base.posts + "/" + query.id
+    ).catch((e) => {
+      console.log("Error: ", e.response);
+    });
+    dataPost = resPost && resPost.data != undefined ? resPost.data : [];
+  }
+  const dataa = await getInitialData();
+  if (dataa.categories.length == 0 && dataa.compositions.length == 0) {
     return { isData: false };
   }
-  return { ...data, isData: true };
+  return { ...dataa, isData: true, data: dataPost };
 };
 
-export default Post;
+export default AdPostDetail;

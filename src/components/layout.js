@@ -35,7 +35,7 @@ export default ({ children, title = 'title' }) => {
         <title>{title}</title>
       </Head>
       <Header callBack={callBack} />
-      <div style={{ height: '50px' }}></div>
+      <div style={{ height: '60px' }}></div>
       <main>
         <div className='content-area'>{children}</div>
       </main>

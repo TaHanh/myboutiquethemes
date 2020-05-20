@@ -150,6 +150,7 @@ export async function getInitialDataAside() {
     (resCompos && resCompos.data) != undefined ? resCompos.data : [];
   console.log(compositions);
 
-  return { categories: categories, compositions: compositions };
+  return { compositions: compositions, categories: categories };
 }
+
 export default Aside;

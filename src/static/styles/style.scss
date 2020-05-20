@@ -90,14 +90,14 @@ body {
     color: #ffe1de;
     border-color: #ffe1de;
   }
-  .max-line{
+  .max-line {
     overflow: hidden;
-   text-overflow: ellipsis;
-   display: -webkit-box;
-   line-height: 16px !important;     /* fallback */
-   height: 32px;      /* fallback */
-   -webkit-line-clamp: 2; /* number of lines to show */
-   -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    // line-height: 18px !important; /* fallback */
+    //  height: 36px;      /* fallback */
+    -webkit-line-clamp: 2; /* number of lines to show */
+    -webkit-box-orient: vertical;
   }
 }
 
@@ -358,7 +358,8 @@ footer {
   .social-media-widget,
   .widget_text,
   .featured-post-widget,
-  .nav-menu {
+  .nav-menu,
+  .category {
     margin: 2em auto 4em;
     padding: 0 0 2em;
   }
@@ -445,7 +446,6 @@ footer {
   }
   .category {
     padding: 30px;
-    margin: 2em auto;
     background-color: #ffe1de;
     color: #222222;
     .widget-title {
@@ -654,7 +654,84 @@ footer {
     }
   }
 }
+.readmore {
+  display: inline-block;
 
+  .read-more {
+    border: 1px solid #222222;
+    background: transparent;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.8);
+    padding: 0.85em 1.25em 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    border-radius: 0;
+    font-size: 1em;
+    &:hover {
+      color: #ffffff;
+      background-color: #222222;
+      .read-more {
+        color: #ffffff;
+      }
+    }
+  }
+}
+.card-post {
+  margin-bottom: 3.5em;
+  .card-entry-thumbnail {
+    padding: 1em;
+  }
+  .card-entry-body {
+    padding: 1.25em 1em 2em;
+    display: inline-block;
+    text-align: center;
+    border-bottom: 1px solid #dddddd;
+    width: 100%;
+    .card-entry-header {
+      .card-entry-title {
+        line-height: 1.5em;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        font-size: 1.35em;
+        height: 3em;
+        margin: 0;
+        @media (min-width: 50em) {
+          font-size: 1.25em;
+        }
+        @media (min-width: 65em) {
+          font-size: 1.35em;
+        }
+      }
+    }
+    .card-entry-content {
+      color: #111111;
+      .card-entry-meta {
+        margin-bottom: 1em;
+        padding: 0.65em 1em;
+        width: auto;
+        // display: inline-block;
+        text-transform: uppercase;
+        font-weight: 600;
+        font-size: 0.65em;
+        color: #222222;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        margin-bottom: 1.5em;
+        line-height: 1.5em;
+      }
+      p {
+        height: 2.4em;
+        line-height: 1.2em;
+        margin: 1em auto 1em;
+        font-size: 15px;
+      }
+      .readmore {
+        font-size: 12px;
+      }
+    }
+  }
+}
 .multi-select {
   .dropdown-content {
     z-index: 100 !important;

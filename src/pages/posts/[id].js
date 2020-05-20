@@ -44,12 +44,12 @@ function PostDetail(props) {
         <div className="row">
           <div className="col-lg-8">
             <div className="site-main">
-              <div className="entry-thumbnail">
+              <div className="detail-entry-thumbnail">
                 {/* <img src={require('../../static/images/blush_flowers.jpg')} /> */}
                 <img src={config.host.upload + props.data.image} />
               </div>
-              <div className="entry-header">
-                <div className="entry-meta">
+              <div className="detail-post-header">
+                <div className="detail-post-entry-meta">
                   <span className="cat-links">
                     {props.data.tags &&
                       props.data.tags.map((item, index) => {
@@ -72,30 +72,14 @@ function PostDetail(props) {
                     {/* </a> */}
                   </span>
                 </div>
-                <h1 className="entry-title">{props.data.title}</h1>
+                <h1 className="detail-post-entry-title">{props.data.title}</h1>
               </div>
-              <div className="entry-content">
-                {/* <p>{props.data.content}</p> */}
-
+              <div className="detail-post-entry-content">
                 <div
                   dangerouslySetInnerHTML={{ __html: props.data.content }}
                 ></div>
-
-                {/* <div className='shop-the-post-widget'>
-                  <h3>Shop this Post</h3>
-                  <span>There are no widgets defined for this post.</span>
-                </div>
-                <h2>Lorem ipsum dolor sit amet</h2>
-                <p>
-                  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-                  labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-                  et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem
-                  ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-                  dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-                  rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-                </p> */}
               </div>
-              <div className="entry-footer">
+              <div className="detail-post-entry-footer">
                 <div className="share">
                   <img src={require("../../static/images/share_post.png")} />
                   {/* <h4>Share this Post</h4> */}
@@ -285,6 +269,7 @@ function PostDetail(props) {
 PostDetail.getInitialProps = async function (ctx) {
   const { req, res, query } = ctx;
   let data = {};
+  console.log(config.host.base + config.path.base.posts + "/" + query.id);
   let resPost = await Axios.get(
     config.host.base + config.path.base.posts + "/" + query.id
   ).catch((e) => {
@@ -294,7 +279,7 @@ PostDetail.getInitialProps = async function (ctx) {
 
   data = resPost && resPost.data != undefined ? resPost.data : [];
 
-  const dataa = await getInitialData();
-  return { ...dataa, data };
+  const dataa = getInitialData();
+  return { ...dataa, data: data };
 };
 export default PostDetail;

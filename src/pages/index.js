@@ -14,7 +14,9 @@ import { state } from "../store/redux";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 import reducer from "../store/redux";
-let limit = 2;
+import { convertTitle } from "../utils/convert";
+import Router from "next/router";
+let limit = 6;
 // @inject("store");
 
 const Home = (props) => {
@@ -23,11 +25,11 @@ const Home = (props) => {
   const [isLoadBtn, setLoadBtn] = useState(true);
   const [page, setPage] = useState(1);
 
-  // useEffect(() => {
-  //   // setData(props.posts)
-  //   // storeInstance.likesCount = 15
-  //   console.log(state.foo);
-  // }, []);
+  useEffect(() => {
+    //   // setData(props.posts)
+    //   // storeInstance.likesCount = 15
+    //   console.log(state.foo);
+  }, []);
 
   const callBack = (key, value) => {};
   const loadMore = () => {
@@ -46,6 +48,9 @@ const Home = (props) => {
         if (res.data.length > 0) {
           const newData = data.concat(res.data);
           setData(newData);
+          if (res.data.length < limit) {
+            setLoadBtn(false);
+          }
         } else {
           setLoadBtn(false);
         }
@@ -57,25 +62,7 @@ const Home = (props) => {
         setLoad(false);
       });
   };
-  const convertTitle = (str) => {
-    str = str.toLowerCase();
-    str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
-    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
-    str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
-    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
-    str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
-    str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
-    str = str.replace(/đ/g, "d");
-    str = str.replace(
-      /!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g,
-      " "
-    );
-    str = str.replace(/ + /g, " ");
-    str = str.trim();
-    str = str.replace(/ /g, "-");
 
-    return str;
-  };
   const postUser = () => {
     axios
       .get("http://localhost:3000/api/user/5eb3e4674c407c266cad309c")
@@ -85,44 +72,7 @@ const Home = (props) => {
       .catch(function (error) {
         console.log(error);
       });
-    // axios
-    //   .post('http://localhost:3000/api/user', {
-    //     role: 'user',
-    //     name: 'Nguyễn Văn Hạnh',
-    //     email: 'hanh@mail.com',
-    //     password: 'hanh123',
-    //     username: 'hanh123',
-    //   })
-    //   .then(function (response) {
-    //     console.log(response)
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error)
-    //   })
-    // axios
-    //   .put('http://localhost:3000/api/user/5eb26679a735a65714fab608', {
-    //     role: 'user',
-    //     name: 'Nguyễn Văn',
-    //     email: 'hanh@mail.com',
-    //     password: 'hanh123',
-    //     username: 'hanh123',
-    //   })
-    //   .then(function (response) {
-    //     console.log(response)
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error)
-    //   })
-    // axios
-    //   .delete('http://localhost:3000/api/user/5eb26679a735a65714fab608')
-    //   .then(function (response) {
-    //     console.log(response)
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error)
-    //   })
   };
-  // console.log("props", props);
 
   return (
     <Layout title={"Blush"}>
@@ -135,12 +85,12 @@ const Home = (props) => {
         <div className="row">
           <div className="col-lg-8">
             <div className="site-main">
-              <div className="entry-thumbnail" onClick={() => postUser()}>
+              <div className="home-entry-thumbnail" onClick={() => postUser()}>
                 <img src={require("../static/images/the_tonik_b.jpg")} />
               </div>
-              <div className="entry-body">
-                <div className="entry-header">
-                  <div className="entry-meta">
+              <div className="home-entry-body">
+                <div className="home-entry-header">
+                  <div className="home-entry-meta">
                     <a href="https://demo.myboutiquethemes.com/blush-classic/category/lifestyle/">
                       LIFESTYLE
                     </a>
@@ -150,11 +100,11 @@ const Home = (props) => {
                       TRAVEL
                     </a>
                   </div>
-                  <h1 className="entry-title">
+                  <h1 className="home-entry-title">
                     WHAT I LEARNT FROM BLOGGING IN THE LAST 5 YEARS
                   </h1>
                 </div>
-                <div className="entry-content">
+                <div className="home-entry-content">
                   <p>
                     Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
                     diam nonumy eirmod tempor invidunt ut labore et dolore magna
@@ -174,7 +124,7 @@ const Home = (props) => {
                     <button className='btn read-more'>Read more</button>
                   </a> */}
                 </div>
-                {/* <div className='entry-footer'>
+                {/* <div className='home-entry-footer'>
                   <a
                     className='comments-link'
                     href='https://demo.myboutiquethemes.com/blush-classic/2019/05/04/how-to-setup-a-bullet-journal/#respond'
@@ -211,8 +161,8 @@ const Home = (props) => {
                   data.map((item, index) => {
                     return (
                       <div className="col-md-6 col-12">
-                        <div className="small">
-                          <div className="entry-thumbnail">
+                        <div className="card-post">
+                          <div className="card-entry-thumbnail">
                             <Link
                               href={
                                 config.client.posts +
@@ -222,7 +172,7 @@ const Home = (props) => {
                                 item.idPost
                               }
                             >
-                              <a href="#">
+                              <a>
                                 <div
                                   style={{
                                     backgroundImage:
@@ -239,17 +189,11 @@ const Home = (props) => {
                                   />
                                 </div>
                               </a>
-                              {/* <a>
-                                <img
-                                  className="w-100"
-                                  src={require("../static/images/blush_flowers_b.jpg")}
-                                />
-                              </a> */}
                             </Link>
                           </div>
-                          <div className="entry-body">
-                            <div className="entry-header">
-                              <h2 className="entry-title max-line">
+                          <div className="card-entry-body">
+                            <div className="card-entry-header">
+                              <h2 className="card-entry-title max-line">
                                 <Link
                                   href={
                                     config.client.posts +
@@ -263,19 +207,21 @@ const Home = (props) => {
                                 </Link>
                               </h2>
                             </div>
-                            <div className="entry-content">
+                            <div className="card-entry-content">
                               <p class="max-line">{item.description}</p>
 
-                              <div className="entry-meta">
+                              <div className="card-entry-meta">
                                 {item.tags &&
                                   item.tags.map((e, i) => {
                                     return (
-                                      <a href={"/" + e}>
-                                        {e}{" "}
-                                        {i != item.tags.length - 1
-                                          ? ", "
-                                          : null}
-                                      </a>
+                                      <Link href={config.client.tags + e}>
+                                        <a>
+                                          {e}{" "}
+                                          {i != item.tags.length - 1
+                                            ? ", "
+                                            : null}
+                                        </a>
+                                      </Link>
                                     );
                                   })}
                               </div>

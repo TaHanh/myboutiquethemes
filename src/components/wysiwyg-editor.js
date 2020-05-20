@@ -247,7 +247,7 @@ class WysiwygEditor extends Component {
       previewImage: false,
       inputAccept: "image/gif,image/jpeg,image/jpg,image/png,image/svg",
       uploadCallback: this.upload,
-      alt: { present: false, mandatory: false },
+      alt: { present: false, mandatory: true },
       defaultSize: {
         height: "auto",
         width: "auto",
@@ -265,10 +265,13 @@ class WysiwygEditor extends Component {
 
   constructor(props) {
     super(props);
+    console.log("props", this.props);
     this.state = { editorState: EditorState.createEmpty() };
+    // console.log(this.props.content)
   }
   componentDidMount() {
-    let value = this.props.valueTxt;
+    let value = this.props.content;
+    // console.log("value", this.props.content);
     if (value && value != "") {
       const contentState = ContentState.createFromBlockArray(
         convertFromHTML(value)
@@ -309,7 +312,7 @@ class WysiwygEditor extends Component {
         .then((res) => {
           console.log(res);
           resolve({
-            data: { link: config.host.upload + "/" + res.data.imageLink },
+            data: { link: config.host.upload + res.data.imageLink },
           });
         })
         .catch((err) => {

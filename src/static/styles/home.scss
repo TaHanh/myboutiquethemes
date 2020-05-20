@@ -1,37 +1,16 @@
-.readmore {
-  display: inline-block;
-
-  .read-more {
-    border: 1px solid #222222;
-    background: transparent;
-    line-height: 1;
-    color: rgba(0, 0, 0, 0.8);
-    padding: 0.85em 1.25em 0.75em;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    border-radius: 0;
-    font-size: 1em;
-    &:hover {
-      color: #ffffff;
-      background-color: #222222;
-      .read-more {
-        color: #ffffff;
-      }
-    }
-  }
-}
-.entry-body {
+.home-entry-body {
   padding: 0 0 1em;
   text-align: center;
   border-bottom: 1px solid #dddddd;
   margin: 2em auto 3.5em;
-  .entry-header {
-    
-    .entry-title {
+  width: 100%;
+  .home-entry-header {
+    .home-entry-title {
       line-height: 1.5em;
       text-transform: uppercase;
       letter-spacing: 0.04em;
       font-size: 1.5em;
+      margin: 0.2em auto 0.5em;
       @media (min-width: 50em) {
         font-size: 1.75em;
       }
@@ -40,11 +19,10 @@
       }
     }
   }
-  .entry-content {
+  .home-entry-content {
     color: #111111;
     line-height: 1.5em;
-    margin: 1em auto 0;
-    .entry-meta {
+    .home-entry-meta {
       font-family: 'Quattrocento Sans', Montserrat, Arial;
       margin-bottom: 1em;
       padding: 0.65em 1em;
@@ -55,12 +33,11 @@
       font-size: 0.85em;
       color: #222222;
       text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-
+      overflow: hidden;
+      white-space: nowrap;
     }
     p {
-      margin: 1em auto;
+      margin: 1em auto 1.5em;
     }
     .shop-the-post {
       border-color: #ffe1de;
@@ -76,7 +53,7 @@
       }
     }
   }
-  .entry-footer {
+  .home-entry-footer {
     margin-top: 3em;
     display: flex;
     justify-content: space-between;
@@ -95,45 +72,7 @@
     }
   }
 }
-.small {
-  margin-bottom: 3.5em;
 
-  .entry-thumbnail {
-  }
-  .entry-body {
-    padding: 1em 1em 0.25em;
-    border-bottom: 1px solid #dddddd;
-    margin: 1em auto 2em;
-    text-align: center;
-    display: inline-block;
-    width: 100%;
-    .entry-header {
-      .entry-meta {
-        margin-bottom: 1.5em;
-      }
-      .entry-title {
-        font-size: 1.5em;
-        @media (min-width: 50em) {
-          font-size: 1.35em;
-        }
-        @media (min-width: 65em) {
-          font-size: 1.45em;
-        }
-      }
-    }
-    .entry-content {
-      margin: 0 0 1.5em 0;
-      color: #111111;
-      line-height: 1.5em;
-      p {
-        margin: 1em 0 1.5em;
-      }
-      .readmore {
-        margin: 1.2em auto 0;
-      }
-    }
-  }
-}
 .after-content-home {
   margin: 3.5em auto;
 
