@@ -15,9 +15,9 @@ import { connect } from "react-redux";
 function PostDetail(props) {
   const [isSearch, changeSearch] = useState(false);
   let routes = useRouter();
-  useEffect(() => {
-    console.log(props.data);
-  }, []);
+  // useEffect(() => {
+  //   console.log(props.data);
+  // }, []);
 
   const callBack = (key, value) => {
     console.log(key, value);
@@ -78,7 +78,12 @@ function PostDetail(props) {
                 <h1 className="entry-title">{props.data.title}</h1>
               </div>
               <div className="entry-content">
-                <p dangerouslySetInnerHTML={{ __html: props.data.content }}></p>
+                {/* <p>{props.data.content}</p> */}
+
+                <div
+                  dangerouslySetInnerHTML={{ __html: props.data.content }}
+                ></div>
+
                 {/* <div className='shop-the-post-widget'>
                   <h3>Shop this Post</h3>
                   <span>There are no widgets defined for this post.</span>
@@ -292,4 +297,4 @@ PostDetail.getInitialProps = async function (ctx) {
   const dataa = getInitialData();
   return { ...dataa, data: data };
 };
-export default connect()(PostDetail);
+export default PostDetail;

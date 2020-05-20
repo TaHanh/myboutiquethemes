@@ -2,8 +2,9 @@ import App from "next/app";
 import React from "react";
 import { createStore } from "redux";
 import { Provider, connect } from "react-redux";
-import withRedux from "next-redux-wrapper";
 import reducer from "../store/redux";
+
+import withRedux from "next-redux-wrapper";
 import storeInstance from "../store/store";
 let store = createStore(reducer);
 
@@ -19,9 +20,9 @@ class MyApp extends App {
   render() {
     const { Component, pageProps } = this.props;
     return (
-      <Provider store={store}>
-        <Component {...pageProps} />
-      </Provider>
+      // <Provider store={store}>
+      <Component {...pageProps} />
+      // </Provider>
     );
   }
 }

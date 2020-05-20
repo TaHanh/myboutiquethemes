@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import { createStore } from "redux";
 import { createWrapper } from "next-redux-wrapper";
 
-const INITIAL_STATE = {
-  foo: 1,
+var INITIAL_STATE = {
+  categories: [],
+  compositions: [],
+  posts: [],
 };
 
 export default function reducer(state = INITIAL_STATE, action) {

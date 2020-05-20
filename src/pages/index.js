@@ -7,27 +7,30 @@ import fetch from "isomorphic-unfetch";
 import Link from "next/link";
 import config from "../config";
 import Axios from "axios";
-import { connect } from "react-redux";
 import getInitialData from "../store/data";
-import { observer, inject } from "mobx-react";
+// import { observer, inject, Provider } from "mobx-react";
 import storeInstance from "../store/store";
 import { state } from "../store/redux";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import reducer from "../store/redux";
 let limit = 2;
 // @inject("store");
 
-const Home = observer((props) => {
+const Home = (props) => {
   const [data, setData] = useState(props.posts);
   const [isLoad, setLoad] = useState(false);
   const [isLoadBtn, setLoadBtn] = useState(true);
   const [page, setPage] = useState(1);
 
-  useEffect(() => {
-    // setData(props.posts)
-    // storeInstance.likesCount = 15
-    console.log(state.foo);
-  }, []);
+  // useEffect(() => {
+  //   // setData(props.posts)
+  //   // storeInstance.likesCount = 15
+  //   console.log(state.foo);
+  // }, []);
 
   const callBack = (key, value) => {};
+  console.log(props);
 
   const loadMore = () => {
     setLoad(true);
@@ -121,6 +124,8 @@ const Home = observer((props) => {
     //     console.log(error)
     //   })
   };
+  // console.log("props", props);
+
   return (
     <Layout title={"Blush"}>
       <div className="site-branding">
@@ -319,10 +324,9 @@ const Home = observer((props) => {
             </div>
           </div>
           <div className="col-lg-4">
-            <Aside
-              categories={props.categories}
-              compositions={props.compositions}
-            />
+            <Provider store={createStore(reducer)}>
+              <Aside />
+            </Provider>
           </div>
         </div>
       </div>
@@ -408,7 +412,7 @@ const Home = observer((props) => {
       </div>
     </Layout>
   );
-});
+};
 
 Home.getInitialProps = async function () {
   const data = getInitialData();

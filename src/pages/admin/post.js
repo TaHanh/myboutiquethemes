@@ -110,7 +110,7 @@ function Post(props) {
         })
           .then((res2) => {
             console.log(res2);
-            toast.success("Success !", { autoClose: 3000 });
+            toast.success("Thêm bài thành công!", { autoClose: 3000 });
           })
           .catch((e) => {
             toast.error("Đăng bài không thành công !", { autoClose: 3000 });
