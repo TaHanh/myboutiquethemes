@@ -1,23 +1,19 @@
-import Layout from "../components/layout";
-import "../static/styles/home.scss";
-import Aside from "../components/aside";
+import Layout from "../../components/layout";
+import "../../static/styles/home.scss";
+import Aside from "../../components/aside";
 import Swiper from "react-id-swiper";
 import { useState, useEffect } from "react";
 import fetch from "isomorphic-unfetch";
 import Link from "next/link";
-import config from "../config";
+import config from "../../config";
 import Axios from "axios";
-import getInitialData from "../store/data";
+import getInitialData from "../../store/data";
 // import { observer, inject, Provider } from "mobx-react";
-import storeInstance from "../store/store";
-import { state } from "../store/redux";
-import { createStore } from "redux";
-import { Provider } from "react-redux";
-import reducer from "../store/redux";
+import { getInitialDataAside } from "../../components/aside";
 let limit = 2;
 // @inject("store");
 
-const Home = (props) => {
+const Category = (props) => {
   const [data, setData] = useState(props.posts);
   const [isLoad, setLoad] = useState(false);
   const [isLoadBtn, setLoadBtn] = useState(true);
@@ -128,7 +124,7 @@ const Home = (props) => {
     <Layout title={"Blush"}>
       <div className="site-branding">
         <Link href="/blush-classic">
-          <img src={require("../static/images/blush_title.png")} />
+          <img src={require("../../static/images/blush_title.png")} />
         </Link>
       </div>
       <div className="site-content">
@@ -136,7 +132,7 @@ const Home = (props) => {
           <div className="col-lg-8">
             <div className="site-main">
               <div className="entry-thumbnail" onClick={() => postUser()}>
-                <img src={require("../static/images/the_tonik_b.jpg")} />
+                <img src={require("../../static/images/the_tonik_b.jpg")} />
               </div>
               <div className="entry-body">
                 <div className="entry-header">
@@ -235,14 +231,14 @@ const Home = (props) => {
                                 >
                                   <img
                                     style={{ visibility: "hidden" }}
-                                    src={require("../static/images/f1.jpg")}
+                                    src={require("../../static/images/f1.jpg")}
                                   />
                                 </div>
                               </a>
                               {/* <a>
                                 <img
                                   className="w-100"
-                                  src={require("../static/images/blush_flowers_b.jpg")}
+                                  src={require("../../static/images/blush_flowers_b.jpg")}
                                 />
                               </a> */}
                             </Link>
@@ -329,7 +325,7 @@ const Home = (props) => {
           </div>
         </div>
       </div>
-      <div className="after-content-home">
+      <div className="after-content-Category">
         <h2 class="widgettitle">Follow my Youtube Journey</h2>
         <div className="youtube-gallery">
           <div className="row">
@@ -344,12 +340,12 @@ const Home = (props) => {
                   <div class="youtube-thumb">
                     <img
                       className="w-100"
-                      src={require("../static/images/yt1.jpg")}
+                      src={require("../../static/images/yt1.jpg")}
                       alt="CHANGE YOUR APPEARANCE with LOA &amp; Self-Love"
                     />
                     <img
                       className="icon"
-                      src={require("../static/images/ic_play_red.png")}
+                      src={require("../../static/images/ic_play_red.png")}
                     />
                   </div>
                   <h3 class="video-title">
@@ -369,12 +365,12 @@ const Home = (props) => {
                   <div class="youtube-thumb">
                     <img
                       className="w-100"
-                      src={require("../static/images/yt2.jpg")}
+                      src={require("../../static/images/yt2.jpg")}
                       alt="CHANGE YOUR APPEARANCE with LOA &amp; Self-Love"
                     />
                     <img
                       className="icon"
-                      src={require("../static/images/ic_play_red.png")}
+                      src={require("../../static/images/ic_play_red.png")}
                     />
                   </div>
                   <h3 class="video-title">
@@ -394,12 +390,12 @@ const Home = (props) => {
                   <div class="youtube-thumb">
                     <img
                       className="w-100"
-                      src={require("../static/images/yt3.jpg")}
+                      src={require("../../static/images/yt3.jpg")}
                       alt="CHANGE YOUR APPEARANCE with LOA &amp; Self-Love"
                     />
                     <img
                       className="icon"
-                      src={require("../static/images/ic_play_red.png")}
+                      src={require("../../static/images/ic_play_red.png")}
                     />
                   </div>
                   <h3 class="video-title">VIPASSANA: One Year Later...</h3>
@@ -413,7 +409,18 @@ const Home = (props) => {
   );
 };
 
-Home.getInitialProps = async function () {
-  return await getInitialData();
+Category.getInitialProps = async function (ctx) {
+  let { req, res, query } = ctx;
+  console.log(query.name);
+  let posts = [];
+  let resPost = await Axios.get(
+    config.host.base + config.path.base.categories + "/posts/" + query.name
+  ).catch((e) => {
+    console.log("Error: ", e.code);
+  });
+  posts = resPost && resPost.data != undefined ? resPost.data : [];
+  console.log(posts.length);
+  let d = await getInitialDataAside();
+  return { ...d, posts: posts };
 };
-export default Home;
+export default Category;

@@ -2,6 +2,7 @@ import Axios from "axios";
 import config from "../config";
 const limit = 6;
 import { state } from "./redux";
+import { getInitialDataAside } from "../components/aside";
 export default async function getInitialData() {
   let posts = [];
   let categories = [];
@@ -21,15 +22,10 @@ export default async function getInitialData() {
   let resCompos = await Axios.get(
     config.host.base + config.path.base.compositions
   ).catch((e) => console.log("Error: ", e.code));
-
   posts = resPost && resPost.data != undefined ? resPost.data : [];
   categories = resCate && resCate.data != undefined ? resCate.data : [];
   compositions =
     (resCompos && resCompos.data) != undefined ? resCompos.data : [];
-  console.log("state-" + state.categories);
-
-  state.posts = posts;
-  state.compositions = compositions;
-  state.categories = categories;
+  var d = await getInitialDataAside();
   return { posts: posts, categories: categories, compositions: compositions };
 }

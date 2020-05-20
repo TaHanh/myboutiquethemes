@@ -9,16 +9,13 @@ import config from "../../config";
 import getInitialData from "../../store/data";
 import Axios from "axios";
 import moment from "moment";
-import { state } from "../../store/redux";
-import { connect } from "react-redux";
-
+// import { Provider } from "mobx-react";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import reducer from "../../store/redux";
 function PostDetail(props) {
   const [isSearch, changeSearch] = useState(false);
   let routes = useRouter();
-  // useEffect(() => {
-  //   console.log(props.data);
-  // }, []);
-
   const callBack = (key, value) => {
     console.log(key, value);
     switch (key) {
@@ -275,7 +272,10 @@ function PostDetail(props) {
             </div>
           </div>
           <div className="col-lg-4">
-            <Aside />
+            <Aside
+              categories={props.categories}
+              compositions={props.compositions}
+            />
           </div>
         </div>
       </div>
@@ -294,7 +294,7 @@ PostDetail.getInitialProps = async function (ctx) {
 
   data = resPost && resPost.data != undefined ? resPost.data : [];
 
-  const dataa = getInitialData();
-  return { ...dataa, data: data };
+  const dataa = await getInitialData();
+  return { ...dataa, data };
 };
 export default PostDetail;
