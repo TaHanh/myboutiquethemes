@@ -1,9 +1,9 @@
-import Layout from '../../components/layout'
+import Layout from '../../../components/layout'
 import { useState, useEffect, useRef } from 'react'
 import Axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import config from '../../config'
+import config from '../../../config'
 import '../../static/styles/composition.scss'
 
 function Composition(props) {
@@ -42,7 +42,16 @@ function Composition(props) {
         break
       case 'DELETE':
         setLoad(true)
-        Axios.delete(config.host.base + config.path.base.compositions + value.item.id)
+        Axios.delete(
+          config.host.base + config.path.base.compositions + '/' + value.item.id,
+          {},
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: 'Bearer ' + config.host.token,
+            },
+          }
+        )
           .then((res) => {
             data.splice(value.index, 1)
             setData(data)
