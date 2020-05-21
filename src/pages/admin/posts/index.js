@@ -10,19 +10,51 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from '../../../store/redux'
 import { convertTitle } from '../../../utils/convert'
-
+const limit = 20
 const Tags = (props) => {
   const [data, setData] = useState(props.data)
   const [isLoad, setLoad] = useState(false)
   const [isLoadBtn, setLoadBtn] = useState(true)
   const [page, setPage] = useState(1)
-
   useEffect(() => {}, [])
 
+  const loadMore = () => {
+    setLoad(true)
+    let pageNew = page + 1
+    setPage(pageNew)
+    Axios.get(config.host.base + config.path.base.posts + '?page=1&&limit=' + limit)
+      .then((res) => {
+        if (res.data.length > 0) {
+          const newData = data.concat(res.data)
+          setData(newData)
+          if (res.data.length < limit) {
+            setLoadBtn(false)
+          }
+        } else {
+          setLoadBtn(false)
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+      .finally((fil) => {
+        setLoad(false)
+      })
+  }
   return (
     <Layout title={'Blush'}>
       <div className='site-content'>
         <div className='site-main'>
+          <div className='row justify-content-end mx-3 mb-3'>
+            <Link href={config.client.adminPostDetail}>
+              <a>
+                <button className='btn btn-primary btn-lg rounded-circle' title='Tạo bài viết'>
+                  {/* <i class='fas fa-edit'></i> */}
+                  <i class='fas fa-pen'></i>
+                </button>
+              </a>
+            </Link>
+          </div>
           <div className='row'>
             {data &&
               data.map((item, index) => {
@@ -81,6 +113,22 @@ const Tags = (props) => {
                 )
               })}
           </div>
+
+          <div className='row justify-content-center'>
+            {isLoadBtn ? (
+              isLoad ? (
+                <div class='spinner-border text-primary' role='status'>
+                  <span class='sr-only'>Loading...</span>
+                </div>
+              ) : (
+                <div className='readmore'>
+                  <button className='btn read-more' onClick={() => loadMore()}>
+                    read more
+                  </button>
+                </div>
+              )
+            ) : null}
+          </div>
         </div>
       </div>
     </Layout>
@@ -90,14 +138,13 @@ const Tags = (props) => {
 Tags.getInitialProps = async function (ctx) {
   const { req, res, query } = ctx
   let data = {}
-  let resTag = await Axios.get(config.host.base + config.path.base.tags + '/Tags').catch((e) => {
+  let resPost = await Axios.get(config.host.base + config.path.base.posts + '?page=1&&limit=' + limit).catch((e) => {
     console.log('Error: ', e.code)
   })
-  console.log(resTag.data)
-  data = resTag && resTag.data != undefined ? resTag.data : []
 
-  const dataa = getInitialData()
-  return { ...dataa, data: data }
+  data = resPost && resPost.data != undefined ? resPost.data : []
+
+  return { data: data }
 }
 
 export default Tags

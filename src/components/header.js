@@ -51,7 +51,11 @@ export default function Header(props) {
                 <a class='nav-link'>Thành phần</a>
               </Link>
             </li>
-
+            <li class='nav-item'>
+              <Link href={config.client.adminCategories}>
+                <a class='nav-link'>Danh mục</a>
+              </Link>
+            </li>
             <li class='nav-item'>
               <a class='nav-link d-lg-block d-none'>
                 Page Templates <i class='fas fa-angle-down'></i>

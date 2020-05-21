@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import config from '../../config'
 import '../../static/styles/login.scss'
 import Router from 'next/router'
+import Cookies from 'universal-cookie'
 
 function Login(props) {
   const [data, setData] = useState({
@@ -14,6 +15,7 @@ function Login(props) {
     access_token: config.host.access_token,
     role: 'admin',
   })
+  const cookies = new Cookies()
 
   useEffect(() => {}, [])
 
@@ -32,8 +34,8 @@ function Login(props) {
     )
       .then((res) => {
         console.log(res.data)
-
-        Router.push('/')
+        cookies.set('user', res.data, { path: '/', maxAge: 604800 })
+        // Router.push('/')
       })
       .catch((err) => {
         console.log(err)

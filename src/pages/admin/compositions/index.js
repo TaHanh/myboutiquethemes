@@ -4,7 +4,7 @@ import Axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import config from '../../../config'
-import '../../static/styles/composition.scss'
+import '../../../static/styles/composition.scss'
 
 function Composition(props) {
   const [data, setData] = useState([])
@@ -23,10 +23,10 @@ function Composition(props) {
             name: value,
           })
             .then((res) => {
-              const newArr = data.unshift(res.data)
-              setData(newArr)
-              console.log('POST_COMPOSITON', res)
+              data.unshift(res.data)
+              setData(data)
               toast.success('Success !', { autoClose: 3000 })
+              setValue('')
             })
             .catch((err) => {
               console.log('POST_COMPOSITON', err)
@@ -44,13 +44,18 @@ function Composition(props) {
         setLoad(true)
         Axios.delete(
           config.host.base + config.path.base.compositions + '/' + value.item.id,
-          {},
           {
             headers: {
               'Content-Type': 'application/json',
               Authorization: 'Bearer ' + config.host.token,
             },
           }
+          // {
+          //   headers: {
+          //     'Content-Type': 'application/json',
+          //     Authorization: 'Bearer ' + config.host.token,
+          //   },
+          // }
         )
           .then((res) => {
             data.splice(value.index, 1)
@@ -78,8 +83,8 @@ function Composition(props) {
     <Layout title={'Thành phần'}>
       <div className='composition px-md-4 px-3'>
         <div className='py-md-5 pb-5'>
-          <div className='row'>
-            <div className='col-12'>
+          <div className='row align-items-end'>
+            <div className='col-9'>
               <h5>Thành phần</h5>
               <input
                 type='text'
@@ -96,11 +101,26 @@ function Composition(props) {
                 }}
               />
             </div>
+            <div className='col-3'>
+              {isLoad ? (
+                <div class='spinner-border text-primary' role='status'>
+                  <span class='sr-only'>Loading...</span>
+                </div>
+              ) : (
+                <button
+                  type='button'
+                  class='btn btn-primary text-uppercase font-weight-bold'
+                  onClick={() => callBack('POST_COMPOSITON', value)}
+                >
+                  Thêm
+                </button>
+              )}
+            </div>
           </div>
         </div>
         <div className='row'>
-          {props.compositions &&
-            props.compositions.map((item, index) => {
+          {data &&
+            data.map((item, index) => {
               return (
                 <div className='col-lg-3 col-md-4 col-sm-6 col-12'>
                   <li class='list-group-item d-flex justify-content-between align-items-center px-3 my-3'>
@@ -115,22 +135,6 @@ function Composition(props) {
                 </div>
               )
             })}
-        </div>
-
-        <div className='row justify-content-center pt-5 mx-0'>
-          {isLoad ? (
-            <div class='spinner-border text-primary' role='status'>
-              <span class='sr-only'>Loading...</span>
-            </div>
-          ) : (
-            <button
-              type='button'
-              class='btn btn-danger text-uppercase font-weight-bold'
-              onClick={() => callBack('POST_COMPOSITON', value)}
-            >
-              Đăng bài
-            </button>
-          )}
         </div>
       </div>
     </Layout>

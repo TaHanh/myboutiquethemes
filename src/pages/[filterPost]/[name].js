@@ -1,6 +1,6 @@
 import Layout from '../../components/layout'
 import '../../static/styles/home.scss'
-import Aside from '../../components/aside'
+import Aside, { getInitialDataAside } from '../../components/aside'
 import Swiper from 'react-id-swiper'
 import { useState, useEffect } from 'react'
 import fetch from 'isomorphic-unfetch'
@@ -33,7 +33,7 @@ const Tags = (props) => {
           <div className='col-lg-8'>
             <div className='site-main'>
               <div className='row'>
-                {data &&
+                {data && data.length > 0 ? (
                   data.map((item, index) => {
                     return (
                       <div className='col-md-6 col-12'>
@@ -86,14 +86,15 @@ const Tags = (props) => {
                         </div>
                       </div>
                     )
-                  })}
+                  })
+                ) : (
+                  <h5>Không có bài viết nào phù hợp !</h5>
+                )}
               </div>
             </div>
           </div>
           <div className='col-lg-4'>
-            <Provider store={createStore(reducer)}>
-              <Aside />
-            </Provider>
+            <Aside categories={props.categories} compositions={props.compositions} />
           </div>
         </div>
       </div>
@@ -104,13 +105,39 @@ const Tags = (props) => {
 Tags.getInitialProps = async function (ctx) {
   const { req, res, query } = ctx
   let data = {}
-  let resTag = await Axios.get(config.host.base + config.path.base.tags + '/' + query.id).catch((e) => {
-    console.log('Error: ', e.code)
-  })
-  console.log(resTag.data)
-  data = resTag && resTag.data != undefined ? resTag.data : []
+  switch (query.filterPost) {
+    case 'tags':
+      let resTag = await Axios.get(config.host.base + config.path.base.tags + '/' + query.name).catch((e) => {
+        console.log('Error: ', e.code)
+      })
+      console.log(resTag.data)
+      data = resTag && resTag.data != undefined ? resTag.data : []
+      break
+    case 'compositions':
+      console.log(config.host.base + config.path.base.compositionsPost + query.name + '.' + query.id)
+      let resCom = await Axios.get(
+        config.host.base + config.path.base.compositionsPost + query.name + '.' + query.id
+      ).catch((e) => {
+        console.log('Error: ', e.code)
+      })
+      console.log(resCom.data)
+      data = resCom && resCom.data != undefined ? resCom.data : []
+      break
+    case 'categories':
+      console.log(config.host.base + config.path.base.categoriesPosts + query.name + '.' + query.id)
+      let resCate = await Axios.get(
+        config.host.base + config.path.base.categoriesPosts + query.name + '.' + query.id
+      ).catch((e) => {
+        console.log('Error: ', e.code)
+      })
+      console.log(resCate.data)
+      data = resCate && resCate.data != undefined ? resCate.data : []
+      break
+    default:
+      break
+  }
 
-  const dataa = getInitialData()
+  const dataa = await getInitialDataAside()
   return { ...dataa, data: data }
 }
 
