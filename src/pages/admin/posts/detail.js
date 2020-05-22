@@ -32,14 +32,12 @@ function AdPostDetail(props) {
   // console.log(props.data);
 
   useEffect(() => {
-    // console.log(props.data);
-
+    console.log(props.data);
     if (props.isData) {
       const compos = props.compositions.map((item) => {
         return { ...item, label: item.name, value: item.id };
       });
       setoptionComposition(compos);
-
       if (props.data.id) {
         setData(props.data);
         setTag(props.data.tags.join(","));
@@ -64,48 +62,72 @@ function AdPostDetail(props) {
   const callBack = (key, value) => {
     switch (key) {
       case "EDITOR":
-        // let newData = { ...data };
-        // let newTags = [];
-        // tags
-        //   .split(",")
-        //   .filter((item, index) => {
-        //     return item != "";
-        //   })
-        //   .forEach((item) => {
-        //     if (!newTags.includes(item)) newTags.push(item);
-        //   });
+        {
+          let newData = { ...data };
+          let newTags = [];
+          tags
+            .split(",")
+            .filter((item, index) => {
+              return item != "";
+            })
+            .forEach((item) => {
+              if (!newTags.includes(item)) newTags.push(item);
+            });
 
-        // setData({ ...data, content: value, tags: newTags });
+          setData({ ...data, tags: newTags });
+          if (file == "" && imgSrc == "") {
+            toast.error("Bạn chưa đăng ảnh bài viết !", { autoClose: 3000 });
+            console.log("file");
+          } else if (
+            newData.title == "" ||
+            newData.content == "" ||
+            newData.description == "" ||
+            newData.compositions.length == 0 ||
+            newData.tags.length == 0
+          ) {
+            console.log("key");
+            toast.error("Bạn phải nhập đầy đủ thông tin !", {
+              autoClose: 3000,
+            });
+          } else {
+            console.log(newData);
+            put(newData);
+          }
+        }
         break;
       case "POST":
-        let newData = { ...data };
-        let newTags = [];
-        tags
-          .split(",")
-          .filter((item, index) => {
-            return item != "";
-          })
-          .forEach((item) => {
-            if (!newTags.includes(item)) newTags.push(item);
-          });
+        {
+          let newData = { ...data };
+          let newTags = [];
+          tags
+            .split(",")
+            .filter((item, index) => {
+              return item != "";
+            })
+            .forEach((item) => {
+              if (!newTags.includes(item)) newTags.push(item);
+            });
 
-        newData = { ...data, tags: newTags };
-        setData(newData);
-        if (file == "") {
-          toast.error("Bạn chưa đăng ảnh bài viết !", { autoClose: 3000 });
-          console.log("file");
-        } else if (
-          newData.title == "" ||
-          newData.content == "" ||
-          newData.description == "" ||
-          newData.compositions.length == 0 ||
-          newData.tags.length == 0
-        ) {
-          console.log("key");
-          toast.error("Bạn phải nhập đầy đủ thông tin !", { autoClose: 3000 });
-        } else {
-          console.log(newData);
-          post(newData);
+          newData = { ...data, tags: newTags };
+          setData(newData);
+          if (file == "") {
+            toast.error("Bạn chưa đăng ảnh bài viết !", { autoClose: 3000 });
+            console.log("file");
+          } else if (
+            newData.title == "" ||
+            newData.content == "" ||
+            newData.description == "" ||
+            newData.compositions.length == 0 ||
+            newData.tags.length == 0
+          ) {
+            console.log("key");
+            toast.error("Bạn phải nhập đầy đủ thông tin !", {
+              autoClose: 3000,
+            });
+          } else {
+            console.log(newData);
+            post(newData);
+          }
         }
 
         break;
@@ -117,38 +139,107 @@ function AdPostDetail(props) {
     console.log(file);
     let image = "";
     setLoad(true);
-    uploadCallback(file)
-      .then((res) => {
-        console.log(res);
-        image = res.imageLink;
-      })
-
-      .then(() => {
-        let dataa = { ...value, image: image };
-        setData(dataa);
-        Axios.post(config.host.base + config.path.base.posts, dataa, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + config.host.token,
-          },
+    if (file != "") {
+      uploadCallback(file)
+        .then((res) => {
+          console.log(res);
+          image = res.imageLink;
         })
-          .then((res2) => {
-            console.log(res2);
-            toast.success("Thêm bài thành công!", { autoClose: 3000 });
-          })
-          .catch((e) => {
-            toast.error("Đăng bài không thành công !", { autoClose: 3000 });
-            console.log("Error: ", e);
-          })
-          .finally((fil) => {
-            setLoad(false);
+        .then(() => {
+          let dataa = { ...value, image: image };
+          postPost(dataa);
+          // setData(dataa);
+          // Axios.post(config.host.base + config.path.base.posts, dataa, {
+          //   headers: {
+          //     "Content-Type": "application/json",
+          //     Authorization: "Bearer " + config.host.token,
+          //   },
+          // })
+          //   .then((res2) => {
+          //     console.log(res2);
+          //     toast.success("Thêm bài thành công!", { autoClose: 3000 });
+          //   })
+          //   .catch((e) => {
+          //     toast.error("Đăng bài không thành công !", { autoClose: 3000 });
+          //     console.log("Error: ", e);
+          //   })
+          //   .finally((fil) => {
+          //     setLoad(false);
+          //   });
+        })
+        .catch((err) => {
+          toast.error("Đăng ảnh bài viết không thành công !", {
+            autoClose: 3000,
           });
-      })
-      .catch((err) => {
-        toast.error("Đăng ảnh bài viết không thành công !", {
-          autoClose: 3000,
+          console.log("err", err);
         });
-        console.log("err", err);
+    }
+    //    else {
+    //     if (imgSrc != "") {
+    //       let dataa = { ...value, image: imgSrc };
+    //       postPost(dataa);
+    //     }
+    //   }
+  };
+  function postPost(data) {
+    setData(dataa);
+    Axios.post(config.host.base + config.path.base.posts, dataa, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + config.host.token,
+      },
+    })
+      .then((res2) => {
+        console.log(res2);
+        toast.success("Thêm bài thành công!", { autoClose: 3000 });
+      })
+      .catch((e) => {
+        toast.error("Đăng bài không thành công !", { autoClose: 3000 });
+        console.log("Error: ", e);
+      })
+      .finally((fil) => {
+        setLoad(false);
+      });
+  }
+  let put = (data) => {
+    let image = "";
+    setLoad(true);
+    if (file != "") {
+      uploadCallback(file).then((res) => {
+        image = res.imageLink;
+        putPost({ ...data, image: image });
+      });
+    } else {
+      if (imgSrc != "") {
+        let image = imgSrc.replace(config.host.base, "");
+        console.log(image);
+
+        putPost({ ...data, image: image });
+      }
+    }
+  };
+  let putPost = (dataa) => {
+    setData(dataa);
+    Axios.put(
+      config.host.base + config.path.base.posts + "/" + props.data.id,
+      dataa,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + config.host.token,
+        },
+      }
+    )
+      .then((res2) => {
+        console.log(res2);
+        toast.success("Sửa bài thành công!", { autoClose: 3000 });
+      })
+      .catch((e) => {
+        toast.error("Sửa bài không thành công !", { autoClose: 3000 });
+        console.log("Error: ", e);
+      })
+      .finally((fil) => {
+        setLoad(false);
       });
   };
   return (
@@ -313,8 +404,12 @@ function AdPostDetail(props) {
           </div>
           <div>
             <h5 className="mb-3">Nội dung bài viết</h5>
-            {data.content}
-            <WysiwygEditor callBack={callBack} content={data.content} />
+            <WysiwygEditor
+              callBack={(value) => {
+                data.content = value;
+              }}
+              content={props.data.content}
+            />
           </div>
           <div className="row justify-content-center pt-5 mx-0">
             {isLoad ? (
@@ -325,7 +420,7 @@ function AdPostDetail(props) {
               <button
                 type="button"
                 class="btn btn-danger text-uppercase font-weight-bold"
-                onClick={() => callBack("POST", data)}
+                onClick={() => callBack("EDITOR", data)}
               >
                 Cập nhật bài viết
               </button>

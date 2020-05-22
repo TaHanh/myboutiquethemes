@@ -296,10 +296,10 @@ class WysiwygEditor extends Component {
     this.setState({
       editorState,
     });
-    // this.props.callBack(
-    //   "EDITOR",
-    //   draftToHtml(convertToRaw(editorState.getCurrentContent()))
-    // );
+    this.props.callBack(
+      // "EDITOR",
+      draftToHtml(convertToRaw(editorState.getCurrentContent()))
+    );
   };
   upload(file) {
     return new Promise((resolve, reject) => {
