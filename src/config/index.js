@@ -20,6 +20,7 @@ module.exports = {
       users: '/users',
       auth: '/auth?access_token=',
       tags: '/tags',
+      postsFind: '/posts/find/',
     },
   },
   client: {
@@ -31,5 +32,7 @@ module.exports = {
     tags: '/tags/',
     categories: '/categories/',
     compositions: '/compositions/',
+    search: '/search/',
+    postsCategory: '/posts/category/',
   },
 }

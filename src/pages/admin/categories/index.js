@@ -19,7 +19,6 @@ function Composition(props) {
       case 'POST_COMPOSITON':
         if (value != '') {
           setLoad(true)
-          console.log(config.host.base + config.path.base.categories)
           Axios.post(
             config.host.base + config.path.base.categories,
             {
@@ -35,12 +34,12 @@ function Composition(props) {
             .then((res) => {
               data.unshift(res.data)
               setData(data)
-              toast.success('Success !', { autoClose: 3000 })
+              toast.success('Thêm thành công !', { autoClose: 3000 })
               setValue('')
             })
             .catch((err) => {
               console.log('POST_COMPOSITON', err)
-              toast.error('Error !', { autoClose: 3000 })
+              toast.error('Không thành công !', { autoClose: 3000 })
             })
             .finally((fil) => {
               setLoad(false)
@@ -63,11 +62,11 @@ function Composition(props) {
           .then((res) => {
             data.splice(value.index, 1)
             setData(data)
-            toast.success('Success !', { autoClose: 3000 })
+            toast.success('Xoá thành công !', { autoClose: 3000 })
           })
           .catch((err) => {
             console.log('POST_COMPOSITON', err)
-            toast.error('Error !', { autoClose: 3000 })
+            toast.error('Không thành công !', { autoClose: 3000 })
           })
           .finally((fil) => {
             setLoad(false)
@@ -106,13 +105,13 @@ function Composition(props) {
             </div>
             <div className='col-3'>
               {isLoad ? (
-                <div class='spinner-border text-primary' role='status'>
-                  <span class='sr-only'>Loading...</span>
+                <div className='spinner-border text-primary' role='status'>
+                  <span className='sr-only'>Loading...</span>
                 </div>
               ) : (
                 <button
                   type='button'
-                  class='btn btn-primary text-uppercase font-weight-bold'
+                  className='btn btn-primary text-uppercase font-weight-bold'
                   onClick={() => callBack('POST_COMPOSITON', value)}
                 >
                   Thêm
@@ -126,13 +125,13 @@ function Composition(props) {
             data.map((item, index) => {
               return (
                 <div className='col-lg-3 col-md-4 col-sm-6 col-12'>
-                  <li class='list-group-item d-flex justify-content-between align-items-center px-3 my-3'>
+                  <li className='list-group-item d-flex justify-content-between align-items-center px-3 my-3'>
                     {item.name}
                     <span
-                      class='badge badge-danger cursor-pointer ml-2'
+                      className='badge badge-danger cursor-pointer ml-2'
                       onClick={() => callBack('DELETE', { item, index })}
                     >
-                      <span aria-hidden='true'>&times;</span>
+                      <span ariaHidden='true'>&times;</span>
                     </span>
                   </li>
                 </div>

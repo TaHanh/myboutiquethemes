@@ -20,26 +20,29 @@ function Login(props) {
   useEffect(() => {}, [])
 
   const login = () => {
-    console.log(config.host.base + config.path.base.auth + config.host.access_token, data)
-
-    Axios.post(
-      config.host.base + config.path.base.auth + config.host.access_token,
-      {},
-      {
-        auth: {
-          username: data.email,
-          password: data.password,
-        },
-      }
-    )
-      .then((res) => {
-        console.log(res.data)
-        cookies.set('user', res.data, { path: '/', maxAge: 604800 })
-        // Router.push('/')
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    if (data.email == '' || data.password == '') {
+      toast.error('Bạn phải nhập đầy đủ thông tin !')
+    } else {
+      Axios.post(
+        config.host.base + config.path.base.auth + config.host.access_token,
+        {},
+        {
+          auth: {
+            username: data.email,
+            password: data.password,
+          },
+        }
+      )
+        .then((res) => {
+          console.log(res.data)
+          cookies.set('user', res.data, { path: '/', maxAge: 604800 })
+          Router.push('/')
+        })
+        .catch((err) => {
+          console.log(err)
+          return toast.error('Email hoặc mật khẩu sai !')
+        })
+    }
   }
 
   return (
@@ -47,45 +50,57 @@ function Login(props) {
       <div className='login px-md-4 px-3 py-5'>
         <div className='row justify-content-center'>
           <div className='col-xl-8 col-lg-9 col-md-10 col-11'>
-            <div class='shadow bg-white rounded p-xl-5 p-lg-4 p-3'>
+            <div className='shadow bg-white rounded p-xl-5 p-lg-4 p-3'>
               <h4 className='text-center mb-4'>Đăng nhập</h4>
 
               <div>
-                <div class='form-group row'>
-                  <label for='inputEmail3' class='col-sm-2 col-form-label'>
+                <div className='form-group row'>
+                  <label htmlFor='inputEmail3' className='col-sm-2 col-form-label'>
                     Email
                   </label>
-                  <div class='col-sm-10'>
+                  <div className='col-sm-10'>
                     <input
+                      required
                       type='email'
-                      class='form-control'
+                      className='form-control'
                       id='inputEmail3'
                       placeholder='Email'
                       onChange={(e) => {
                         setData({ ...data, email: e.target.value })
                       }}
+                      onKeyPress={(e) => {
+                        if (e.key == 'Enter') {
+                          login()
+                        }
+                      }}
                     />
                   </div>
                 </div>
-                <div class='form-group row'>
-                  <label for='inputPassword3' class='col-sm-2 col-form-label'>
+                <div className='form-group row'>
+                  <label htmlFor='inputPassword3' className='col-sm-2 col-form-label'>
                     Mật khẩu
                   </label>
-                  <div class='col-sm-10'>
+                  <div className='col-sm-10'>
                     <input
+                      required
                       type='password'
-                      class='form-control'
+                      className='form-control'
                       id='inputPassword3'
                       placeholder='Mật khẩu'
                       onChange={(e) => {
                         setData({ ...data, password: e.target.value })
                       }}
+                      onKeyPress={(e) => {
+                        if (e.key == 'Enter') {
+                          login()
+                        }
+                      }}
                     />
                   </div>
                 </div>
 
-                <div class='form-group row justify-content-center mt-3'>
-                  <button type='submit' class='btn btn-primary' onClick={login}>
+                <div className='form-group row justify-content-center mt-3'>
+                  <button type='submit' className='btn btn-primary' onClick={login}>
                     Đăng nhập
                   </button>
                 </div>

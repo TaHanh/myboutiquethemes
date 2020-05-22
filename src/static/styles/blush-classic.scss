@@ -119,6 +119,7 @@
     }
   }
   .related-posts {
+    padding-top: 100px;
     .related-title {
       border-color: #222222;
       text-align: center;
@@ -127,7 +128,7 @@
       margin-bottom: 1.5em;
     }
     .featured {
-      .post {
+      .detail-post {
         .entry-thumbnail {
           margin-bottom: 0.5em;
         }
@@ -140,6 +141,7 @@
             margin-bottom: 0.35em;
             font-size: 1em;
             text-transform: uppercase;
+            height: 3em;
             a {
               color: #222222;
             }

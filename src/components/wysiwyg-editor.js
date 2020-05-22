@@ -240,15 +240,21 @@ class WysiwygEditor extends Component {
     this.state = { editorState: EditorState.createEmpty() }
     // console.log(this.props.content)
   }
+
   componentDidMount() {
     let value = this.props.content
     // console.log("value", this.props.content);
     if (value && value != '') {
       const blocksFromHTML = convertFromHTML(value)
       // console.log(draftToHtml(convertToRaw(value)))
+      // let contentState = ContentState.createFromBlockArray(
+      //   blockHTML.contentBlocks,
+      //   blockHTML.entityMap
+      // );
 
-      const contentState = ContentState.createFromBlockArray(blocksFromHTML)
-
+      //
+      let contentState = ContentState.createFromBlockArray(blocksFromHTML)
+      contentState = this.customContentState(contentState)
       const editorState = EditorState.createWithContent(contentState)
       this.setState({
         editorState: editorState,
@@ -283,7 +289,29 @@ class WysiwygEditor extends Component {
         })
     })
   }
-
+  customContentState(contentState) {
+    const newBlockMap = contentState.getBlockMap().map((block) => {
+      const entityKey = block.getEntityAt(0)
+      if (entityKey !== null) {
+        const entityBlock = contentState.getEntity(entityKey)
+        const entityType = entityBlock.getType()
+        switch (entityType) {
+          case 'IMAGE': {
+            const newBlock = block.merge({
+              type: 'atomic',
+              text: 'img',
+            })
+            return newBlock
+          }
+          default:
+            return block
+        }
+      }
+      return block
+    })
+    const newContentState = contentState.set('blockMap', newBlockMap)
+    return newContentState
+  }
   render() {
     const { editorState } = this.state
     return (
@@ -295,6 +323,7 @@ class WysiwygEditor extends Component {
           editorClassName='wysiwyg-editor'
           onEditorStateChange={this.onEditorStateChange}
           toolbar={this.toolbar}
+          blockRenderMap={this.blockRenderMap}
         />
       </div>
     )

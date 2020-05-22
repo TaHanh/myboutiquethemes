@@ -1,19 +1,18 @@
 import Layout from '../../components/layout'
 import '../../static/styles/home.scss'
-import Aside, { getInitialDataAside } from '../../components/aside'
+import Aside from '../../components/aside'
 import Swiper from 'react-id-swiper'
 import { useState, useEffect } from 'react'
 import fetch from 'isomorphic-unfetch'
 import Link from 'next/link'
 import config from '../../config'
 import Axios from 'axios'
-import getInitialData from '../../store/data'
+import { getInitialData, getInitialDataAside } from '../../store/data'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-import reducer from '../../store/redux'
 import { convertTitle } from '../../utils/convert'
 
-const Tags = (props) => {
+const FilterPost = (props) => {
   const [data, setData] = useState(props.data)
   const [isLoad, setLoad] = useState(false)
   const [isLoadBtn, setLoadBtn] = useState(true)
@@ -62,7 +61,7 @@ const Tags = (props) => {
                               </h2>
                             </div>
                             <div className='card-entry-content'>
-                              <p class='max-line'>{item.description}</p>
+                              <p className='max-line'>{item.description}</p>
 
                               <div className='card-entry-meta'>
                                 {item.tags &&
@@ -102,7 +101,7 @@ const Tags = (props) => {
   )
 }
 
-Tags.getInitialProps = async function (ctx) {
+FilterPost.getInitialProps = async function (ctx) {
   const { req, res, query } = ctx
   let data = {}
   switch (query.filterPost) {
@@ -133,6 +132,16 @@ Tags.getInitialProps = async function (ctx) {
       console.log(resCate.data)
       data = resCate && resCate.data != undefined ? resCate.data : []
       break
+    case 'search':
+      var content = query.name.replace('-', ' ')
+      console.log('content', content)
+      console.log(config.host.base + config.path.base.postsFind + content)
+      let res = await Axios.get(config.host.base + config.path.base.postsFind + content).catch((e) => {
+        console.log('Error: ', e.code)
+      })
+      console.log(res)
+      data = res && res.data != undefined ? res.data : []
+      break
     default:
       break
   }
@@ -141,4 +150,4 @@ Tags.getInitialProps = async function (ctx) {
   return { ...dataa, data: data }
 }
 
-export default Tags
+export default FilterPost

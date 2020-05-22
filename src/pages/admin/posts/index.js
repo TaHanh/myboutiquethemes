@@ -6,17 +6,19 @@ import Link from 'next/link'
 import config from '../../../config'
 import Axios from 'axios'
 import getInitialData from '../../../store/data'
-import { createStore } from 'redux'
-import { Provider } from 'react-redux'
-import reducer from '../../../store/redux'
 import { convertTitle } from '../../../utils/convert'
+import { observer, inject } from 'mobx-react'
 const limit = 20
-const Tags = (props) => {
+const PostsAd = (props) => {
   const [data, setData] = useState(props.data)
   const [isLoad, setLoad] = useState(false)
   const [isLoadBtn, setLoadBtn] = useState(true)
   const [page, setPage] = useState(1)
-  useEffect(() => {}, [])
+
+  console.log('PostDetail', props.store.likesCount)
+  useEffect(() => {
+    console.log('PostDetail', props.store.likesCount)
+  }, [])
 
   const loadMore = () => {
     setLoad(true)
@@ -48,15 +50,18 @@ const Tags = (props) => {
           <div className='row justify-content-end mx-3 mb-3'>
             <Link href={config.client.adminPostDetail}>
               <a>
-                <button className='btn btn-primary btn-lg rounded-circle' title='Tạo bài viết'>
-                  {/* <i class='fas fa-edit'></i> */}
-                  <i class='fas fa-pen'></i>
+                <button
+                  className='btn btn-primary rounded-circle'
+                  title='Tạo bài viết'
+                  style={{ width: 50, height: 50 }}
+                >
+                  <i className='fas fa-pen' style={{ fontSize: 25 }}></i>
                 </button>
               </a>
             </Link>
           </div>
           <div className='row'>
-            {data &&
+            {data && data.length > 0 ? (
               data.map((item, index) => {
                 return (
                   <div className='col-xl-3 xol-lg-4 col-md-6 col-12'>
@@ -87,7 +92,7 @@ const Tags = (props) => {
                           </h2>
                         </div>
                         <div className='card-entry-content'>
-                          {/* <p class='max-line'>{item.description}</p> */}
+                          {/* <p className='max-line'>{item.description}</p> */}
 
                           <div className='card-entry-meta'>
                             {item.tags &&
@@ -111,14 +116,17 @@ const Tags = (props) => {
                     </div>
                   </div>
                 )
-              })}
+              })
+            ) : (
+              <h4 className='my-5'>Không có bài viết nào phù hợp !</h4>
+            )}
           </div>
 
           <div className='row justify-content-center'>
             {isLoadBtn ? (
               isLoad ? (
-                <div class='spinner-border text-primary' role='status'>
-                  <span class='sr-only'>Loading...</span>
+                <div className='spinner-border text-primary' role='status'>
+                  <span className='sr-only'>Loading...</span>
                 </div>
               ) : (
                 <div className='readmore'>
@@ -135,8 +143,9 @@ const Tags = (props) => {
   )
 }
 
-Tags.getInitialProps = async function (ctx) {
+PostsAd.getInitialProps = async function (ctx) {
   const { req, res, query } = ctx
+
   let data = {}
   let resPost = await Axios.get(config.host.base + config.path.base.posts + '?page=1&&limit=' + limit).catch((e) => {
     console.log('Error: ', e.code)
@@ -147,4 +156,4 @@ Tags.getInitialProps = async function (ctx) {
   return { data: data }
 }
 
-export default Tags
+export default inject('store')(observer(PostsAd))

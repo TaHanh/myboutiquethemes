@@ -1,30 +1,28 @@
-import App from "next/app";
-import React from "react";
-import { createStore } from "redux";
-import { Provider, connect } from "react-redux";
-import reducer from "../store/redux";
+import App from 'next/app'
+import React from 'react'
+import storeInstance from '../store/store'
+import { Provider, useStaticRendering } from 'mobx-react'
+import { configure } from 'mobx'
 
-import withRedux from "next-redux-wrapper";
-import storeInstance from "../store/store";
-let store = createStore(reducer);
+const isServer = !process.browser
+
+configure({ enforceActions: 'observed' })
+useStaticRendering(isServer)
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
-    const pageProps = Component.getInitialProps
-      ? await Component.getInitialProps(ctx)
-      : {};
-    storeInstance.initApp();
-    return { pageProps: pageProps };
+    const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {}
+    return { pageProps: pageProps }
   }
 
   render() {
-    const { Component, pageProps } = this.props;
+    const { Component, pageProps } = this.props
     return (
-      // <Provider store={store}>
-      <Component {...pageProps} />
-      // </Provider>
-    );
+      <Provider store={storeInstance}>
+        <Component {...pageProps} />
+      </Provider>
+    )
   }
 }
 
-export default MyApp;
+export default MyApp

@@ -10,9 +10,9 @@ body {
 * {
   box-sizing: border-box;
 }
-// #__next-prerender-indicator {
-//   display: none;
-// }
+#__next-prerender-indicator {
+  display: none;
+}
 @font-face {
   font-family: 'Jost';
   src: url('../font/jost-400-book-webfont.woff');
@@ -108,7 +108,7 @@ header {
     padding: 0.5em 1em !important;
     border-bottom: 1px solid #eeeeee;
     @media (min-width: 768px) {
-      padding: 1em !important;
+      padding: 0.5em 1em !important;
     }
     @media (min-width: 992px) {
       padding: 0.3em !important;
@@ -197,7 +197,7 @@ header {
       font-size: 1em;
       text-align: center;
       a {
-        font-size: 0.85em;
+        font-size: 0.8em;
         padding: 0 1em;
         display: inline-block;
         color: #222222;
@@ -205,10 +205,20 @@ header {
     }
     .search-icon {
       font-size: 1.2em;
-
+      margin: 0 0.2em 0 1em;
       @media (min-width: 992px) {
-        margin-right: 1em;
+        margin: 0 1.5em 0 1em;
       }
+    }
+  }
+  .avatar {
+    width: 35px;
+    object-fit: cover;
+  }
+  .btn-login {
+    .dropdown-menu {
+      right: 0;
+      left: auto;
     }
   }
 }
@@ -316,7 +326,7 @@ footer {
         margin-bottom: 2em;
         font-family: 'Jost', Montserrat, Arial;
       }
-      form {
+      .searchform {
         width: 100%;
         label {
           margin: 0;
@@ -400,7 +410,7 @@ footer {
         font-family: 'Quattrocento Sans', Montserrat, Arial;
         font-size: 0.875em;
         line-height: 1.55em;
-        margin: 1.5em auto 2.5em;
+        margin: 1.5em auto 1.5em;
         padding: 0em;
         background-color: transparent;
         color: #222222;
@@ -435,7 +445,7 @@ footer {
       a {
         display: inline-block;
         margin: 0 0.5em;
-        font-size: 1em;
+        font-size: 1.5em;
         color: #222222;
       }
     }

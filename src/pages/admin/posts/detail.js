@@ -4,13 +4,10 @@ import { useState, useEffect } from 'react'
 import Axios from 'axios'
 import { uploadCallback } from '../../../utils/upload'
 import config from '../../../config'
-import getInitialData from '../../../store/data'
 import MultiSelect from '@khanacademy/react-multi-select'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { state } from '../../../store/redux'
-import storeInstance from '../../../store/store'
-import Router from 'next/router'
+import { getInitialDataAside } from '../../../store/data'
 function AdPostDetail(props) {
   const [imgSrc, setImg] = useState('')
   const [isLoad, setLoad] = useState(false)
@@ -33,8 +30,7 @@ function AdPostDetail(props) {
   // console.log(props.data);
 
   useEffect(() => {
-    // console.log(props.data);
-
+    console.log(props.data)
     if (props.isData) {
       const compos = props.compositions.map((item) => {
         return { ...item, label: item.name, value: item.id }
@@ -75,7 +71,7 @@ function AdPostDetail(props) {
         })
         newData = { ...data, tags: newTags }
         setData(newData)
-
+        console.log(newData)
         if (file == '') {
           toast.error('Bạn chưa đăng ảnh bài viết !', { autoClose: 3000 })
           console.log('file')
@@ -268,7 +264,7 @@ function AdPostDetail(props) {
                         refFile.current.click()
                       }}
                     >
-                      <i class='fas fa-upload'></i>
+                      <i className='fas fa-upload'></i>
                     </button>
                   </div>
                 </div>
@@ -277,10 +273,10 @@ function AdPostDetail(props) {
           </div>
           <div className='row justify-content-between'>
             <div className='col-5'>
-              <div class='form-group mb-3'>
+              <div className='form-group mb-3'>
                 <h5 for='exampleFormControlSelect1'>Danh mục</h5>
                 <select
-                  class='form-control'
+                  className='form-control'
                   onChange={(e) => {
                     console.log(e.target.value)
                     setData({ ...data, idCategory: e.target.value })
@@ -298,7 +294,7 @@ function AdPostDetail(props) {
               </div>
             </div>
             <div className='col-5'>
-              <div class='post-compos mb-3'>
+              <div className='post-compos mb-3'>
                 <h5>Thành phần</h5>
                 <MultiSelect
                   options={optionComposition}
@@ -313,7 +309,7 @@ function AdPostDetail(props) {
                     search: 'Tìm kiếm',
                   }}
                 />
-                {/* <select class='form-control' id='exampleFormControlSelect1'>
+                {/* <select className='form-control' id='exampleFormControlSelect1'>
                {props.compositions &&
                   props.compositions.map((item, index) => {
                     return <option>{item.name}</option>
@@ -334,7 +330,7 @@ function AdPostDetail(props) {
                       return (
                         <button
                           type='button'
-                          class='badge  btn-outline-primary ml-3'
+                          className='badge  btn-outline-primary ml-3'
                           onClick={() => {
                             let newTags = ''
                             if (tags != '') {
@@ -371,8 +367,8 @@ function AdPostDetail(props) {
           <div className=' pt-5 mx-0'>
             {isLoad ? (
               <div className='row justify-content-center'>
-                <div class='spinner-border text-primary' role='status'>
-                  <span class='sr-only'>Loading...</span>
+                <div className='spinner-border text-primary' role='status'>
+                  <span className='sr-only'>Loading...</span>
                 </div>
               </div>
             ) : data.id ? (
@@ -380,14 +376,14 @@ function AdPostDetail(props) {
                 <div></div>
                 <button
                   type='button'
-                  class='btn btn-primary text-uppercase font-weight-bold'
+                  className='btn btn-primary text-uppercase font-weight-bold'
                   onClick={() => callBack('UPDATE', data)}
                 >
                   Cập nhật bài viết
                 </button>
                 <button
                   type='button'
-                  class='btn btn-danger text-uppercase font-weight-bold'
+                  className='btn btn-danger text-uppercase font-weight-bold'
                   onClick={() => callBack('DELETE', data)}
                 >
                   Xoá bài viết
@@ -397,7 +393,7 @@ function AdPostDetail(props) {
               <div className='row justify-content-center'>
                 <button
                   type='button'
-                  class='btn btn-danger text-uppercase font-weight-bold'
+                  className='btn btn-danger text-uppercase font-weight-bold'
                   onClick={() => callBack('POST', data)}
                 >
                   Đăng bài
@@ -431,7 +427,8 @@ AdPostDetail.getInitialProps = async function (ctx) {
     })
     dataPost = resPost && resPost.data != undefined ? resPost.data : []
   }
-  const dataa = await getInitialData()
+
+  const dataa = await getInitialDataAside()
   if (dataa.categories.length == 0 && dataa.compositions.length == 0) {
     return { isData: false }
   }

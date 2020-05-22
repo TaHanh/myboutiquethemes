@@ -33,7 +33,7 @@ export const uploadCallback = (file) => {
       })
       .catch((err) => {
         reject(err);
-        // console.log('error upload ', err)
+        console.log("error upload ", err);
       });
   });
 };

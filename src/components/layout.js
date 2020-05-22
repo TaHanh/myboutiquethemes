@@ -10,10 +10,14 @@ import Search from './search'
 import loadingProgress from '../utils/loading-progress'
 import { useEffect, useState } from 'react'
 import { ToastContainer } from 'react-toastify'
-
+import Router from 'next/router'
+import config from '../config'
+import { convertTitle } from '../utils/convert'
+import Cookies from 'universal-cookie'
 loadingProgress()
-export default ({ children, title = 'title' }) => {
+export default ({ children, title = 'Glowish' }) => {
   const [isSearch, changeSearch] = useState(false)
+
   useEffect(() => {}, [])
 
   const callBack = (key, value) => {
@@ -24,7 +28,13 @@ export default ({ children, title = 'title' }) => {
         break
       case 'SEARCH':
         changeSearch(false)
-        alert(value)
+        Router.push(config.client.search + convertTitle(value))
+        break
+      case 'LOGOUT':
+        const cookies = new Cookies()
+        cookies.remove('user')
+        console.log('user Store', cookies.get('user'))
+        break
       default:
         break
     }
