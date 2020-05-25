@@ -8,6 +8,8 @@ import MultiSelect from '@khanacademy/react-multi-select'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { getInitialDataAside } from '../../../store/data'
+import Router from 'next/router'
+import Cookies from 'universal-cookie'
 function AdPostDetail(props) {
   const [imgSrc, setImg] = useState('')
   const [isLoad, setLoad] = useState(false)
@@ -272,7 +274,7 @@ function AdPostDetail(props) {
             </div>
           </div>
           <div className='row justify-content-between'>
-            <div className='col-5'>
+            <div className='col-8'>
               <div className='form-group mb-3'>
                 <h5 for='exampleFormControlSelect1'>Danh mục</h5>
                 <select
@@ -293,7 +295,7 @@ function AdPostDetail(props) {
                 </select>
               </div>
             </div>
-            <div className='col-5'>
+            <div className='col-8'>
               <div className='post-compos mb-3'>
                 <h5>Thành phần</h5>
                 <MultiSelect
@@ -336,7 +338,7 @@ function AdPostDetail(props) {
                             if (tags != '') {
                               newTags = tags + ',' + t
                             } else {
-                              newTags = t + ','
+                              newTags = t
                             }
 
                             setTag(newTags)
@@ -372,21 +374,21 @@ function AdPostDetail(props) {
                 </div>
               </div>
             ) : data.id ? (
-              <div className='row justify-content-between'>
-                <div></div>
-                <button
-                  type='button'
-                  className='btn btn-primary text-uppercase font-weight-bold'
-                  onClick={() => callBack('UPDATE', data)}
-                >
-                  Cập nhật bài viết
-                </button>
+              <div className='row justify-content-between mx-0'>
+                {/* <div></div> */}
                 <button
                   type='button'
                   className='btn btn-danger text-uppercase font-weight-bold'
                   onClick={() => callBack('DELETE', data)}
                 >
                   Xoá bài viết
+                </button>
+                <button
+                  type='button'
+                  className='btn btn-primary text-uppercase font-weight-bold'
+                  onClick={() => callBack('UPDATE', data)}
+                >
+                  Cập nhật bài viết
                 </button>
               </div>
             ) : (
@@ -413,26 +415,34 @@ function AdPostDetail(props) {
 
 AdPostDetail.getInitialProps = async function (ctx) {
   const { req, res, query } = ctx
-  let dataPost = {}
-  let tags = {}
-  let resTag = await Axios.get(config.host.base + config.path.base.tags).catch((e) => {
-    console.log('Error: ', e.code)
-  })
-
-  tags = resTag && resTag.data != undefined ? resTag.data : []
-
-  if (query.id) {
-    let resPost = await Axios.get(config.host.base + config.path.base.posts + '/' + query.id).catch((e) => {
-      console.log('Error: ', e.response)
+  const cookies = new Cookies()
+  let user = cookies.get('user')
+  if (user) {
+    let dataPost = {}
+    let tags = {}
+    let resTag = await Axios.get(config.host.base + config.path.base.tags).catch((e) => {
+      console.log('Error: ', e.code)
     })
-    dataPost = resPost && resPost.data != undefined ? resPost.data : []
-  }
 
-  const dataa = await getInitialDataAside()
-  if (dataa.categories.length == 0 && dataa.compositions.length == 0) {
-    return { isData: false }
+    tags = resTag && resTag.data != undefined ? resTag.data : []
+
+    if (query.id) {
+      let resPost = await Axios.get(config.host.base + config.path.base.posts + '/' + query.id).catch((e) => {
+        console.log('Error: ', e.response)
+        res.redirect(config.client.adminPostDetail)
+      })
+      dataPost = resPost && resPost.data != undefined ? resPost.data : []
+    }
+
+    const dataa = await getInitialDataAside()
+    if (dataa.categories.length == 0 && dataa.compositions.length == 0) {
+      return { isData: false }
+    }
+    return { ...dataa, isData: true, data: dataPost, tags: tags }
+  } else {
+    res.redirect('/')
   }
-  return { ...dataa, isData: true, data: dataPost, tags: tags }
+  return
 }
 
 export default AdPostDetail

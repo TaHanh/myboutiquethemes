@@ -23,16 +23,12 @@ function Login(props) {
     if (data.email == '' || data.password == '') {
       toast.error('Bạn phải nhập đầy đủ thông tin !')
     } else {
-      Axios.post(
-        config.host.base + config.path.base.auth + config.host.access_token,
-        {},
-        {
-          auth: {
-            username: data.email,
-            password: data.password,
-          },
-        }
-      )
+      Axios.post(config.host.base + config.path.base.auth + config.host.access_token, {
+        auth: {
+          username: data.email,
+          password: data.password,
+        },
+      })
         .then((res) => {
           console.log(res.data)
           cookies.set('user', res.data, { path: '/', maxAge: 604800 })
@@ -66,9 +62,11 @@ function Login(props) {
                       id='inputEmail3'
                       placeholder='Email'
                       onChange={(e) => {
+                        console.log('dhghda')
                         setData({ ...data, email: e.target.value })
                       }}
                       onKeyPress={(e) => {
+                        console.log('dhghda')
                         if (e.key == 'Enter') {
                           login()
                         }

@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import config from '../../../config'
 import '../../../static/styles/composition.scss'
+import Cookies from 'universal-cookie'
 
 function Composition(props) {
   const [data, setData] = useState([])
@@ -143,12 +144,21 @@ function Composition(props) {
   )
 }
 
-Composition.getInitialProps = async function () {
+Composition.getInitialProps = async function (ctx) {
   let categories = []
-
-  let res = await Axios.get(config.host.base + config.path.base.categories).catch((e) => console.log('Error: ', e.code))
-  categories = res && res.data ? res.data : []
-  return { categories: categories }
+  const { req, res, query } = ctx
+  const cookies = new Cookies()
+  let user = cookies.get('user')
+  if (user) {
+    let res = await Axios.get(config.host.base + config.path.base.categories).catch((e) =>
+      console.log('Error: ', e.code)
+    )
+    categories = res && res.data ? res.data : []
+    return { categories: categories }
+  } else {
+    res.redirect('/')
+  }
+  return
 }
 
 export default Composition

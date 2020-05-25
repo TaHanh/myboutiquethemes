@@ -15,6 +15,11 @@ let limit = 10
 
 const Home = (props) => {
   const [data, setData] = useState(props.posts)
+  const [videos, setVide] = useState([
+    { src: 'https://www.youtube.com/embed/VFKnbQrd9ow' },
+    { src: 'https://www.youtube.com/embed/6csZtc1m9rI' },
+    { src: 'https://www.youtube.com/embed/DhFE0aIKb8Q' },
+  ])
   const [isLoad, setLoad] = useState(false)
   const [isLoadBtn, setLoadBtn] = useState(true)
   const [page, setPage] = useState(1)
@@ -233,10 +238,10 @@ const Home = (props) => {
         </div>
       </div>
       <div className='after-content-home'>
-        <h2 className='widgettitle'>Follow my Youtube Journey</h2>
+        <h2 className='widgettitle'>Follow our Youtube Glowish Official</h2>
         <div className='youtube-gallery'>
           <div className='row'>
-            <div className='col-md-4'>
+            {/* <div className='col-md-4'>
               <div className='youtube-video'>
                 <a
                   href='https://www.youtube.com/watch?v=5S4y_GpaU-c'
@@ -255,47 +260,22 @@ const Home = (props) => {
                   <h3 className='video-title'>CHANGE YOUR APPEARANCE with LOA &amp; Self-Love</h3>
                 </a>
               </div>
-            </div>
-            <div className='col-md-4'>
-              <div className='youtube-video'>
-                <a
-                  href='https://www.youtube.com/watch?v=-I9S1F_zTCM'
-                  title='CHANGE YOUR APPEARANCE with LOA &amp; Self-Love'
-                  target='_blank'
-                  rel='nofollow'
-                >
-                  <div className='youtube-thumb'>
-                    <img
-                      className='w-100'
-                      src={require('../static/images/yt2.jpg')}
-                      alt='CHANGE YOUR APPEARANCE with LOA &amp; Self-Love'
-                    />
-                    <img className='icon' src={require('../static/images/ic_play_red.png')} />
-                  </div>
-                  <h3 className='video-title'>I May Never Get Married... | EGO vs SOUL Journey</h3>
-                </a>
-              </div>
-            </div>
-            <div className='col-md-4'>
-              <div className='youtube-video'>
-                <a
-                  href='https://www.youtube.com/watch?v=PkzAJ4oKqQU'
-                  title='CHANGE YOUR APPEARANCE with LOA &amp; Self-Love'
-                  target='_blank'
-                  rel='nofollow'
-                >
-                  <div className='youtube-thumb'>
-                    <img
-                      className='w-100'
-                      src={require('../static/images/yt3.jpg')}
-                      alt='CHANGE YOUR APPEARANCE with LOA &amp; Self-Love'
-                    />
-                    <img className='icon' src={require('../static/images/ic_play_red.png')} />
-                  </div>
-                  <h3 className='video-title'>VIPASSANA: One Year Later...</h3>
-                </a>
-              </div>
-            </div>
+            </div> */}
+
+            {videos.map((item, index) => {
+              return (
+                <div className='col-md-4 col-sm-6'>
+                  <iframe
+                    width='100%'
+                    src={item.src}
+                    frameborder='0'
+                    allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
+                    allowfullscreen
+                    className=' pb-3'
+                  ></iframe>
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>
@@ -305,7 +285,9 @@ const Home = (props) => {
 
 Home.getInitialProps = async function (ctx) {
   let posts = {}
-  let resPost = await Axios.get(config.host.base + config.path.base.posts + '?page=1&&limit=' + limit).catch((e) => {
+  let resPost = await Axios.get(config.host.base + config.path.base.posts + '?page=1&&limit=' + limit, {
+    timeout: 5000,
+  }).catch((e) => {
     console.log('Error: ', e.code)
   })
   posts = resPost && resPost.data != undefined ? resPost.data : []

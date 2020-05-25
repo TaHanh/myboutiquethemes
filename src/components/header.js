@@ -4,7 +4,6 @@ import Link from 'next/link'
 import config from '../config'
 import { inject, observer } from 'mobx-react'
 import { useEffect } from 'react'
-
 function Header(props) {
   if (props.store.user && props.store.user.token) {
   } else {

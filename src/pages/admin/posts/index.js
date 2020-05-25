@@ -1,5 +1,4 @@
 import Layout from '../../../components/layout'
-import Swiper from 'react-id-swiper'
 import { useState, useEffect } from 'react'
 import fetch from 'isomorphic-unfetch'
 import Link from 'next/link'
@@ -8,6 +7,7 @@ import Axios from 'axios'
 import getInitialData from '../../../store/data'
 import { convertTitle } from '../../../utils/convert'
 import { observer, inject } from 'mobx-react'
+import Cookies from 'universal-cookie'
 const limit = 20
 const PostsAd = (props) => {
   const [data, setData] = useState(props.data)
@@ -145,15 +145,19 @@ const PostsAd = (props) => {
 
 PostsAd.getInitialProps = async function (ctx) {
   const { req, res, query } = ctx
-
   let data = {}
-  let resPost = await Axios.get(config.host.base + config.path.base.posts + '?page=1&&limit=' + limit).catch((e) => {
-    console.log('Error: ', e.code)
-  })
-
-  data = resPost && resPost.data != undefined ? resPost.data : []
-
-  return { data: data }
+  const cookies = new Cookies()
+  let user = cookies.get('user')
+  if (user) {
+    let resPost = await Axios.get(config.host.base + config.path.base.posts + '?page=1&&limit=' + limit).catch((e) => {
+      console.log('Error: ', e.code)
+    })
+    data = resPost && resPost.data != undefined ? resPost.data : []
+    return { data: data }
+  } else {
+    res.redirect('/')
+  }
+  return
 }
 
 export default inject('store')(observer(PostsAd))
