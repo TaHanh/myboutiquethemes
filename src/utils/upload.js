@@ -1,6 +1,6 @@
 import config from "../config";
 import axios from "axios";
-
+import Cookies from "universal-cookie";
 export const upload = (file) => {
   const headers = { "Content-Type": "multipart/form-data" };
 
@@ -22,7 +22,7 @@ export const uploadCallback = (file) => {
         config.host.upload +
           config.path.upload.upFile +
           "?token=" +
-          config.host.token,
+          new Cookies().get("user").token,
         formData,
         {
           "Content-Type": "multipart/form-data",

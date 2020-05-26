@@ -1,29 +1,59 @@
-import { useState, useEffect, useRef, Component } from 'react'
-import dynamic from 'next/dynamic'
-import { EditorState, convertToRaw, ContentState, convertFromHTML } from 'draft-js'
-import draftToHtml from 'draftjs-to-html'
-import Axios from 'axios'
-import config from '../config'
-import { uploadCallback } from '../utils/upload'
+import { useState, useEffect, useRef, Component } from "react";
+import dynamic from "next/dynamic";
+import {
+  EditorState,
+  convertToRaw,
+  ContentState,
+  convertFromHTML,
+} from "draft-js";
+import draftToHtml from "draftjs-to-html";
+import Axios from "axios";
+import config from "../config";
+import { uploadCallback } from "../utils/upload";
+import Cookies from "universal-cookie";
 
-const WysiwygNoSSRWrapper = dynamic(() => import('react-draft-wysiwyg').then((mod) => mod.Editor), {
-  loading: () => null,
-  ssr: false,
-})
+const WysiwygNoSSRWrapper = dynamic(
+  () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
+  {
+    loading: () => null,
+    ssr: false,
+  }
+);
 
 class WysiwygEditor extends Component {
   toolbar = {
-    options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'link', 'emoji', 'image', 'remove', 'history'],
+    options: [
+      "inline",
+      "blockType",
+      "fontSize",
+      "list",
+      "textAlign",
+      "link",
+      "emoji",
+      "image",
+      "remove",
+      "history",
+    ],
     inline: {
       inDropdown: false,
       className: undefined,
       component: undefined,
       dropdownClassName: undefined,
-      options: ['bold', 'italic', 'underline', 'strikethrough', 'monospace'],
+      options: ["bold", "italic", "underline", "strikethrough", "monospace"],
     },
     blockType: {
       inDropdown: true,
-      options: ['Normal', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'Blockquote', 'Code'],
+      options: [
+        "Normal",
+        "H1",
+        "H2",
+        "H3",
+        "H4",
+        "H5",
+        "H6",
+        "Blockquote",
+        "Code",
+      ],
       className: undefined,
       component: undefined,
       dropdownClassName: undefined,
@@ -40,14 +70,14 @@ class WysiwygEditor extends Component {
       className: undefined,
       component: undefined,
       dropdownClassName: undefined,
-      options: ['unordered', 'ordered', 'indent', 'outdent'],
+      options: ["unordered", "ordered", "indent", "outdent"],
     },
     textAlign: {
       inDropdown: true,
       className: undefined,
       component: undefined,
       dropdownClassName: undefined,
-      options: ['left', 'center', 'right', 'justify'],
+      options: ["left", "center", "right", "justify"],
     },
     link: {
       inDropdown: false,
@@ -56,8 +86,8 @@ class WysiwygEditor extends Component {
       popupClassName: undefined,
       dropdownClassName: undefined,
       showOpenOptionOnHover: true,
-      defaultTargetOption: '_blank',
-      options: ['link', 'unlink'],
+      defaultTargetOption: "_blank",
+      options: ["link", "unlink"],
 
       linkCallback: undefined,
     },
@@ -66,136 +96,136 @@ class WysiwygEditor extends Component {
       component: undefined,
       popupClassName: undefined,
       emojis: [
-        '😀',
-        '😁',
-        '😂',
-        '😃',
-        '😉',
-        '😋',
-        '😎',
-        '😍',
-        '😗',
-        '🤗',
-        '🤔',
-        '😣',
-        '😫',
-        '😴',
-        '😌',
-        '🤓',
-        '😛',
-        '😜',
-        '😠',
-        '😇',
-        '😷',
-        '😈',
-        '👻',
-        '😺',
-        '😸',
-        '😹',
-        '😻',
-        '😼',
-        '😽',
-        '🙀',
-        '🙈',
-        '🙉',
-        '🙊',
-        '👼',
-        '👮',
-        '🕵',
-        '💂',
-        '👳',
-        '🎅',
-        '👸',
-        '👰',
-        '👲',
-        '🙍',
-        '🙇',
-        '🚶',
-        '🏃',
-        '💃',
-        '⛷',
-        '🏂',
-        '🏌',
-        '🏄',
-        '🚣',
-        '🏊',
-        '⛹',
-        '🏋',
-        '🚴',
-        '👫',
-        '💪',
-        '👈',
-        '👉',
-        '👉',
-        '👆',
-        '🖕',
-        '👇',
-        '🖖',
-        '🤘',
-        '🖐',
-        '👌',
-        '👍',
-        '👎',
-        '✊',
-        '👊',
-        '👏',
-        '🙌',
-        '🙏',
-        '🐵',
-        '🐶',
-        '🐇',
-        '🐥',
-        '🐸',
-        '🐌',
-        '🐛',
-        '🐜',
-        '🐝',
-        '🍉',
-        '🍄',
-        '🍔',
-        '🍤',
-        '🍨',
-        '🍪',
-        '🎂',
-        '🍰',
-        '🍾',
-        '🍷',
-        '🍸',
-        '🍺',
-        '🌍',
-        '🚑',
-        '⏰',
-        '🌙',
-        '🌝',
-        '🌞',
-        '⭐',
-        '🌟',
-        '🌠',
-        '🌨',
-        '🌩',
-        '⛄',
-        '🔥',
-        '🎄',
-        '🎈',
-        '🎉',
-        '🎊',
-        '🎁',
-        '🎗',
-        '🏀',
-        '🏈',
-        '🎲',
-        '🔇',
-        '🔈',
-        '📣',
-        '🔔',
-        '🎵',
-        '🎷',
-        '💰',
-        '🖊',
-        '📅',
-        '✅',
-        '❎',
-        '💯',
+        "😀",
+        "😁",
+        "😂",
+        "😃",
+        "😉",
+        "😋",
+        "😎",
+        "😍",
+        "😗",
+        "🤗",
+        "🤔",
+        "😣",
+        "😫",
+        "😴",
+        "😌",
+        "🤓",
+        "😛",
+        "😜",
+        "😠",
+        "😇",
+        "😷",
+        "😈",
+        "👻",
+        "😺",
+        "😸",
+        "😹",
+        "😻",
+        "😼",
+        "😽",
+        "🙀",
+        "🙈",
+        "🙉",
+        "🙊",
+        "👼",
+        "👮",
+        "🕵",
+        "💂",
+        "👳",
+        "🎅",
+        "👸",
+        "👰",
+        "👲",
+        "🙍",
+        "🙇",
+        "🚶",
+        "🏃",
+        "💃",
+        "⛷",
+        "🏂",
+        "🏌",
+        "🏄",
+        "🚣",
+        "🏊",
+        "⛹",
+        "🏋",
+        "🚴",
+        "👫",
+        "💪",
+        "👈",
+        "👉",
+        "👉",
+        "👆",
+        "🖕",
+        "👇",
+        "🖖",
+        "🤘",
+        "🖐",
+        "👌",
+        "👍",
+        "👎",
+        "✊",
+        "👊",
+        "👏",
+        "🙌",
+        "🙏",
+        "🐵",
+        "🐶",
+        "🐇",
+        "🐥",
+        "🐸",
+        "🐌",
+        "🐛",
+        "🐜",
+        "🐝",
+        "🍉",
+        "🍄",
+        "🍔",
+        "🍤",
+        "🍨",
+        "🍪",
+        "🎂",
+        "🍰",
+        "🍾",
+        "🍷",
+        "🍸",
+        "🍺",
+        "🌍",
+        "🚑",
+        "⏰",
+        "🌙",
+        "🌝",
+        "🌞",
+        "⭐",
+        "🌟",
+        "🌠",
+        "🌨",
+        "🌩",
+        "⛄",
+        "🔥",
+        "🎄",
+        "🎈",
+        "🎉",
+        "🎊",
+        "🎁",
+        "🎗",
+        "🏀",
+        "🏈",
+        "🎲",
+        "🔇",
+        "🔈",
+        "📣",
+        "🔔",
+        "🎵",
+        "🎷",
+        "💰",
+        "🖊",
+        "📅",
+        "✅",
+        "❎",
+        "💯",
       ],
     },
     embedded: {
@@ -204,8 +234,8 @@ class WysiwygEditor extends Component {
       popupClassName: undefined,
       embedCallback: undefined,
       defaultSize: {
-        height: 'auto',
-        width: 'auto',
+        height: "auto",
+        width: "auto",
       },
     },
     image: {
@@ -216,12 +246,12 @@ class WysiwygEditor extends Component {
       uploadEnabled: true,
       alignmentEnabled: true,
       previewImage: true,
-      inputAccept: 'image/gif,image/jpeg,image/jpg,image/png,image/svg',
+      inputAccept: "image/gif,image/jpeg,image/jpg,image/png,image/svg",
       uploadCallback: this.upload,
       alt: { present: true },
       defaultSize: {
-        height: 'auto',
-        width: 'auto',
+        height: "auto",
+        width: "auto",
       },
     },
     remove: { className: undefined, component: undefined },
@@ -230,22 +260,22 @@ class WysiwygEditor extends Component {
       className: undefined,
       component: undefined,
       dropdownClassName: undefined,
-      options: ['undo', 'redo'],
+      options: ["undo", "redo"],
     },
-  }
+  };
 
   constructor(props) {
-    super(props)
-    console.log('props', this.props)
-    this.state = { editorState: EditorState.createEmpty() }
+    super(props);
+    console.log("props", this.props);
+    this.state = { editorState: EditorState.createEmpty() };
     // console.log(this.props.content)
   }
 
   componentDidMount() {
-    let value = this.props.content
+    let value = this.props.content;
     // console.log("value", this.props.content);
-    if (value && value != '') {
-      const blocksFromHTML = convertFromHTML(value)
+    if (value && value != "") {
+      const blocksFromHTML = convertFromHTML(value);
       // console.log(draftToHtml(convertToRaw(value)))
       // let contentState = ContentState.createFromBlockArray(
       //   blockHTML.contentBlocks,
@@ -253,80 +283,90 @@ class WysiwygEditor extends Component {
       // );
 
       //
-      let contentState = ContentState.createFromBlockArray(blocksFromHTML)
-      contentState = this.customContentState(contentState)
-      const editorState = EditorState.createWithContent(contentState)
+      let contentState = ContentState.createFromBlockArray(blocksFromHTML);
+      contentState = this.customContentState(contentState);
+      const editorState = EditorState.createWithContent(contentState);
       this.setState({
         editorState: editorState,
-      })
+      });
     }
   }
   setEditor = (editor) => {
-    this.editor = editor
-  }
+    this.editor = editor;
+  };
 
   onEditorStateChange = (editorState) => {
     this.setState({
       editorState,
-    })
-    this.props.callBack('EDITOR', draftToHtml(convertToRaw(editorState.getCurrentContent())))
-  }
+    });
+    this.props.callBack(
+      "EDITOR",
+      draftToHtml(convertToRaw(editorState.getCurrentContent()))
+    );
+  };
   upload(file) {
     return new Promise((resolve, reject) => {
-      let formData = new FormData()
-      formData.append('image', file)
-      Axios.post(config.host.upload + config.path.upload.upFile + '?token=' + config.host.token, formData, {
-        'Content-Type': 'multipart/form-data',
-      })
+      let formData = new FormData();
+      formData.append("image", file);
+      Axios.post(
+        config.host.upload +
+          config.path.upload.upFile +
+          "?token=" +
+          new Cookies().get("user").token,
+        formData,
+        {
+          "Content-Type": "multipart/form-data",
+        }
+      )
         .then((res) => {
-          console.log(res)
+          console.log(res);
           resolve({
             data: { link: config.host.upload + res.data.imageLink },
-          })
+          });
         })
         .catch((err) => {
-          console.log('error upload ', err)
-        })
-    })
+          console.log("error upload ", err);
+        });
+    });
   }
   customContentState(contentState) {
     const newBlockMap = contentState.getBlockMap().map((block) => {
-      const entityKey = block.getEntityAt(0)
+      const entityKey = block.getEntityAt(0);
       if (entityKey !== null) {
-        const entityBlock = contentState.getEntity(entityKey)
-        const entityType = entityBlock.getType()
+        const entityBlock = contentState.getEntity(entityKey);
+        const entityType = entityBlock.getType();
         switch (entityType) {
-          case 'IMAGE': {
+          case "IMAGE": {
             const newBlock = block.merge({
-              type: 'atomic',
-              text: 'img',
-            })
-            return newBlock
+              type: "atomic",
+              text: "img",
+            });
+            return newBlock;
           }
           default:
-            return block
+            return block;
         }
       }
-      return block
-    })
-    const newContentState = contentState.set('blockMap', newBlockMap)
-    return newContentState
+      return block;
+    });
+    const newContentState = contentState.set("blockMap", newBlockMap);
+    return newContentState;
   }
   render() {
-    const { editorState } = this.state
+    const { editorState } = this.state;
     return (
       <div>
         <WysiwygNoSSRWrapper
           ref={this.setEditor}
           editorState={editorState}
-          wrapperClassName='wysiwyg-wrapper'
-          editorClassName='wysiwyg-editor'
+          wrapperClassName="wysiwyg-wrapper"
+          editorClassName="wysiwyg-editor"
           onEditorStateChange={this.onEditorStateChange}
           toolbar={this.toolbar}
           blockRenderMap={this.blockRenderMap}
         />
       </div>
-    )
+    );
   }
 }
-export default WysiwygEditor
+export default WysiwygEditor;
