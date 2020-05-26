@@ -20,15 +20,20 @@ function Login(props) {
   useEffect(() => {}, [])
 
   const login = () => {
+    console.log(data)
     if (data.email == '' || data.password == '') {
       toast.error('Bạn phải nhập đầy đủ thông tin !')
     } else {
-      Axios.post(config.host.base + config.path.base.auth + config.host.access_token, {
-        auth: {
-          username: data.email,
-          password: data.password,
-        },
-      })
+      Axios.post(
+        config.host.base + config.path.base.auth + config.host.access_token,
+        {},
+        {
+          auth: {
+            username: data.email,
+            password: data.password,
+          },
+        }
+      )
         .then((res) => {
           console.log(res.data)
           cookies.set('user', res.data, { path: '/', maxAge: 604800 })
