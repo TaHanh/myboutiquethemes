@@ -7,6 +7,7 @@ import config from "../../config";
 import "../../static/styles/login.scss";
 import Router from "next/router";
 import Cookies from "universal-cookie";
+import { getInitialDataAside } from "../../store/data";
 
 function Login(props) {
   const [data, setData] = useState({
@@ -46,7 +47,11 @@ function Login(props) {
   };
 
   return (
-    <Layout title={"Đăng nhập"}>
+    <Layout
+      title={"Đăng nhập"}
+      categories={props.categories}
+      compositions={props.compositions}
+    >
       <div className="login px-md-4 px-3 py-5">
         <div className="row justify-content-center">
           <div className="col-xl-8 col-lg-9 col-md-10 col-11">
@@ -126,7 +131,8 @@ function Login(props) {
 }
 
 Login.getInitialProps = async function () {
-  return {};
+  let data = await getInitialDataAside();
+  return { ...data };
 };
 
 export default Login;

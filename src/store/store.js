@@ -6,6 +6,7 @@ class Store {
   @observable user = {};
   @observable data = {};
   @observable isData = false;
+  @observable dataAside = {};
 
   @action getUser() {
     const cookies = new Cookies();
