@@ -17,7 +17,7 @@ import Cookies from "universal-cookie";
 // import { browserHistory } from "react-router";
 
 loadingProgress();
-export default ({ children, title = "Glowish" }) => {
+export default ({ children, title = "Glowish", compositions, categories }) => {
   const [isSearch, changeSearch] = useState(false);
   const cookies = new Cookies();
   useEffect(() => {}, []);
@@ -50,7 +50,11 @@ export default ({ children, title = "Glowish" }) => {
       <Head>
         <title>{title}</title>
       </Head>
-      <Header callBack={callBack} />
+      <Header
+        callBack={callBack}
+        compositions={compositions}
+        categories={categories}
+      />
       <div style={{ height: "60px" }}></div>
       <main>
         <div className="content-area">{children}</div>

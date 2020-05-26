@@ -6,11 +6,13 @@ import "react-toastify/dist/ReactToastify.css";
 import config from "../../../config";
 import "../../../static/styles/composition.scss";
 import Cookies from "universal-cookie";
+import { getInitialDataAside } from "../../../store/data";
 
 function Composition(props) {
   const [data, setData] = useState([]);
   const [value, setValue] = useState("");
   const [isLoad, setLoad] = useState(false);
+
   useEffect(() => {
     setData(props.categories);
   }, []);
@@ -88,7 +90,11 @@ function Composition(props) {
   };
 
   return (
-    <Layout title={"Danh mục"}>
+    <Layout
+      title={"Danh mục"}
+      compositions={props.compositions}
+      categories={props.categories}
+    >
       <div className="composition px-md-4 px-3">
         <div className="py-md-5 pb-5">
           <div className="row align-items-end">
@@ -154,16 +160,17 @@ Composition.getInitialProps = async function (ctx) {
   const { req, res, query } = ctx;
   const cookies = new Cookies();
   let user = cookies.get("user");
+  let data = await getInitialDataAside();
   if (user) {
     let res = await Axios.get(
       config.host.base + config.path.base.categories
     ).catch((e) => console.log("Error: ", e.code));
     categories = res && res.data ? res.data : [];
-    return { categories: categories };
+    return { ...data, categories: categories };
   } else {
     res.redirect("/");
   }
-  return;
+  return { ...data };
 };
 
 export default Composition;

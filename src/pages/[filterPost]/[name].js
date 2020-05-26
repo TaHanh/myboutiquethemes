@@ -7,10 +7,11 @@ import fetch from "isomorphic-unfetch";
 import Link from "next/link";
 import config from "../../config";
 import Axios from "axios";
-import { getInitialData, getInitialDataAside } from "../../store/data";
+import { getInitialData } from "../../store/data";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 import { convertTitle } from "../../utils/convert";
+import { getInitialDataAside } from "../../store/data";
 
 const FilterPost = (props) => {
   const [data, setData] = useState(props.data);
@@ -21,7 +22,11 @@ const FilterPost = (props) => {
   useEffect(() => {}, []);
 
   return (
-    <Layout title={"Blush"}>
+    <Layout
+      title={"Blush"}
+      compositions={props.compositions}
+      categories={props.categories}
+    >
       <div className="site-branding">
         <Link href="/blush-classic">
           <img src={require("../../static/images/blush_title.png")} />

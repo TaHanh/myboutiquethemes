@@ -4,10 +4,12 @@ import Link from "next/link";
 import config from "../config";
 import { inject, observer } from "mobx-react";
 import { useEffect } from "react";
+import { convertTitle } from "../utils/convert";
 function Header(props) {
   if (props.store.user && props.store.user.token) {
   } else {
     props.store.getUser();
+    props.store.initApp();
   }
   useEffect(() => {}, []);
 
@@ -65,34 +67,102 @@ function Header(props) {
           <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
             <li className="nav-item">
               <Link href="/">
-                <a className="nav-link">Trang chủ</a>
+                <a className="nav-link">Home</a>
               </Link>
             </li>
-            <li className="nav-item">
-              <a className="nav-link d-lg-block d-none">
-                Fashion <i className="fas fa-angle-down"></i>
-              </a>
-              <a
-                className="nav-link d-block d-lg-none"
-                data-toggle="collapse"
-                href="#collapseOne"
-              >
-                Fashion <i className="fas fa-angle-down"></i>
-              </a>
-              <ul className="sub-menu collapse" id="collapseOne">
-                <li className="menu-item">
-                  <a href="">Outfits</a>
+            {!props.store.user ? (
+              <div class="row">
+                <li className="nav-item">
+                  <a className="nav-link d-lg-block d-none">
+                    Category <i className="fas fa-angle-down"></i>
+                  </a>
+                  <a
+                    className="nav-link d-block d-lg-none"
+                    data-toggle="collapse"
+                    href="#collapseOne"
+                  >
+                    {/* Fashion <i className="fas fa-angle-down"></i> */}
+                  </a>
+                  <ul className="sub-menu collapse" id="collapseOne">
+                    {props.categories.map((element) => {
+                      return (
+                        <li className="menu-item">
+                          <a
+                            href={
+                              config.client.categories +
+                              convertTitle(element.name) +
+                              "?id=" +
+                              element.id
+                            }
+                          >
+                            {element.name}
+                          </a>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </li>
-              </ul>
-            </li>{" "}
-            {props.store.user && props.store.user.token ? (
-              <li className="nav-item">
-                <Link href={config.client.adminPost}>
-                  <a className="nav-link">Bài viết</a>
-                </Link>
-              </li>
+                <li className="nav-item">
+                  <a className="nav-link d-lg-block d-none">
+                    Composition <i className="fas fa-angle-down"></i>{" "}
+                    {/* <img src={require('../static/images/down_arrow.png')} style={{ width: '35px' }} /> */}
+                  </a>
+                  <a
+                    className="nav-link d-block d-lg-none"
+                    data-toggle="collapse"
+                    href="#collapseTwo"
+                    aria-expanded="false"
+                  >
+                    {/* Page Templates <i className="fas fa-angle-down"></i> */}
+                  </a>
+                  <ul className="sub-menu collapse" id="collapseTwo">
+                    {props.compositions.map((element) => {
+                      return (
+                        <li className="menu-item">
+                          <a
+                            href={
+                              config.client.compositions +
+                              convertTitle(element.name) +
+                              "?id=" +
+                              element.id
+                            }
+                          >
+                            {element.name}
+                          </a>
+                        </li>
+                      );
+                    })}
+                    {/* <li className="menu-item">
+                      <a href="">Instagram Page</a>
+                    </li>
+                    <li className="menu-item">
+                      <a href="">Landing Page</a>
+                    </li> */}
+                  </ul>
+                </li>
+              </div>
             ) : null}
+
             {props.store.user && props.store.user.token ? (
+              <div class="row">
+                <li className="nav-item">
+                  <Link href={config.client.adminPost}>
+                    <a className="nav-link">Bài viết</a>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link href={config.client.adminComposition}>
+                    <a className="nav-link">Thành phần</a>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link href={config.client.adminCategories}>
+                    <a className="nav-link">Danh mục</a>
+                  </Link>
+                </li>
+              </div>
+            ) : null}
+            {/* {props.store.user && props.store.user.token ? (
               <li className="nav-item">
                 <Link href={config.client.adminComposition}>
                   <a className="nav-link">Thành phần</a>
@@ -105,32 +175,7 @@ function Header(props) {
                   <a className="nav-link">Danh mục</a>
                 </Link>
               </li>
-            ) : null}
-            <li className="nav-item">
-              <a className="nav-link d-lg-block d-none">
-                Page Templates <i className="fas fa-angle-down"></i>{" "}
-                {/* <img src={require('../static/images/down_arrow.png')} style={{ width: '35px' }} /> */}
-              </a>
-              <a
-                className="nav-link d-block d-lg-none"
-                data-toggle="collapse"
-                href="#collapseTwo"
-                aria-expanded="false"
-              >
-                Page Templates <i className="fas fa-angle-down"></i>
-              </a>
-              <ul className="sub-menu collapse" id="collapseTwo">
-                <li className="menu-item">
-                  <a href="">Boutique</a>
-                </li>
-                <li className="menu-item">
-                  <a href="">Instagram Page</a>
-                </li>
-                <li className="menu-item">
-                  <a href="">Landing Page</a>
-                </li>
-              </ul>
-            </li>
+            ) : null} */}
           </ul>
           <form className="form-inline my-2 my-lg-0 justify-content-center">
             <div className="social-media-icons">
