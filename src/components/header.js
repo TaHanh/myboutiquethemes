@@ -1,3 +1,4 @@
+
 import { useRouter } from 'next/router'
 import Router from 'next/router'
 import Link from 'next/link'
@@ -10,6 +11,7 @@ function Header(props) {
   } else {
     props.store.getUser()
     props.store.initApp()
+
   }
   useEffect(() => {}, [])
 
@@ -56,7 +58,6 @@ function Header(props) {
             <i className='fas fa-search'></i>
           </div>
         </div>
-
         <div className='collapse navbar-collapse' id='navbarTogglerDemo01'>
           <ul className='navbar-nav mr-auto mt-2 mt-lg-0'>
             <li className='nav-item'>
@@ -121,6 +122,7 @@ function Header(props) {
                 </Link>
               </li>
             ) : null}
+
             {props.store.user && props.store.user.token ? (
               <li className='nav-item'>
                 <Link href={config.client.adminComposition}>
@@ -135,6 +137,7 @@ function Header(props) {
                 </Link>
               </li>
             ) : null}
+
           </ul>
           <form className='form-inline my-2 my-lg-0 justify-content-center'>
             <div className='social-media-icons'>

@@ -1,19 +1,20 @@
-import Layout from '../components/layout'
-import '../static/styles/home.scss'
-import Aside from '../components/aside'
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import config from '../config'
-import Axios from 'axios'
-import { getInitialDataAside } from '../store/data'
-import { convertTitle } from '../utils/convert'
-import Router from 'next/router'
-import { observer, inject } from 'mobx-react'
-import storeInstance from '../store/store'
+import Layout from "../components/layout";
+import "../static/styles/home.scss";
+import Aside from "../components/aside";
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import config from "../config";
+import Axios from "axios";
+import { getInitialDataAside } from "../store/data";
+import { convertTitle } from "../utils/convert";
+import Router from "next/router";
+import { observer, inject } from "mobx-react";
+import storeInstance from "../store/store";
 
-let limit = 10
+let limit = 10;
 
 const Home = (props) => {
+
   const [data, setData] = useState(props.posts)
   const [videos, setVideo] = useState([
     { src: 'https://www.youtube.com/embed/VFKnbQrd9ow' },
@@ -24,13 +25,14 @@ const Home = (props) => {
   const [isLoadBtn, setLoadBtn] = useState(true)
   const [page, setPage] = useState(1)
 
+
   useEffect(() => {
     if (data.length < limit) {
-      setLoadBtn(false)
+      setLoadBtn(false);
     }
-  }, [])
+  }, []);
 
-  const callBack = (key, value) => {}
+  const callBack = (key, value) => {};
 
   const loadMore = () => {
     setLoad(true)
@@ -39,22 +41,22 @@ const Home = (props) => {
     Axios.get(config.host.base + config.path.base.posts + '?page=' + pageNew + '&&limit=' + limit)
       .then((res) => {
         if (res.data.length > 0) {
-          const newData = data.concat(res.data)
-          setData(newData)
+          const newData = data.concat(res.data);
+          setData(newData);
           if (res.data.length < limit) {
-            setLoadBtn(false)
+            setLoadBtn(false);
           }
         } else {
-          setLoadBtn(false)
+          setLoadBtn(false);
         }
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
       })
       .finally((fil) => {
-        setLoad(false)
-      })
-  }
+        setLoad(false);
+      });
+  };
 
   return (
     <Layout title={'Blush'} compositions={props.compositions} categories={props.categories}>
@@ -153,44 +155,50 @@ const Home = (props) => {
                 {data &&
                   data.map((item, index) => {
                     return (
-                      <div className='col-md-6 col-12' key={index}>
-                        <div className='card-post'>
-                          <div className='card-entry-thumbnail'>
+                      <div className="col-md-6 col-12" key={index}>
+                        <div className="card-post">
+                          <div className="card-entry-thumbnail">
                             <Link
                               href={
                                 config.client.posts +
-                                '/' +
+                                "/" +
                                 convertTitle(item.title) +
-                                '_' +
+                                "_" +
                                 item.idPost +
-                                '?category=' +
+                                "?category=" +
                                 item.idCategory
                               }
                             >
                               <a>
                                 <div
                                   style={{
-                                    backgroundImage: 'url(' + `${config.host.upload + item.image}` + ')',
-                                    backgroundPosition: 'center center',
-                                    backgroundSize: 'cover',
+                                    backgroundImage:
+                                      "url(" +
+                                      `${config.host.upload + item.image}` +
+                                      ")",
+                                    backgroundPosition: "center center",
+                                    backgroundSize: "cover",
                                   }}
                                 >
-                                  <img style={{ visibility: 'hidden' }} src={require('../static/images/f1.jpg')} />
+                                  <img
+                                    style={{ visibility: "hidden" }}
+                                    src={require("../static/images/f1.jpg")}
+                                  />
                                 </div>
                               </a>
                             </Link>
                           </div>
-                          <div className='card-entry-body'>
-                            <div className='card-entry-header'>
-                              <h2 className='card-entry-title max-line'>
+                          <div className="card-entry-body">
+                            <div className="card-entry-header">
+                              <h2 className="card-entry-title max-line">
                                 <Link
                                   href={
                                     config.client.posts +
-                                    '/' +
+                                    "/" +
                                     convertTitle(item.title) +
-                                    '_' +
+                                    "_" +
                                     item.idPost +
-                                    '?category=' +
+                                    "?category=" +
                                     item.idCategory
                                   }
                                 >
@@ -198,52 +206,60 @@ const Home = (props) => {
                                 </Link>
                               </h2>
                             </div>
-                            <div className='card-entry-content'>
-                              <p className='max-line'>{item.description}</p>
+                            <div className="card-entry-content">
+                              <p className="max-line">{item.description}</p>
 
-                              <div className='card-entry-meta'>
+                              <div className="card-entry-meta">
                                 {item.tags &&
                                   item.tags.map((e, i) => {
                                     return (
                                       <Link href={config.client.tags + e}>
                                         <a>
-                                          {e} {i != item.tags.length - 1 ? ', ' : null}
+                                          {e}{" "}
+                                          {i != item.tags.length - 1
+                                            ? ", "
+                                            : null}
                                         </a>
                                       </Link>
-                                    )
+                                    );
                                   })}
                               </div>
                               <Link
                                 href={
                                   config.client.posts +
-                                  '/' +
+                                  "/" +
                                   convertTitle(item.title) +
-                                  '_' +
+                                  "_" +
                                   item.idPost +
-                                  '?category=' +
+                                  "?category=" +
                                   item.idCategory
                                 }
                               >
-                                <a className='readmore'>
-                                  <button className='btn read-more'>Read more</button>
+                                <a className="readmore">
+                                  <button className="btn read-more">
+                                    Read more
+                                  </button>
                                 </a>
                               </Link>
                             </div>
                           </div>
                         </div>
                       </div>
-                    )
+                    );
                   })}
               </div>
-              <div className='row justify-content-center'>
+              <div className="row justify-content-center">
                 {isLoadBtn ? (
                   isLoad ? (
-                    <div className='spinner-border text-primary' role='status'>
-                      <span className='sr-only'>Loading...</span>
+                    <div className="spinner-border text-primary" role="status">
+                      <span className="sr-only">Loading...</span>
                     </div>
                   ) : (
-                    <div className='readmore'>
-                      <button className='btn read-more' onClick={() => loadMore()}>
+                    <div className="readmore">
+                      <button
+                        className="btn read-more"
+                        onClick={() => loadMore()}
+                      >
                         read more
                       </button>
                     </div>
@@ -252,15 +268,18 @@ const Home = (props) => {
               </div>
             </div>
           </div>
-          <div className='col-lg-4'>
-            <Aside compositions={props.compositions} categories={props.categories} />
+          <div className="col-lg-4">
+            <Aside
+              compositions={props.compositions}
+              categories={props.categories}
+            />
           </div>
         </div>
       </div>
-      <div className='after-content-home'>
-        <h2 className='widgettitle'>Follow our Youtube Glowish Official</h2>
-        <div className='youtube-gallery'>
-          <div className='row'>
+      <div className="after-content-home">
+        <h2 className="widgettitle">Follow our Youtube Glowish Official</h2>
+        <div className="youtube-gallery">
+          <div className="row">
             {/* <div className='col-md-4'>
               <div className='youtube-video'>
                 <a
@@ -284,25 +303,27 @@ const Home = (props) => {
 
             {videos.map((item, index) => {
               return (
-                <div className='col-md-4 col-sm-6'>
+                <div className="col-md-4 col-sm-6">
                   <iframe
+
                     width='100%'
                     height='250px'
+
                     src={item.src}
-                    frameborder='0'
-                    allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
+                    frameborder="0"
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen
-                    className=' pb-3'
+                    className=" pb-3"
                   ></iframe>
                 </div>
-              )
+              );
             })}
           </div>
         </div>
       </div>
     </Layout>
-  )
-}
+  );
+};
 
 Home.getInitialProps = async function (ctx) {
   let posts = {}
@@ -318,4 +339,4 @@ Home.getInitialProps = async function (ctx) {
   return { ...data, posts: posts }
 }
 
-export default inject('store')(observer(Home))
+export default inject("store")(observer(Home));

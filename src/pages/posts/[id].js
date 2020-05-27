@@ -37,8 +37,10 @@ const PostDetail = (props) => {
       title={"Beauty Favorites for Summer – Blush "}
       callBack={callBack}
       isSearch={isSearch}
+
       categories={categories}
       compositions={compositions}
+
     >
       <div className="site-branding">
         <Link href="/blush-classic">

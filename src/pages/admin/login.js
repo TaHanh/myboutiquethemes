@@ -1,3 +1,4 @@
+
 import Layout from '../../components/layout'
 import { useState, useEffect, useRef } from 'react'
 import Axios from 'axios'
@@ -8,6 +9,7 @@ import '../../static/styles/login.scss'
 import Router from 'next/router'
 import Cookies from 'universal-cookie'
 import { getInitialDataAside } from '../../store/data'
+
 
 function Login(props) {
   const [data, setData] = useState({
@@ -48,13 +50,16 @@ function Login(props) {
   }
 
   return (
-    <Layout title={'Đăng nhập'} categories={props.categories} compositions={props.compositions}>
-      <div className='login px-md-4 px-3 py-5'>
-        <div className='row justify-content-center'>
-          <div className='col-xl-8 col-lg-9 col-md-10 col-11'>
-            <div className='shadow bg-white rounded p-xl-5 p-lg-4 p-3'>
-              <h4 className='text-center mb-4'>Đăng nhập</h4>
-
+    <Layout
+      title={"Đăng nhập"}
+      categories={props.categories}
+      compositions={props.compositions}
+    >
+      <div className="login px-md-4 px-3 py-5">
+        <div className="row justify-content-center">
+          <div className="col-xl-8 col-lg-9 col-md-10 col-11">
+            <div className="shadow bg-white rounded p-xl-5 p-lg-4 p-3">
+              <h4 className="text-center mb-4">Đăng nhập</h4>
               <div>
                 <div className='form-group row'>
                   <label htmlFor='inputEmail3' className='col-sm-2 col-form-label'>
@@ -121,5 +126,6 @@ Login.getInitialProps = async function () {
   let data = await getInitialDataAside()
   return { ...data }
 }
+
 
 export default Login
