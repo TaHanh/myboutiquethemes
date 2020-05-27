@@ -14,15 +14,17 @@ import storeInstance from "../store/store";
 let limit = 10;
 
 const Home = (props) => {
-  const [data, setData] = useState(props.posts);
-  const [videos, setVide] = useState([
-    { src: "https://www.youtube.com/embed/VFKnbQrd9ow" },
-    { src: "https://www.youtube.com/embed/6csZtc1m9rI" },
-    { src: "https://www.youtube.com/embed/DhFE0aIKb8Q" },
-  ]);
-  const [isLoad, setLoad] = useState(false);
-  const [isLoadBtn, setLoadBtn] = useState(true);
-  const [page, setPage] = useState(1);
+
+  const [data, setData] = useState(props.posts)
+  const [videos, setVideo] = useState([
+    { src: 'https://www.youtube.com/embed/VFKnbQrd9ow' },
+    { src: 'https://www.youtube.com/embed/6csZtc1m9rI' },
+    { src: 'https://www.youtube.com/embed/DhFE0aIKb8Q' },
+  ])
+  const [isLoad, setLoad] = useState(false)
+  const [isLoadBtn, setLoadBtn] = useState(true)
+  const [page, setPage] = useState(1)
+
 
   useEffect(() => {
     if (data.length < limit) {
@@ -33,17 +35,10 @@ const Home = (props) => {
   const callBack = (key, value) => {};
 
   const loadMore = () => {
-    setLoad(true);
-    let pageNew = page + 1;
-    setPage(pageNew);
-    Axios.get(
-      config.host.base +
-        config.path.base.posts +
-        "?page=" +
-        page +
-        "&&limit=" +
-        limit
-    )
+    setLoad(true)
+    let pageNew = page + 1
+    setPage(pageNew)
+    Axios.get(config.host.base + config.path.base.posts + '?page=' + pageNew + '&&limit=' + limit)
       .then((res) => {
         if (res.data.length > 0) {
           const newData = data.concat(res.data);
@@ -64,53 +59,49 @@ const Home = (props) => {
   };
 
   return (
-    <Layout
-      title={"Blush"}
-      compositions={props.compositions}
-      categories={props.categories}
-    >
-      <div className="site-branding">
-        <Link href="/blush-classic">
-          <img src={require("../static/images/blush_title.png")} />
+    <Layout title={'Blush'} compositions={props.compositions} categories={props.categories}>
+      <div className='site-branding'>
+        <Link href='/blush-classic'>
+          <img src={require('../static/images/blush_title.png')} />
         </Link>
       </div>
-      <div className="site-content">
-        <div className="row">
-          <div className="col-lg-8">
-            <div className="site-main">
+      <div className='site-content'>
+        <div className='row'>
+          <div className='col-lg-8'>
+            <div className='site-main'>
               {data && data[0] ? (
                 <div>
-                  <div className="home-entry-thumbnail" onClick={() => {}}>
+                  <div className='home-entry-thumbnail' onClick={() => {}}>
                     <img src={config.host.upload + data[0].image} />
                   </div>
-                  <div className="home-entry-body">
-                    <div className="home-entry-header">
-                      <div className="home-entry-meta">
+                  <div className='home-entry-body'>
+                    <div className='home-entry-header'>
+                      <div className='home-entry-meta'>
                         {data[0].tags.map((e, i) => {
                           return (
                             <Link href={config.client.tags + e}>
                               <a>
-                                {e} {i != data[0].tags.length - 1 ? ", " : null}
+                                {e} {i != data[0].tags.length - 1 ? ', ' : null}
                               </a>
                             </Link>
-                          );
+                          )
                         })}
                       </div>
                       <Link
                         href={
                           config.client.posts +
-                          "/" +
+                          '/' +
                           convertTitle(data[0].title) +
-                          "_" +
+                          '_' +
                           data[0].idPost +
-                          "?category=" +
+                          '?category=' +
                           data[0].idCategory
                         }
                       >
-                        <h1 className="home-entry-title">{data[0].title}</h1>
+                        <h1 className='home-entry-title'>{data[0].title}</h1>
                       </Link>
                     </div>
-                    <div className="home-entry-content">
+                    <div className='home-entry-content'>
                       <p>{data[0].description}</p>
                       {/* <div className='shop-the-post'>
                   <h3>Shop this Post</h3>
@@ -160,7 +151,7 @@ const Home = (props) => {
                   </div>
                 </div>
               ) : null}
-              <div className="row">
+              <div className='row'>
                 {data &&
                   data.map((item, index) => {
                     return (
@@ -314,8 +305,10 @@ const Home = (props) => {
               return (
                 <div className="col-md-4 col-sm-6">
                   <iframe
-                    width="100%"
-                    height="250px"
+
+                    width='100%'
+                    height='250px'
+
                     src={item.src}
                     frameborder="0"
                     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
@@ -333,20 +326,17 @@ const Home = (props) => {
 };
 
 Home.getInitialProps = async function (ctx) {
-  let posts = {};
-  let resPost = await Axios.get(
-    config.host.base + config.path.base.posts + "?page=1&&limit=" + limit,
-    {
-      timeout: 5000,
-    }
-  ).catch((e) => {
-    console.log("Error: ", e.code);
-  });
-  posts = resPost && resPost.data != undefined ? resPost.data : [];
-  let data = await getInitialDataAside();
+  let posts = {}
+  let resPost = await Axios.get(config.host.base + config.path.base.posts + '?page=1&&limit=' + limit, {
+    timeout: 5000,
+  }).catch((e) => {
+    console.log('Error: ', e.code)
+  })
+  posts = resPost && resPost.data != undefined ? resPost.data : []
+  let data = await getInitialDataAside()
   // console.log("data", data);
 
-  return { ...data, posts: posts };
-};
+  return { ...data, posts: posts }
+}
 
 export default inject("store")(observer(Home));
