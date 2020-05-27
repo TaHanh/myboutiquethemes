@@ -1,4 +1,3 @@
-
 import { useRouter } from 'next/router'
 import Router from 'next/router'
 import Link from 'next/link'
@@ -11,7 +10,6 @@ function Header(props) {
   } else {
     props.store.getUser()
     props.store.initApp()
-
   }
   useEffect(() => {}, [])
 
@@ -65,8 +63,7 @@ function Header(props) {
                 <a className='nav-link'>Home</a>
               </Link>
             </li>
-
-            {!props.store.user ? (
+            {!props.store.user && props.categories ? (
               <li className='nav-item'>
                 <a className='nav-link d-lg-block d-none'>
                   Category <i className='fas fa-angle-down'></i>
@@ -87,7 +84,7 @@ function Header(props) {
                 </ul>
               </li>
             ) : null}
-            {!props.store.user ? (
+            {!props.store.user && props.compositions ? (
               <li className='nav-item'>
                 <a className='nav-link d-lg-block d-none'>
                   Composition <i className='fas fa-angle-down'></i>{' '}
@@ -114,7 +111,6 @@ function Header(props) {
                 </ul>
               </li>
             ) : null}
-
             {props.store.user && props.store.user.token ? (
               <li className='nav-item'>
                 <Link href={config.client.adminPost}>
@@ -122,7 +118,6 @@ function Header(props) {
                 </Link>
               </li>
             ) : null}
-
             {props.store.user && props.store.user.token ? (
               <li className='nav-item'>
                 <Link href={config.client.adminComposition}>
@@ -137,7 +132,13 @@ function Header(props) {
                 </Link>
               </li>
             ) : null}
-
+            {/* {props.store.user && props.store.user.token ? ( */}
+            <li className='nav-item'>
+              <Link href={config.client.adminYoutube}>
+                <a className='nav-link'>Youtube</a>
+              </Link>
+            </li>
+            {/* ) : null} */}
           </ul>
           <form className='form-inline my-2 my-lg-0 justify-content-center'>
             <div className='social-media-icons'>
