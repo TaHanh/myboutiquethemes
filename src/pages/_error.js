@@ -1,48 +1,55 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-
+import '../static/styles/error.scss'
 function Error({ statusCode }) {
   const router = useRouter()
   var response
   switch (statusCode) {
     case 200: // Also display a 404 if someone requests /_error explicitly
     case 404:
-      response = (
-        <div>
-          <div className='pt-5 text-center'>
-            <h3 className='display-4'>Page Not Found</h3>
-            <p>
-              <a href='/'>Home</a>
-            </p>
-          </div>
-        </div>
-      )
+      response = <h1>Page not Found!</h1>
       break
     case 500:
       response = (
-        <div>
-          <div className='pt-5 text-center'>
-            <h3 className='display-4'>Internal Server Error</h3>
-            <p>An internal server error occurred.</p>
-          </div>
+        <div className='pt-5 text-center'>
+          <h1>Internal Server Error</h1>
+          <p>An internal server error occurred.</p>
         </div>
       )
       break
     default:
       response = (
         <div>
-          <div className='pt-5 text-center'>
-            <h3 className='display-4'>HTTP {statusCode} Error</h3>
-            <p>
-              An <strong>HTTP {statusCode}</strong> error occurred while trying to access{' '}
-            </p>
-          </div>
+          <h1>HTTP {statusCode} Error</h1>
+          <p>
+            An <strong>HTTP {statusCode}</strong> error occurred while trying to access{' '}
+          </p>
         </div>
       )
   }
 
-  return response
-  return <p>{statusCode ? `An error ${statusCode} occurred on server` : 'An error occurred on client'}</p>
+  return (
+    <div>
+      <div className='pt-5 text-center'>
+        <div class='face'>
+          <div class='band'>
+            <div class='red'></div>
+            <div class='white'></div>
+            <div class='blue'></div>
+          </div>
+          <div class='eyes'></div>
+          <div class='dimples'></div>
+          <div class='mouth'></div>
+        </div>
+
+        {response}
+
+        <a href='/'>
+          <div class='btn-err'>Home</div>
+        </a>
+      </div>
+    </div>
+  )
 }
 
 Error.getInitialProps = ({ res, err }) => {
