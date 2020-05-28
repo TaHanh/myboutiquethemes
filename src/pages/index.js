@@ -6,7 +6,7 @@ import Link from 'next/link'
 import config from '../config'
 import Axios from 'axios'
 import { getInitialDataAside } from '../store/data'
-import { convertTitle } from '../utils/convert'
+import { convertTitle, getParamsURL } from '../utils/convert'
 import Router from 'next/router'
 import { observer, inject } from 'mobx-react'
 import storeInstance from '../store/store'
@@ -15,11 +15,7 @@ let limit = 10
 
 const Home = (props) => {
   const [data, setData] = useState(props.posts)
-  const [videos, setVideo] = useState([
-    { src: 'https://www.youtube.com/embed/VFKnbQrd9ow' },
-    { src: 'https://www.youtube.com/embed/6csZtc1m9rI' },
-    { src: 'https://www.youtube.com/embed/DhFE0aIKb8Q' },
-  ])
+  const [videos, setVideo] = useState(props.videos)
   const [isLoad, setLoad] = useState(false)
   const [isLoadBtn, setLoadBtn] = useState(true)
   const [page, setPage] = useState(1)
@@ -29,32 +25,6 @@ const Home = (props) => {
       setLoadBtn(false)
     }
   }, [])
-
-  const callBack = (key, value) => {}
-
-  const loadMore = () => {
-    setLoad(true)
-    let pageNew = page + 1
-    setPage(pageNew)
-    Axios.get(config.host.base + config.path.base.posts + '?page=' + pageNew + '&&limit=' + limit)
-      .then((res) => {
-        if (res.data.length > 0) {
-          const newData = data.concat(res.data)
-          setData(newData)
-          if (res.data.length < limit) {
-            setLoadBtn(false)
-          }
-        } else {
-          setLoadBtn(false)
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-      .finally((fil) => {
-        setLoad(false)
-      })
-  }
 
   return (
     <Layout title={'Blush'} compositions={props.compositions} categories={props.categories}>
@@ -257,65 +227,57 @@ const Home = (props) => {
           </div>
         </div>
       </div>
-      <div className='after-content-home'>
-        <h2 className='widgettitle'>Follow our Youtube Glowish Official</h2>
-        <div className='youtube-gallery'>
-          <div className='row'>
-            {/* <div className='col-md-4'>
-              <div className='youtube-video'>
-                <a
-                  href='https://www.youtube.com/watch?v=5S4y_GpaU-c'
-                  title='CHANGE YOUR APPEARANCE with LOA &amp; Self-Love'
-                  target='_blank'
-                  rel='nofollow'
-                >
-                  <div className='youtube-thumb'>
-                    <img
-                      className='w-100'
-                      src={require('../static/images/yt1.jpg')}
-                      alt='CHANGE YOUR APPEARANCE with LOA &amp; Self-Love'
-                    />
-                    <img className='icon' src={require('../static/images/ic_play_red.png')} />
-                  </div>
-                  <h3 className='video-title'>CHANGE YOUR APPEARANCE with LOA &amp; Self-Love</h3>
-                </a>
-              </div>
-            </div> */}
-
-            {videos.map((item, index) => {
-              return (
-                <div className='col-md-4 col-sm-6'>
-                  <iframe
-                    width='100%'
-                    height='250px'
-                    src={item.src}
-                    frameborder='0'
-                    allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
-                    allowfullscreen
-                    className=' pb-3'
-                  ></iframe>
-                </div>
-              )
-            })}
+      {videos ? (
+        <div className='after-content-home'>
+          <h2 className='widgettitle'>Follow our Youtube Glowish Official</h2>
+          <div className='youtube-gallery'>
+            <div className='row'>
+              {videos.rows &&
+                videos.rows.map((item, index) => {
+                  return (
+                    <div className='col-md-4 col-sm-6'>
+                      <iframe
+                        width='100%'
+                        height='250px'
+                        src={'https://www.youtube.com/embed/' + getParamsURL(item.link)}
+                        frameborder='0'
+                        allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
+                        allowfullscreen
+                        className=' pb-3'
+                      ></iframe>
+                    </div>
+                  )
+                })}
+            </div>
           </div>
         </div>
-      </div>
+      ) : null}
     </Layout>
   )
 }
 
 Home.getInitialProps = async function (ctx) {
   let posts = {}
+  let videos = {}
   let resPost = await Axios.get(config.host.base + config.path.base.posts + '?page=1&&limit=' + limit, {
     timeout: 5000,
   }).catch((e) => {
     console.log('Error: ', e.code)
   })
   posts = resPost && resPost.data != undefined ? resPost.data : []
+
+  let resVideo = await Axios.get(config.host.base + config.path.base.youtubes + '?page=1&&limit=3', {
+    timeout: 5000,
+  }).catch((e) => {
+    console.log('Error: ', e.code)
+  })
+  videos = resVideo != undefined ? resVideo.data : []
+  console.log('videos', videos)
+
   let data = await getInitialDataAside()
   // console.log("data", data);
 
-  return { ...data, posts: posts }
+  return { ...data, posts: posts, videos: videos }
 }
 
 export default inject('store')(observer(Home))

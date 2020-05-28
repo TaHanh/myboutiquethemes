@@ -14,3 +14,10 @@ export const convertTitle = (str) => {
 
   return str
 }
+export const getParamsURL = (url) => {
+  if (url.search('&') != -1) {
+    return url.substring(url.search('v=') + 2, url.search('&'))
+  } else {
+    return url.substring(url.search('v=') + 2, url.length)
+  }
+}

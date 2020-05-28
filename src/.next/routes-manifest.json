@@ -1,1 +1,1 @@
-{"version":1,"pages404":true,"basePath":"","redirects":[],"rewrites":[],"headers":[],"dynamicRoutes":[{"page":"/posts/[id]","regex":"^\\/posts\\/([^\\/]+?)(?:\\/)?$"}]}
+{"version":1,"pages404":true,"basePath":"","redirects":[],"rewrites":[],"headers":[],"dynamicRoutes":[{"page":"/posts/[id]","regex":"^\\/posts\\/([^\\/]+?)(?:\\/)?$"},{"page":"/[filterPost]/[name]","regex":"^\\/([^\\/]+?)\\/([^\\/]+?)(?:\\/)?$"}]}

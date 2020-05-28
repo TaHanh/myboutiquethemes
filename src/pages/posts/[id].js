@@ -238,7 +238,7 @@ PostDetail.getInitialProps = async function (ctx) {
 
   let resPostDetail = await Axios.get(config.host.base + config.path.base.posts + '/' + query.id).catch((e) => {
     console.log('Error: ', e.code)
-    res.redirect('/')
+    Router.push('/')
   })
 
   data = resPostDetail && resPostDetail.data != undefined ? resPostDetail.data : []

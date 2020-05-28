@@ -6,6 +6,8 @@ import 'react-toastify/dist/ReactToastify.css'
 import config from '../../../config'
 import '../../../static/styles/composition.scss'
 import Cookies from 'universal-cookie'
+import { getParamsURL } from '../../../utils/convert'
+import Router from 'next/router'
 
 function Youtube(props) {
   const [data, setData] = useState(props.data)
@@ -13,7 +15,11 @@ function Youtube(props) {
   const [isLoad, setLoad] = useState(false)
   const [token, setToken] = useState('')
   useEffect(() => {
-    setToken(new Cookies().get('user').token)
+    let tk = new Cookies().get('user')
+    console.log(tk)
+    if (tk) {
+      setToken(tk.token)
+    }
   }, [])
   const callBack = (key, value) => {
     console.log(key, value)
@@ -36,10 +42,10 @@ function Youtube(props) {
           )
             .then((res) => {
               console.log(res.data)
-              // data.unshift(res.data)
-              // setData(data)
-              // toast.success('Thêm thành công !', { autoClose: 3000 })
-              // setValue('')
+              data.rows.unshift(res.data)
+              setData(data)
+              toast.success('Thêm thành công !', { autoClose: 3000 })
+              setValue('')
             })
             .catch((err) => {
               console.log('POST', err)
@@ -55,14 +61,14 @@ function Youtube(props) {
         break
       case 'DELETE':
         setLoad(true)
-        Axios.delete(config.host.base + config.path.base.compositions + '/' + value.item.id, {
+        Axios.delete(config.host.base + config.path.base.youtubes + '/' + value.item.id, {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + new Cookies().get('user').token,
+            Authorization: 'Bearer ' + token,
           },
         })
           .then((res) => {
-            data.splice(value.index, 1)
+            data.rows.splice(value.index, 1)
             setData(data)
             toast.success('Xoá thành công !', { autoClose: 3000 })
           })
@@ -84,15 +90,14 @@ function Youtube(props) {
   }
 
   return (
-    <Layout title={'Thành phần'}>
+    <Layout title={"Glowish's Youtube"}>
       <div className='composition px-md-4 px-3'>
-        <div className='py-md-5 pb-5'>
+        <div className='py-5'>
           <div className='row align-items-end'>
-            <div className='col-9'>
-              <h5>Thành phần</h5>
+            <div className='col-xl-6 col-lg-7 col-sm-9 col-12'>
               <input
                 type='text'
-                className='form-control'
+                className='form-control mb-sm-0 mb-3'
                 multiple
                 value={value}
                 onChange={(e) => {
@@ -103,6 +108,7 @@ function Youtube(props) {
                     callBack('POST', value)
                   }
                 }}
+                placeholder='Thêm link youtube'
               />
             </div>
             <div className='col-3'>
@@ -128,14 +134,26 @@ function Youtube(props) {
             data.rows.map((item, index) => {
               return (
                 <div className='col-lg-3 col-md-4 col-sm-6 col-12'>
-                  <li className='list-group-item d-flex justify-content-between align-items-center px-3 my-3'>
-                    {item.name}
-                    <span
-                      className='badge badge-danger cursor-pointer ml-2'
+                  <li className='list-group-item text-center my-3'>
+                    <iframe
+                      width='100%'
+                      src={'https://www.youtube.com/embed/' + getParamsURL(item.link)}
+                      frameborder='0'
+                      allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
+                      allowfullscreen
+                    ></iframe>
+                    <button
+                      className='btn btn-outline-danger btn-sm'
                       onClick={() => callBack('DELETE', { item, index })}
                     >
+                      Xoá
+                    </button>
+                    {/* <span
+                      className='badge badge-danger cursor-pointer ml-2'
+                    
+                    >
                       <span ariaHidden='true'>&times;</span>
-                    </span>
+                    </span> */}
                   </li>
                 </div>
               )
@@ -147,26 +165,20 @@ function Youtube(props) {
 }
 
 Youtube.getInitialProps = async function (ctx) {
-  let data = []
   const { req, res, query } = ctx
-  // const cookies = new Cookies()
-  // let user = cookies.get('user')
-  // if (user) {
-  //   let resCompos = await Axios.get(config.host.base + config.path.base.compositions).catch((e) =>
-  //     console.log('Error: ', e.code)
-  //   )
-  //   compositions = (resCompos && resCompos.data) || []
-  //   return { compositions: compositions }
-  // } else {
-  //   res.redirect('/')
-  // }
-
-  let resCompos = await Axios.get(config.host.base + config.path.base.youtubes).catch((e) =>
-    console.log('Error: ', e.code)
-  )
-  data = (data && data.data) || []
-  return { data: data }
-  return
+  let data = []
+  const cookies = new Cookies()
+  let user = cookies.get('user')
+  if (user) {
+    let resData = await Axios.get(config.host.base + config.path.base.youtubes).catch((e) =>
+      console.log('Error: ', e.code)
+    )
+    console.log(resData)
+    data = resData && resData.data ? resData.data : []
+    return { data: data }
+  } else {
+    Router.push('/')
+  }
 }
 
 export default Youtube

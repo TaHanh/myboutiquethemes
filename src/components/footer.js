@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import Router from 'next/router'
+import Link from 'next/link'
 export default function Footer(props) {
   return (
     <footer>
@@ -138,7 +139,14 @@ export default function Footer(props) {
       </div>
       <div className='site-footer'>
         <div className='footer-container'>
-          <ul className='footer-menu'>
+          <div className='footer-menu'>
+            {/* <Link href='/'>
+              <a>
+                <img src={require('../static/images/Glowish_logo.png')} />
+              </a>
+            </Link> */}
+          </div>
+          {/* <ul className='footer-menu'>
             <li className='footer-menu-item'>
               <a href=''>Travel</a>
             </li>
@@ -151,14 +159,14 @@ export default function Footer(props) {
             <li className='footer-menu-item'>
               <a href=''>Shop my Style</a>
             </li>
-          </ul>
+          </ul> */}
 
           <div className='footer-info'>
             <p className='copyright'>Your copyright notice. 2020.</p>
-            <a href='' target='_blank'>
+            {/* <a href='' target='_blank'>
               Blush Co. WordPress Theme
-            </a>{' '}
-            by My Boutique Themes.
+            </a>{' '} */}
+            GLOWISH.
           </div>
         </div>
       </div>
