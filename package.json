@@ -11,7 +11,7 @@
     "@babel/plugin-proposal-decorators": "^7.8.3",
     "@khanacademy/react-multi-select": "^0.3.3",
     "@zeit/next-sass": "^1.0.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "draft-js": "^0.11.5",
     "draft-js-import-html": "^1.4.1",
